@@ -38,7 +38,7 @@ public class Mvplan
     public static final String NAME = "MV-Plan";    // Application name
     public static final int MAJOR_VERSION = 1;      // Application version codes
     public static final int MINOR_VERSION = 5;
-    public static final int PATCH_VERSION = 2;
+    public static final int PATCH_VERSION = 3;
     public static final String VERSION_STATUS = "RELEASED";      // Application status
     public static final String BUILD_DATE = "25-Dec-2010";     // Application release date
     private static final float MIN_JVM = 1.5f;               // Minimum Java JVM requirement. Checked on startup.
