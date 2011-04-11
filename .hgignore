@@ -1,8 +1,4 @@
-\.orig$
-\.orig\..*$
-\.chg\..*$
-\.rej$
-\.conflict\~$
-
 syntax: regexp
 .DS_Store$
+build/*
+nbproject/private/*
