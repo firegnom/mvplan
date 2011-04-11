@@ -28,7 +28,6 @@ package mvplan.gui;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.math.BigDecimal;
 import java.util.Hashtable;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -77,13 +76,13 @@ public class GasDialog extends JDialog
             sliderMOD=maxMOD;
         
         // Create components      
-        this.setTitle( Mvplan.getResource("mvplan.gui.GasDialog.title") );
-        labelHe.setText(Mvplan.getResource("mvplan.helium.shortText")+ "%");
-        labelO2.setText(Mvplan.getResource("mvplan.oxygen.shortText")+ "%");
-        labelMod.setText(Mvplan.getResource("mvplan.mod.shortText"));
-        okButton.setText(Mvplan.getResource("mvplan.gui.GasDialog.okButton.text"));        
-        cancelButton.setText(Mvplan.getResource("mvplan.gui.GasDialog.cancelButton.text"));
-        labelPpO2.setText(Mvplan.getResource("mvplan.ppO2.shortText"));
+        this.setTitle( MvplanInstance.getMvplan().getResource("mvplan.gui.GasDialog.title") );
+        labelHe.setText(MvplanInstance.getMvplan().getResource("mvplan.helium.shortText")+ "%");
+        labelO2.setText(MvplanInstance.getMvplan().getResource("mvplan.oxygen.shortText")+ "%");
+        labelMod.setText(MvplanInstance.getMvplan().getResource("mvplan.mod.shortText"));
+        okButton.setText(MvplanInstance.getMvplan().getResource("mvplan.gui.GasDialog.okButton.text"));        
+        cancelButton.setText(MvplanInstance.getMvplan().getResource("mvplan.gui.GasDialog.cancelButton.text"));
+        labelPpO2.setText(MvplanInstance.getMvplan().getResource("mvplan.ppO2.shortText"));
         labelPpO2.setLabelFor(ppO2Slider);
         
 
@@ -131,7 +130,7 @@ public class GasDialog extends JDialog
         sliderLabels.put( new Integer(140), new JLabel(String.format("%1$3.1f",1.4)));
         sliderLabels.put( new Integer(160), new JLabel(String.format("%1$3.1f",1.6)));
         ppO2Slider.setLabelTable(sliderLabels);
-        ppO2Slider.setToolTipText(Mvplan.getResource("mvplan.gui.GasDialog.ppO2slider.tip"));
+        ppO2Slider.setToolTipText(MvplanInstance.getMvplan().getResource("mvplan.gui.GasDialog.ppO2slider.tip"));
         
        
         buttonPanel.setLayout(new GridLayout(1,2,10,0)); // TODO - layout that gives uniform size ?
@@ -164,9 +163,9 @@ public class GasDialog extends JDialog
         inputHe.setText(String.valueOf(he));
         inputO2.setText(String.valueOf(o2));
         inputMod.setText(String.valueOf(mod));
-        inputMod.setToolTipText(Mvplan.getResource("mvplan.gui.GasDialog.mod.tip"));
-        inputO2.setToolTipText(Mvplan.getResource("mvplan.gui.GasDialog.oxygen.tip"));
-        inputHe.setToolTipText(Mvplan.getResource("mvplan.gui.GasDialog.helium.tip"));
+        inputMod.setToolTipText(MvplanInstance.getMvplan().getResource("mvplan.gui.GasDialog.mod.tip"));
+        inputO2.setToolTipText(MvplanInstance.getMvplan().getResource("mvplan.gui.GasDialog.oxygen.tip"));
+        inputHe.setToolTipText(MvplanInstance.getMvplan().getResource("mvplan.gui.GasDialog.helium.tip"));
 
         // Set ESCAPE key to close dialog
         KeyStroke escape = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0, false);

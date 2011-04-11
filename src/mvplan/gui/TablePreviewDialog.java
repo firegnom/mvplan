@@ -37,6 +37,7 @@ import java.lang.reflect.*;
 
 import mvplan.main.Mvplan;
 import mvplan.dive.TableGeneratorModel;
+import mvplan.main.MvplanInstance;
 
 
 public class TablePreviewDialog  extends JDialog implements  ActionListener {
@@ -74,7 +75,7 @@ public class TablePreviewDialog  extends JDialog implements  ActionListener {
      */
     public TablePreviewDialog(Frame frame, TableGeneratorModel model, String heading) {
         super(frame,false);
-        this.setTitle(Mvplan.getResource("mvplan.gui.TablePreviewDialog.title.text"));
+        this.setTitle(MvplanInstance.getMvplan().getResource("mvplan.gui.TablePreviewDialog.title.text"));
         this.heading=heading;        
         this.model=model;   
         this.parent=frame;             
@@ -88,7 +89,7 @@ public class TablePreviewDialog  extends JDialog implements  ActionListener {
      */
     public TablePreviewDialog(Frame frame, ArrayList segments, String heading) {
         super(frame,false);
-        this.setTitle(Mvplan.getResource("mvplan.gui.TablePreviewDialog.title.text"));
+        this.setTitle(MvplanInstance.getMvplan().getResource("mvplan.gui.TablePreviewDialog.title.text"));
         this.heading=heading;        
         this.segments=segments;   
         this.parent=frame;      
@@ -111,14 +112,14 @@ public class TablePreviewDialog  extends JDialog implements  ActionListener {
         Container contentPane=getContentPane(); 
         
         // Set up labels
-        printButton.setText(Mvplan.getResource("mvplan.gui.TablePreviewDialog.print.text"));
-        setupButton.setText(Mvplan.getResource("mvplan.gui.TablePreviewDialog.pageSetup.text"));
-        cancelButton.setText(Mvplan.getResource("mvplan.gui.TablePreviewDialog.cancel.text"));         
-        stopTimeCheckBox.setText(Mvplan.getResource("mvplan.gui.TablePreviewDialog.stopTime.text"));        
-        gasFirstCheckBox.setText(Mvplan.getResource("mvplan.gui.TablePreviewDialog.gasFirst.text"));
-        showColourCheckBox.setText(Mvplan.getResource("mvplan.gui.TablePreviewDialog.showColour.text"));
-        showSecondsCheckBox.setText(Mvplan.getResource("mvplan.gui.TablePreviewDialog.showSeconds.text"));
-        colourButton.setToolTipText(Mvplan.getResource("mvplan.gui.TablePreviewDialog.colour.tip"));
+        printButton.setText(MvplanInstance.getMvplan().getResource("mvplan.gui.TablePreviewDialog.print.text"));
+        setupButton.setText(MvplanInstance.getMvplan().getResource("mvplan.gui.TablePreviewDialog.pageSetup.text"));
+        cancelButton.setText(MvplanInstance.getMvplan().getResource("mvplan.gui.TablePreviewDialog.cancel.text"));         
+        stopTimeCheckBox.setText(MvplanInstance.getMvplan().getResource("mvplan.gui.TablePreviewDialog.stopTime.text"));        
+        gasFirstCheckBox.setText(MvplanInstance.getMvplan().getResource("mvplan.gui.TablePreviewDialog.gasFirst.text"));
+        showColourCheckBox.setText(MvplanInstance.getMvplan().getResource("mvplan.gui.TablePreviewDialog.showColour.text"));
+        showSecondsCheckBox.setText(MvplanInstance.getMvplan().getResource("mvplan.gui.TablePreviewDialog.showSeconds.text"));
+        colourButton.setToolTipText(MvplanInstance.getMvplan().getResource("mvplan.gui.TablePreviewDialog.colour.tip"));
         
         // Lay out Colour Options
         printFontSizeCombo.setSelectedItem(new Integer(Mvplan.prefs.getPrintFontBodySize())); 
@@ -129,12 +130,12 @@ public class TablePreviewDialog  extends JDialog implements  ActionListener {
         colourButton.setActionCommand("colour");
         colourButton.addActionListener(this);                
         colourOptionsPanel.setLayout(new GridBagLayout());       
-        colourOptionsPanel.add(new JLabel(Mvplan.getResource("mvplan.gui.TablePreviewDialog.fontSize.text")), 
+        colourOptionsPanel.add(new JLabel(MvplanInstance.getMvplan().getResource("mvplan.gui.TablePreviewDialog.fontSize.text")), 
                 new GridBagConstraints(0,0,1,1,1.0,0.0,GridBagConstraints.EAST,GridBagConstraints.HORIZONTAL, new Insets(2,2,2,2),0,0));
         colourOptionsPanel.add(printFontSizeCombo, 
                 new GridBagConstraints(1,0,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL, new Insets(0,2,2,2),0,0));
         
-        colourOptionsPanel.add(new JLabel( Mvplan.getResource("mvplan.gui.TablePreviewDialog.colour.text")), 
+        colourOptionsPanel.add(new JLabel( MvplanInstance.getMvplan().getResource("mvplan.gui.TablePreviewDialog.colour.text")), 
                 new GridBagConstraints(0,1,1,1,1.0,0.0,GridBagConstraints.EAST,GridBagConstraints.HORIZONTAL, new Insets(2,2,2,2),0,0));
         colourOptionsPanel.add(colourButton, 
                 new GridBagConstraints(1,1,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE, new Insets(0,2,2,2),0,0));
@@ -144,9 +145,9 @@ public class TablePreviewDialog  extends JDialog implements  ActionListener {
         
         // Profile options
         showSecondsCheckBox.setSelected(Mvplan.prefs.isShowSeconds());
-        showSecondsCheckBox.setToolTipText(Mvplan.getResource("mvplan.gui.TablePreviewDialog.showSeconds.tip"));    
+        showSecondsCheckBox.setToolTipText(MvplanInstance.getMvplan().getResource("mvplan.gui.TablePreviewDialog.showSeconds.tip"));    
         showColourCheckBox.setSelected(Mvplan.prefs.isPrintColour());
-        showColourCheckBox.setToolTipText(Mvplan.getResource("mvplan.gui.TablePreviewDialog.useColour.tip"));        
+        showColourCheckBox.setToolTipText(MvplanInstance.getMvplan().getResource("mvplan.gui.TablePreviewDialog.useColour.tip"));        
         profileOptionsPanel.setLayout(new GridBagLayout());
         profileOptionsPanel.add(showSecondsCheckBox, 
                 new GridBagConstraints(0,0,1,1,1.0,1.0,GridBagConstraints.NORTH,GridBagConstraints.HORIZONTAL, new Insets(0,0,0,0),0,0)); 
@@ -160,8 +161,8 @@ public class TablePreviewDialog  extends JDialog implements  ActionListener {
         // Table Options
         stopTimeCheckBox.setSelected(Mvplan.prefs.isShowStopTime());        
         gasFirstCheckBox.setSelected(Mvplan.prefs.isShowGasFirst());  
-        stopTimeCheckBox.setToolTipText(Mvplan.getResource("mvplan.gui.TablePreviewDialog.stopTime.tip"));
-        gasFirstCheckBox.setToolTipText(Mvplan.getResource("mvplan.gui.TablePreviewDialog.gasFirst.tip"));
+        stopTimeCheckBox.setToolTipText(MvplanInstance.getMvplan().getResource("mvplan.gui.TablePreviewDialog.stopTime.tip"));
+        gasFirstCheckBox.setToolTipText(MvplanInstance.getMvplan().getResource("mvplan.gui.TablePreviewDialog.gasFirst.tip"));
         stopTimeCheckBox.addActionListener(this);
         stopTimeCheckBox.setActionCommand("stopTime");
         gasFirstCheckBox.addActionListener(this);
@@ -257,8 +258,8 @@ public class TablePreviewDialog  extends JDialog implements  ActionListener {
                     job.print();
                 } catch (PrinterException pe) {                
                     JOptionPane.showMessageDialog((this),
-                        Mvplan.getResource("mvplan.gui.TablePreviewDialog.error.text"),
-                        Mvplan.getResource("mvplan.gui.TablePreviewDialog.error.title"),
+                        MvplanInstance.getMvplan().getResource("mvplan.gui.TablePreviewDialog.error.text"),
+                        MvplanInstance.getMvplan().getResource("mvplan.gui.TablePreviewDialog.error.title"),
                         JOptionPane.ERROR_MESSAGE);
                 }
             }  
@@ -286,7 +287,7 @@ public class TablePreviewDialog  extends JDialog implements  ActionListener {
             Mvplan.prefs.setShowGasFirst(gasFirstCheckBox.isSelected());
             displayComponent.repaint();  
         } else if(e.getActionCommand().equals("colour")) {
-            Color ch = JColorChooser.showDialog(this,Mvplan.getResource("mvplan.gui.TablePreviewDialog.colourChooser.title"), 
+            Color ch = JColorChooser.showDialog(this,MvplanInstance.getMvplan().getResource("mvplan.gui.TablePreviewDialog.colourChooser.title"), 
                         Mvplan.prefs.getBackgroundColour());
             if (ch != null) {
                 Mvplan.prefs.setBackgroundColour(ch);

@@ -25,7 +25,6 @@
 package mvplan.gui;
 
 import java.awt.*;
-import java.awt.event.*;
 import javax.swing.BoundedRangeModel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -45,13 +44,13 @@ public class ConditionsAcceptance extends javax.swing.JDialog {
         initComponents();
         
         // Set text strings from resources
-        setTitle(Mvplan.getResource("mvplan.gui.TermsAcceptance.title.text"));
-        agreeButton.setText(Mvplan.getResource("mvplan.gui.TermsAcceptance.okButton.text"));
-        exitButton.setText(Mvplan.getResource("mvplan.gui.TermsAcceptance.cancelButton.text"));        
-        infoLabel.setText(Mvplan.getResource("mvplan.gui.TermsAcceptance.infoLabel.text")); 
-        instructionsLabel.setText(Mvplan.getResource("mvplan.gui.TermsAcceptance.instructionsLabel.text"));
-        agreeButton.setToolTipText( Mvplan.getResource("mvplan.gui.TermsAcceptance.agreeButton.tip") );
-        exitButton.setToolTipText( Mvplan.getResource("mvplan.gui.TermsAcceptance.exitButton.tip") );
+        setTitle(MvplanInstance.getMvplan().getResource("mvplan.gui.TermsAcceptance.title.text"));
+        agreeButton.setText(MvplanInstance.getMvplan().getResource("mvplan.gui.TermsAcceptance.okButton.text"));
+        exitButton.setText(MvplanInstance.getMvplan().getResource("mvplan.gui.TermsAcceptance.cancelButton.text"));        
+        infoLabel.setText(MvplanInstance.getMvplan().getResource("mvplan.gui.TermsAcceptance.infoLabel.text")); 
+        instructionsLabel.setText(MvplanInstance.getMvplan().getResource("mvplan.gui.TermsAcceptance.instructionsLabel.text"));
+        agreeButton.setToolTipText( MvplanInstance.getMvplan().getResource("mvplan.gui.TermsAcceptance.agreeButton.tip") );
+        exitButton.setToolTipText( MvplanInstance.getMvplan().getResource("mvplan.gui.TermsAcceptance.exitButton.tip") );
         // Display T&Cs
         termsTextArea.setFont(new Font("MONOSPACED",Font.PLAIN,12));
         new ConditionsDisplay(termsTextArea);  

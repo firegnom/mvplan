@@ -17,6 +17,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import mvplan.main.Mvplan;
+import mvplan.main.MvplanInstance;
 import mvplan.model.*;
 
 public class ModelDisplayComponent  extends JComponent implements MouseMotionListener {
@@ -134,9 +135,9 @@ public class ModelDisplayComponent  extends JComponent implements MouseMotionLis
                 // e.g. Compartment 03 - 1.20 bar 95%
                 double tissuePressure = tissues[tissueOver].getPpHe()+tissues[tissueOver].getPpN2();    // Total absolute pressure in msw (fsw)
                 double maxPressure = tissues[tissueOver].getMvalueAt(Mvplan.prefs.getPAmb());           // Maximom (M-value) pressure in msw (fws)
-                s=String.format(Mvplan.getResource("mvplan.gui.components.ModelDisplayComponent.compartment.text")+
+                s=String.format(MvplanInstance.getMvplan().getResource("mvplan.gui.components.ModelDisplayComponent.compartment.text")+
                         ": %1$02d - %2$4.2f "+
-                        Mvplan.getResource("mvplan.bar.text")
+                        MvplanInstance.getMvplan().getResource("mvplan.bar.text")
                         , tissueOver+1, tissuePressure/Mvplan.prefs.getPConversion()
                         );
                 g2.drawString(s, 20.0f, 20.0f);            

@@ -25,13 +25,9 @@
 package mvplan.gui;
 
 import java.awt.datatransfer.Clipboard;
-import java.awt.datatransfer.ClipboardOwner;
 import java.awt.datatransfer.StringSelection;
-import java.awt.datatransfer.Transferable;
 import java.math.BigDecimal;
 import java.util.Locale;
-import mvplan.gui.components.ModelDisplayComponent;
-import mvplan.gui.components.ProgressIndicator;
 import mvplan.main.Mvplan;
 import mvplan.datamodel.GasModel;
 import mvplan.datamodel.DiveSegmentModel;
@@ -57,6 +53,7 @@ import javax.swing.border.*;
 import javax.swing.table.*;
 import javax.swing.event.*;
 import java.util.MissingResourceException;
+import mvplan.main.MvplanInstance;
 
 public class MainFrame extends JFrame
 {       
@@ -273,7 +270,7 @@ public class MainFrame extends JFrame
     /** Layout right panel */
     private void layoutRightPanel() throws MissingResourceException {
         Border rightPanelBorder = BorderFactory.createEtchedBorder();
-        rightPanel.setBorder(BorderFactory.createTitledBorder(rightPanelBorder,Mvplan.getResource("mvplan.gui.MainFrame.rightPanelBorder.text")));
+        rightPanel.setBorder(BorderFactory.createTitledBorder(rightPanelBorder,MvplanInstance.getMvplan().getResource("mvplan.gui.MainFrame.rightPanelBorder.text")));
         rightPanel.setPreferredSize( new Dimension(300,300));
         rightPanel.setMinimumSize( new Dimension(200,300));
         rightPanel.setLayout(rightPanelLayout);
@@ -284,7 +281,7 @@ public class MainFrame extends JFrame
         rightScrollPane = new JScrollPane();
         rightPanel.add(rightScrollPane,new GridBagConstraints(0,0,1,1,1.0,1.0,GridBagConstraints.CENTER,GridBagConstraints.BOTH, new Insets(10,10,10,10),0,0));
         rightScrollPane.getViewport().add(textArea);   
-        textCopyMenuItem = new JMenuItem( Mvplan.getResource("mvplan.gui.MainFrame.textCopyMenuItem.text") );
+        textCopyMenuItem = new JMenuItem( MvplanInstance.getMvplan().getResource("mvplan.gui.MainFrame.textCopyMenuItem.text") );
         textPopupMenu.add(textCopyMenuItem);
         textArea.addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
@@ -308,7 +305,7 @@ public class MainFrame extends JFrame
         gasTable = new JTable(knownGasModel);
         gasTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);         
         gasTable.setRowHeight(gasTable.getRowHeight()+2);
-        gasTable.setToolTipText(Mvplan.getResource("mvplan.gui.MainFrame.gasTable.tip" ));
+        gasTable.setToolTipText(MvplanInstance.getMvplan().getResource("mvplan.gui.MainFrame.gasTable.tip" ));
         JScrollPane gasScrollPane = new JScrollPane();
         gasPanel.add(gasScrollPane,
             new GridBagConstraints(0,0,1,1,1.0,1.0,GridBagConstraints.NORTH,GridBagConstraints.BOTH, new Insets(10,10,5,10),0,0));
@@ -322,20 +319,20 @@ public class MainFrame extends JFrame
         }
         // Optionally add text labels
         if( !BUTTON_ICONS_ONLY ) {
-            gasAddButton.setText(Mvplan.getResource("mvplan.gui.MainFrame.gasAddButton.text"));
-            gasEditButton.setText(Mvplan.getResource("mvplan.gui.MainFrame.gasEditButton.text"));
-            gasDeleteButton.setText(Mvplan.getResource("mvplan.gui.MainFrame.gasDeleteButton.text"));
+            gasAddButton.setText(MvplanInstance.getMvplan().getResource("mvplan.gui.MainFrame.gasAddButton.text"));
+            gasEditButton.setText(MvplanInstance.getMvplan().getResource("mvplan.gui.MainFrame.gasEditButton.text"));
+            gasDeleteButton.setText(MvplanInstance.getMvplan().getResource("mvplan.gui.MainFrame.gasDeleteButton.text"));
         }
         gasAddButton.setPreferredSize(new Dimension(35,30));
         gasEditButton.setPreferredSize(new Dimension(35,30));
         gasDeleteButton.setPreferredSize(new Dimension(35,30));       
-        gasAddButton.setToolTipText(Mvplan.getResource("mvplan.gui.MainFrame.gasAddButton.tip"));       
-        gasEditButton.setToolTipText(Mvplan.getResource("mvplan.gui.MainFrame.gasEditButton.tip"));
+        gasAddButton.setToolTipText(MvplanInstance.getMvplan().getResource("mvplan.gui.MainFrame.gasAddButton.tip"));       
+        gasEditButton.setToolTipText(MvplanInstance.getMvplan().getResource("mvplan.gui.MainFrame.gasEditButton.tip"));
         gasEditButton.setEnabled(false);        
-        gasDeleteButton.setToolTipText(Mvplan.getResource("mvplan.gui.MainFrame.gasDeleteButton.tip"));
+        gasDeleteButton.setToolTipText(MvplanInstance.getMvplan().getResource("mvplan.gui.MainFrame.gasDeleteButton.tip"));
         gasDeleteButton.setEnabled(false);
-        gasOCDecoCB.setText(Mvplan.getResource("mvplan.gui.MainFrame.gasOCDecoCB.text"));
-        gasOCDecoCB.setToolTipText(Mvplan.getResource("mvplan.gui.MainFrame.gasOCDecoCB.tip"));
+        gasOCDecoCB.setText(MvplanInstance.getMvplan().getResource("mvplan.gui.MainFrame.gasOCDecoCB.text"));
+        gasOCDecoCB.setToolTipText(MvplanInstance.getMvplan().getResource("mvplan.gui.MainFrame.gasOCDecoCB.tip"));
         gasOCDecoCB.setSelected(Mvplan.prefs.getOcDeco());
         gasToolPanel.add(gasAddButton);
         gasToolPanel.add(gasEditButton);
@@ -345,10 +342,10 @@ public class MainFrame extends JFrame
             new GridBagConstraints(0,1,1,1,0.0,0.0,GridBagConstraints.SOUTHWEST,GridBagConstraints.HORIZONTAL, new Insets(0,0,0,0),0,0));
         
         // Gas profilePopup menu
-        gasAddMenuItem = new JMenuItem(Mvplan.getResource("mvplan.gui.MainFrame.gasAddButton.text"));
-        gasEditMenuItem = new JMenuItem(Mvplan.getResource("mvplan.gui.MainFrame.gasEditButton.text"));
+        gasAddMenuItem = new JMenuItem(MvplanInstance.getMvplan().getResource("mvplan.gui.MainFrame.gasAddButton.text"));
+        gasEditMenuItem = new JMenuItem(MvplanInstance.getMvplan().getResource("mvplan.gui.MainFrame.gasEditButton.text"));
         gasEditMenuItem.setEnabled(false);
-        gasDeleteMenuItem = new JMenuItem(Mvplan.getResource("mvplan.gui.MainFrame.gasDeleteButton.text"));
+        gasDeleteMenuItem = new JMenuItem(MvplanInstance.getMvplan().getResource("mvplan.gui.MainFrame.gasDeleteButton.text"));
         gasDeleteMenuItem.setEnabled(false);
         gasPopupMenu.add(gasAddMenuItem);
         gasPopupMenu.add(gasEditMenuItem);
@@ -433,7 +430,7 @@ public class MainFrame extends JFrame
         divePanel.setLayout(divePanelLayout);
         diveTable = new JTable(knownSegmentsModel);
         diveTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        diveTable.setToolTipText(Mvplan.getResource("mvplan.gui.MainFrame.diveTable.tip" ));
+        diveTable.setToolTipText(MvplanInstance.getMvplan().getResource("mvplan.gui.MainFrame.diveTable.tip" ));
         JScrollPane diveScrollPane = new JScrollPane();
         divePanel.add(diveScrollPane,
             new GridBagConstraints(0,0,1,1,1.0,1.0,GridBagConstraints.NORTH,GridBagConstraints.BOTH, new Insets(10,10,5,10),0,0));
@@ -452,8 +449,8 @@ public class MainFrame extends JFrame
         
         // Optionally add text labels
         if( !BUTTON_ICONS_ONLY ) {
-            diveAddButton.setText(Mvplan.getResource("mvplan.gui.MainFrame.diveAddButton.text"));
-            diveDeleteButton.setText(Mvplan.getResource("mvplan.gui.MainFrame.diveDeleteButton.text"));            
+            diveAddButton.setText(MvplanInstance.getMvplan().getResource("mvplan.gui.MainFrame.diveAddButton.text"));
+            diveDeleteButton.setText(MvplanInstance.getMvplan().getResource("mvplan.gui.MainFrame.diveDeleteButton.text"));            
         }        
         diveAddButton.setPreferredSize(new Dimension(35,30));
         diveDeleteButton.setPreferredSize(new Dimension(35,30));
@@ -461,12 +458,12 @@ public class MainFrame extends JFrame
         diveDownButton.setPreferredSize(new Dimension(18,18));
         diveUpDownPanel.add(diveUpButton);
         diveUpDownPanel.add(diveDownButton);
-        diveUpButton.setToolTipText(Mvplan.getResource("mvplan.gui.MainFrame.diveUpButton.tip"));
-        diveDownButton.setToolTipText(Mvplan.getResource("mvplan.gui.MainFrame.diveDownButton.tip"));        
+        diveUpButton.setToolTipText(MvplanInstance.getMvplan().getResource("mvplan.gui.MainFrame.diveUpButton.tip"));
+        diveDownButton.setToolTipText(MvplanInstance.getMvplan().getResource("mvplan.gui.MainFrame.diveDownButton.tip"));        
         diveUpButton.setEnabled(false);
         diveDownButton.setEnabled(false);                
-        diveAddButton.setToolTipText(Mvplan.getResource("mvplan.gui.MainFrame.diveAddButton.tip"));
-        diveDeleteButton.setToolTipText(Mvplan.getResource("mvplan.gui.MainFrame.diveDeleteButton.tip"));
+        diveAddButton.setToolTipText(MvplanInstance.getMvplan().getResource("mvplan.gui.MainFrame.diveAddButton.tip"));
+        diveDeleteButton.setToolTipText(MvplanInstance.getMvplan().getResource("mvplan.gui.MainFrame.diveDeleteButton.tip"));
         diveDeleteButton.setEnabled(false);
         diveToolPanel.add(diveUpDownPanel);
         diveToolPanel.add(diveAddButton);
@@ -474,8 +471,8 @@ public class MainFrame extends JFrame
         divePanel.add(diveToolPanel,
             new GridBagConstraints(0,1,1,1,0.0,0.0,GridBagConstraints.SOUTH,GridBagConstraints.HORIZONTAL, new Insets(0,0,0,0),0,0));
 
-        diveAddMenuItem = new JMenuItem( Mvplan.getResource("mvplan.gui.MainFrame.diveAddButton.text") );        
-        diveDeleteMenuItem = new JMenuItem (Mvplan.getResource("mvplan.gui.MainFrame.diveDeleteButton.text"));
+        diveAddMenuItem = new JMenuItem( MvplanInstance.getMvplan().getResource("mvplan.gui.MainFrame.diveAddButton.text") );        
+        diveDeleteMenuItem = new JMenuItem (MvplanInstance.getMvplan().getResource("mvplan.gui.MainFrame.diveDeleteButton.text"));
         diveDeleteMenuItem.setEnabled(false);
         divePopupMenu.add(diveAddMenuItem);
         divePopupMenu.add(diveDeleteMenuItem);
@@ -589,22 +586,22 @@ public class MainFrame extends JFrame
     /** Layout repetitve panel */
     private void layoutRepetitivePanel() throws MissingResourceException {
         repetitiveDivePanel.setLayout( new GridBagLayout());  
-        repetitiveLabel.setText(Mvplan.getResource("mvplan.gui.MainFrame.repetitiveLabel.text"));
+        repetitiveLabel.setText(MvplanInstance.getMvplan().getResource("mvplan.gui.MainFrame.repetitiveLabel.text"));
         surfaceIntervalField.setColumns(4);
         surfaceIntervalField.setMinimumSize(new Dimension(40,20));
         surfaceIntervalField.setText("0");  
-        surfaceIntervalField.setToolTipText(Mvplan.getResource("mvplan.gui.MainFrame.repetitiveLabel.tip"));
+        surfaceIntervalField.setToolTipText(MvplanInstance.getMvplan().getResource("mvplan.gui.MainFrame.repetitiveLabel.tip"));
         repetitiveModeCB.setSelected(repetitiveMode);
-        repetitiveModeCB.setToolTipText(Mvplan.getResource("mvplan.gui.MainFrame.repetitiveModeCB.tip"));        
+        repetitiveModeCB.setToolTipText(MvplanInstance.getMvplan().getResource("mvplan.gui.MainFrame.repetitiveModeCB.tip"));        
         tissueComponent = new ModelDisplayComponent(currentModel);
         tissueComponent.setPreferredSize(new Dimension(31,31));
         tissueComponent.setMinimumSize(new Dimension(31,31));        
-        tissueComponent.setToolTipText(Mvplan.getResource("mvplan.gui.MainFrame.tissueComponent.tip"));                
+        tissueComponent.setToolTipText(MvplanInstance.getMvplan().getResource("mvplan.gui.MainFrame.tissueComponent.tip"));                
         tissueComponent.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e){
                 if(e.getButton()==1) {
                     if(profilePopup==null)
-                        profilePopup = new ProfilePopup(mainFrame,Mvplan.getResource("mvplan.gui.MainFrame.profilePopup.title.text"), currentModel);
+                        profilePopup = new ProfilePopup(mainFrame,MvplanInstance.getMvplan().getResource("mvplan.gui.MainFrame.profilePopup.title.text"), currentModel);
                     else 
                         profilePopup.setVisible(true);
                 }
@@ -629,8 +626,8 @@ public class MainFrame extends JFrame
         Border divePanelBorder = BorderFactory.createEtchedBorder();
         Border gasPanelBorder = BorderFactory.createEtchedBorder();
         repetitiveDivePanel.setBorder(BorderFactory.createTitledBorder(repetitivePanelBorder));        
-        divePanel.setBorder(BorderFactory.createTitledBorder(divePanelBorder,Mvplan.getResource("mvplan.gui.MainFrame.diveTableBorder.text")));
-        gasPanel.setBorder(BorderFactory.createTitledBorder(gasPanelBorder,Mvplan.getResource("mvplan.gui.MainFrame.gasTableBorder.text"))); 
+        divePanel.setBorder(BorderFactory.createTitledBorder(divePanelBorder,MvplanInstance.getMvplan().getResource("mvplan.gui.MainFrame.diveTableBorder.text")));
+        gasPanel.setBorder(BorderFactory.createTitledBorder(gasPanelBorder,MvplanInstance.getMvplan().getResource("mvplan.gui.MainFrame.gasTableBorder.text"))); 
         leftPanel.add(repetitiveDivePanel,
                 new GridBagConstraints(0,0,1,1,1.0,0.0,GridBagConstraints.NORTH,GridBagConstraints.BOTH, new Insets(5,5,5,5),0,0));
         leftPanel.add(divePanel,
@@ -664,25 +661,25 @@ public class MainFrame extends JFrame
             System.err.println("mvplan.gui.MainFrame: Error loading images: "+ e);    
         }
 
-        calcButton.setText(Mvplan.getResource("mvplan.gui.MainFrame.calcButton.text"));
-        calcButton.setToolTipText(Mvplan.getResource("mvplan.gui.MainFrame.calcButton.tip"));
-        tableButton.setText(Mvplan.getResource("mvplan.gui.MainFrame.tableButton.text"));
-        tableButton.setToolTipText(Mvplan.getResource("mvplan.gui.MainFrame.tableButton.tip"));
-        clearButton.setText(Mvplan.getResource("mvplan.gui.MainFrame.clearButton.text"));
-        clearButton.setToolTipText(Mvplan.getResource("mvplan.gui.MainFrame.clearButton.tip"));
-        prefsButton.setText(Mvplan.getResource("mvplan.gui.MainFrame.prefsButton.text"));
-        prefsButton.setToolTipText(Mvplan.getResource("mvplan.gui.MainFrame.prefsButton.tip"));
-        loadButton.setText(Mvplan.getResource("mvplan.gui.MainFrame.loadButton.text"));
-        loadButton.setToolTipText(Mvplan.getResource("mvplan.gui.MainFrame.loadButton.tip"));
-        saveButton.setText(Mvplan.getResource("mvplan.gui.MainFrame.saveButton.text"));
-        saveButton.setToolTipText(Mvplan.getResource("mvplan.gui.MainFrame.saveButton.tip"));
-        exitButton.setText(Mvplan.getResource("mvplan.gui.MainFrame.exitButton.text"));
-        exitButton.setToolTipText(Mvplan.getResource("mvplan.gui.MainFrame.exitButton.tip"));
-        printButton.setText(Mvplan.getResource("mvplan.gui.MainFrame.printButton.text"));
-        printButton.setToolTipText(Mvplan.getResource("mvplan.gui.MainFrame.printButton.tip"));
-        aboutButton.setText(Mvplan.getResource("mvplan.gui.MainFrame.aboutButton.text"));
-        aboutButton.setToolTipText(Mvplan.getResource("mvplan.gui.MainFrame.aboutButton.tip")+Mvplan.NAME);            
-        progress.setToolTipText(Mvplan.getResource("mvplan.gui.MainFrame.progress.check.tip"));
+        calcButton.setText(MvplanInstance.getMvplan().getResource("mvplan.gui.MainFrame.calcButton.text"));
+        calcButton.setToolTipText(MvplanInstance.getMvplan().getResource("mvplan.gui.MainFrame.calcButton.tip"));
+        tableButton.setText(MvplanInstance.getMvplan().getResource("mvplan.gui.MainFrame.tableButton.text"));
+        tableButton.setToolTipText(MvplanInstance.getMvplan().getResource("mvplan.gui.MainFrame.tableButton.tip"));
+        clearButton.setText(MvplanInstance.getMvplan().getResource("mvplan.gui.MainFrame.clearButton.text"));
+        clearButton.setToolTipText(MvplanInstance.getMvplan().getResource("mvplan.gui.MainFrame.clearButton.tip"));
+        prefsButton.setText(MvplanInstance.getMvplan().getResource("mvplan.gui.MainFrame.prefsButton.text"));
+        prefsButton.setToolTipText(MvplanInstance.getMvplan().getResource("mvplan.gui.MainFrame.prefsButton.tip"));
+        loadButton.setText(MvplanInstance.getMvplan().getResource("mvplan.gui.MainFrame.loadButton.text"));
+        loadButton.setToolTipText(MvplanInstance.getMvplan().getResource("mvplan.gui.MainFrame.loadButton.tip"));
+        saveButton.setText(MvplanInstance.getMvplan().getResource("mvplan.gui.MainFrame.saveButton.text"));
+        saveButton.setToolTipText(MvplanInstance.getMvplan().getResource("mvplan.gui.MainFrame.saveButton.tip"));
+        exitButton.setText(MvplanInstance.getMvplan().getResource("mvplan.gui.MainFrame.exitButton.text"));
+        exitButton.setToolTipText(MvplanInstance.getMvplan().getResource("mvplan.gui.MainFrame.exitButton.tip"));
+        printButton.setText(MvplanInstance.getMvplan().getResource("mvplan.gui.MainFrame.printButton.text"));
+        printButton.setToolTipText(MvplanInstance.getMvplan().getResource("mvplan.gui.MainFrame.printButton.tip"));
+        aboutButton.setText(MvplanInstance.getMvplan().getResource("mvplan.gui.MainFrame.aboutButton.text"));
+        aboutButton.setToolTipText(MvplanInstance.getMvplan().getResource("mvplan.gui.MainFrame.aboutButton.tip")+Mvplan.NAME);            
+        progress.setToolTipText(MvplanInstance.getMvplan().getResource("mvplan.gui.MainFrame.progress.check.tip"));
         progress.setFocusable(false);
         
         toolBar.add(calcButton,null);
@@ -777,10 +774,10 @@ public class MainFrame extends JFrame
                     doCheckVersion(true);                    
                 if (updateAvailable) {
                     try  {                       
-                        new InfoURLDialog(mainFrame, Mvplan.getResource("mvplan.gui.MainFrame.updateAvailableDialog.title.text"), true ,
-                                Mvplan.getResource("mvplan.gui.MainFrame.updateAvailableDialog.info1.text"),
-                                Mvplan.getResource("mvplan.gui.MainFrame.updateAvailableDialog.info2.text")+ " ", 
-                                Mvplan.getResource("mvplan.gui.MainFrame.updateAvailableDialog.info3.text"),
+                        new InfoURLDialog(mainFrame, MvplanInstance.getMvplan().getResource("mvplan.gui.MainFrame.updateAvailableDialog.title.text"), true ,
+                                MvplanInstance.getMvplan().getResource("mvplan.gui.MainFrame.updateAvailableDialog.info1.text"),
+                                MvplanInstance.getMvplan().getResource("mvplan.gui.MainFrame.updateAvailableDialog.info2.text")+ " ", 
+                                MvplanInstance.getMvplan().getResource("mvplan.gui.MainFrame.updateAvailableDialog.info3.text"),
                                 "http://wittig.net.au");    //TODO - put this in Prefs
                     } catch (MissingResourceException e) {
                         System.err.append("mvplan.gui.mainFrame: missing resource -"+e);
@@ -818,7 +815,7 @@ public class MainFrame extends JFrame
         fc.setAccessory(fa);
         fa.setMetaData(currentModel.getMetaData());
         try {
-            fa.setMetaDataLabel(Mvplan.getResource("mvplan.gui.MainFrame.saveModelAccessory.text"));
+            fa.setMetaDataLabel(MvplanInstance.getMvplan().getResource("mvplan.gui.MainFrame.saveModelAccessory.text"));
         } catch (MissingResourceException e) {}
         
         int returnVal = fc.showSaveDialog(this);
@@ -832,8 +829,8 @@ public class MainFrame extends JFrame
             // Check for overwrite
             if(lastModelFile.exists() &&
                 (JOptionPane.showConfirmDialog(this,
-                    Mvplan.getResource("mvplan.gui.MainFrame.saveModelOverwriteDialog.text"),
-                    Mvplan.getResource("mvplan.gui.MainFrame.saveModelOverwriteDialog.title"),
+                    MvplanInstance.getMvplan().getResource("mvplan.gui.MainFrame.saveModelOverwriteDialog.text"),
+                    MvplanInstance.getMvplan().getResource("mvplan.gui.MainFrame.saveModelOverwriteDialog.title"),
                     JOptionPane.OK_CANCEL_OPTION,JOptionPane.QUESTION_MESSAGE) != JOptionPane.OK_OPTION)) {
                 // Do nothing   
                     
@@ -843,8 +840,8 @@ public class MainFrame extends JFrame
                 ModelDAO dao=new ModelDAO();
                 if(dao.saveModel(currentModel,lastModelFile.toString()) != ModelDAO.SUCCESS)
                     JOptionPane.showMessageDialog(this,
-                            Mvplan.getResource("mvplan.gui.MainFrame.saveModelErrorDialog.text"),
-                            Mvplan.getResource("mvplan.gui.MainFrame.saveModelErrorDialog.title"),
+                            MvplanInstance.getMvplan().getResource("mvplan.gui.MainFrame.saveModelErrorDialog.text"),
+                            MvplanInstance.getMvplan().getResource("mvplan.gui.MainFrame.saveModelErrorDialog.title"),
                             JOptionPane.ERROR_MESSAGE);                             
             }    
         }       
@@ -867,12 +864,12 @@ public class MainFrame extends JFrame
                 // Check units
                 if(currentModel.getUnits()!=Mvplan.prefs.getUnits()) {
                         JOptionPane.showMessageDialog(this,
-                            Mvplan.getResource("mvplan.gui.MainFrame.loadModelUnitErrorDialog.text"),
-                            Mvplan.getResource("mvplan.gui.MainFrame.loadModelUnitErrorDialog.title"),
+                            MvplanInstance.getMvplan().getResource("mvplan.gui.MainFrame.loadModelUnitErrorDialog.text"),
+                            MvplanInstance.getMvplan().getResource("mvplan.gui.MainFrame.loadModelUnitErrorDialog.title"),
                             JOptionPane.ERROR_MESSAGE);   
                         clearDive();                        
                 }  else {                              
-                    textArea.setText(Mvplan.getResource("mvplan.gui.MainFrame.loadModel.modelLoaded.text")+" "+currentModel.getMetaData()+'\n');               
+                    textArea.setText(MvplanInstance.getMvplan().getResource("mvplan.gui.MainFrame.loadModel.modelLoaded.text")+" "+currentModel.getMetaData()+'\n');               
                     setTissueIcon();
                     printButton.setEnabled(false);  // No profile to print
                     clearButton.setEnabled(true);  
@@ -880,8 +877,8 @@ public class MainFrame extends JFrame
                 }
             } else {
                 JOptionPane.showMessageDialog(this,
-                        Mvplan.getResource("mvplan.gui.MainFrame.loadModelErrorDialog.text"),
-                        Mvplan.getResource("mvplan.gui.MainFrame.loadModelErrorDialog.title"),
+                        MvplanInstance.getMvplan().getResource("mvplan.gui.MainFrame.loadModelErrorDialog.text"),
+                        MvplanInstance.getMvplan().getResource("mvplan.gui.MainFrame.loadModelErrorDialog.title"),
                         JOptionPane.ERROR_MESSAGE);
                 clearDive();
             }               
@@ -1050,8 +1047,8 @@ public class MainFrame extends JFrame
         } catch (Exception ex) {
             // TODO no try block here.
             JOptionPane.showMessageDialog((this),
-                Mvplan.getResource("mvplan.gui.MainFrame.prefsSaveErrorDialog.info.text")+'\n'+Mvplan.prefFile,
-                Mvplan.getResource("mvplan.gui.MainFrame.prefsSaveErrorDialog.title.text"),
+                MvplanInstance.getMvplan().getResource("mvplan.gui.MainFrame.prefsSaveErrorDialog.info.text")+'\n'+Mvplan.prefFile,
+                MvplanInstance.getMvplan().getResource("mvplan.gui.MainFrame.prefsSaveErrorDialog.title.text"),
                 JOptionPane.ERROR_MESSAGE);
         }
     }    
@@ -1086,26 +1083,26 @@ public class MainFrame extends JFrame
 
             case Profile.CEILING_VIOLATION:
                     JOptionPane.showMessageDialog((this),
-                        Mvplan.getResource("mvplan.gui.MainFrame.ceilingViolation.text"),
-                        Mvplan.getResource("mvplan.gui.MainFrame.ceilingViolation.title"),
+                        MvplanInstance.getMvplan().getResource("mvplan.gui.MainFrame.ceilingViolation.text"),
+                        MvplanInstance.getMvplan().getResource("mvplan.gui.MainFrame.ceilingViolation.title"),
                         JOptionPane.ERROR_MESSAGE);
                     break;
 
             case Profile.NOTHING_TO_PROCESS:
                     JOptionPane.showMessageDialog((this),
-                        Mvplan.getResource("mvplan.gui.MainFrame.noSegments.text"),
-                        Mvplan.getResource("mvplan.gui.MainFrame.noSegments.title"),
+                        MvplanInstance.getMvplan().getResource("mvplan.gui.MainFrame.noSegments.text"),
+                        MvplanInstance.getMvplan().getResource("mvplan.gui.MainFrame.noSegments.title"),
                         JOptionPane.INFORMATION_MESSAGE );
                     break;
             case Profile.PROCESSING_ERROR:
                     JOptionPane.showMessageDialog((this),
-                        Mvplan.getResource("mvplan.gui.MainFrame.processingError.text"),
-                        Mvplan.getResource("mvplan.gui.MainFrame.processingError.title"),
+                        MvplanInstance.getMvplan().getResource("mvplan.gui.MainFrame.processingError.text"),
+                        MvplanInstance.getMvplan().getResource("mvplan.gui.MainFrame.processingError.title"),
                         JOptionPane.ERROR_MESSAGE);
             case Profile.INFINITE_DECO:
                     JOptionPane.showMessageDialog((this),
-                        Mvplan.getResource("mvplan.gui.MainFrame.decoNotPossible.text"),
-                        Mvplan.getResource("mvplan.gui.MainFrame.decoNotPossible.title"),
+                        MvplanInstance.getMvplan().getResource("mvplan.gui.MainFrame.decoNotPossible.text"),
+                        MvplanInstance.getMvplan().getResource("mvplan.gui.MainFrame.decoNotPossible.title"),
                         JOptionPane.ERROR_MESSAGE);                            
             default:        break;                    
             }
@@ -1125,13 +1122,13 @@ public class MainFrame extends JFrame
         } else {
             p=new Profile(knownSegments,knownGases,currentModel);        
             if( p.isDiveSegments() || JOptionPane.showConfirmDialog(this,
-                                    Mvplan.getResource("mvplan.gui.MainFrame.noSegmentsDoSurfaceInterval.text"),
-                                       Mvplan.getResource("mvplan.gui.MainFrame.noSegmentsDoSurfaceInterval.title"),
+                                    MvplanInstance.getMvplan().getResource("mvplan.gui.MainFrame.noSegmentsDoSurfaceInterval.text"),
+                                       MvplanInstance.getMvplan().getResource("mvplan.gui.MainFrame.noSegmentsDoSurfaceInterval.title"),
                                         JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)  {    // Is there anything to process
             p.doSurfaceInterval(Integer.parseInt(surfaceIntervalField.getText()));
-            textArea.append(Mvplan.getResource("mvplan.gui.MainFrame.modelUpdated.text")
+            textArea.append(MvplanInstance.getMvplan().getResource("mvplan.gui.MainFrame.modelUpdated.text")
                             +" "+p.getSurfaceInterval()+
-                            Mvplan.getResource("mvplan.minutes.shortText")+".\n");
+                            MvplanInstance.getMvplan().getResource("mvplan.minutes.shortText")+".\n");
             }
         }
         
@@ -1153,26 +1150,26 @@ public class MainFrame extends JFrame
 
             case Profile.CEILING_VIOLATION:
                     JOptionPane.showMessageDialog((this),
-                        Mvplan.getResource("mvplan.gui.MainFrame.ceilingViolation.text"),
-                        Mvplan.getResource("mvplan.gui.MainFrame.ceilingViolation.title"),
+                        MvplanInstance.getMvplan().getResource("mvplan.gui.MainFrame.ceilingViolation.text"),
+                        MvplanInstance.getMvplan().getResource("mvplan.gui.MainFrame.ceilingViolation.title"),
                         JOptionPane.ERROR_MESSAGE);
                     break;
 
             case Profile.NOTHING_TO_PROCESS:
                     JOptionPane.showMessageDialog((this),
-                        Mvplan.getResource("mvplan.gui.MainFrame.noSegments.text"),
-                        Mvplan.getResource("mvplan.gui.MainFrame.noSegments.title"),
+                        MvplanInstance.getMvplan().getResource("mvplan.gui.MainFrame.noSegments.text"),
+                        MvplanInstance.getMvplan().getResource("mvplan.gui.MainFrame.noSegments.title"),
                         JOptionPane.INFORMATION_MESSAGE );
                     break;
             case Profile.PROCESSING_ERROR:
                     JOptionPane.showMessageDialog((this),
-                        Mvplan.getResource("mvplan.gui.MainFrame.processingError.text"),
-                        Mvplan.getResource("mvplan.gui.MainFrame.processingError.title"),
+                        MvplanInstance.getMvplan().getResource("mvplan.gui.MainFrame.processingError.text"),
+                        MvplanInstance.getMvplan().getResource("mvplan.gui.MainFrame.processingError.title"),
                         JOptionPane.ERROR_MESSAGE);
             case Profile.INFINITE_DECO:
                     JOptionPane.showMessageDialog((this),
-                        Mvplan.getResource("mvplan.gui.MainFrame.decoNotPossible.text"),
-                        Mvplan.getResource("mvplan.gui.MainFrame.decoNotPossible.title"),
+                        MvplanInstance.getMvplan().getResource("mvplan.gui.MainFrame.decoNotPossible.text"),
+                        MvplanInstance.getMvplan().getResource("mvplan.gui.MainFrame.decoNotPossible.title"),
                         JOptionPane.ERROR_MESSAGE);                            
             default:        break;
         }           
@@ -1196,7 +1193,7 @@ public class MainFrame extends JFrame
         if ( required || vm.updateRequired() ) {
             // Display progress indicator
             progress.start();
-            progress.setToolTipText(Mvplan.getResource("mvplan.gui.MainFrame.progress.nowChecking.tip"));
+            progress.setToolTipText(MvplanInstance.getMvplan().getResource("mvplan.gui.MainFrame.progress.nowChecking.tip"));
             // Create SwingWorker object to do version check
             final mvplan.util.SwingWorker worker = new mvplan.util.SwingWorker() {
                 public Object construct() {
@@ -1210,24 +1207,24 @@ public class MainFrame extends JFrame
                     if (vm.getResultCode() == VersionManager.ERROR) {
                         //updateLabel.setIcon(updateDiscIcon);
                         // Error response
-                        progress.setToolTipText(Mvplan.getResource("mvplan.gui.MainFrame.progress.noContact.tip"));
+                        progress.setToolTipText(MvplanInstance.getMvplan().getResource("mvplan.gui.MainFrame.progress.noContact.tip"));
                         updateAvailable=false;                        
                     } else if( vm.getResultCode() == VersionManager.UPDATE ) {
                         progress.setImage(updateImage);
-                        progress.setToolTipText(Mvplan.getResource("mvplan.gui.MainFrame.progress.update.tip"));
+                        progress.setToolTipText(MvplanInstance.getMvplan().getResource("mvplan.gui.MainFrame.progress.update.tip"));
                         if( mainFrame.isActive() ) {
 
-                                new InfoURLDialog(mainFrame, Mvplan.getResource("mvplan.gui.MainFrame.updateAvailableDialog.title.text"), true ,
-                                        Mvplan.getResource("mvplan.gui.MainFrame.updateAvailableDialog.info1.text"),
-                                        Mvplan.getResource("mvplan.gui.MainFrame.updateAvailableDialog.info2.text")+ " ", 
-                                        Mvplan.getResource("mvplan.gui.MainFrame.updateAvailableDialog.info3.text"),
+                                new InfoURLDialog(mainFrame, MvplanInstance.getMvplan().getResource("mvplan.gui.MainFrame.updateAvailableDialog.title.text"), true ,
+                                        MvplanInstance.getMvplan().getResource("mvplan.gui.MainFrame.updateAvailableDialog.info1.text"),
+                                        MvplanInstance.getMvplan().getResource("mvplan.gui.MainFrame.updateAvailableDialog.info2.text")+ " ", 
+                                        MvplanInstance.getMvplan().getResource("mvplan.gui.MainFrame.updateAvailableDialog.info3.text"),
                                         "http://wittig.net.au");    //TODO - put this in Prefs
 
                         }                                                           
                         updateAvailable=true;
                     } else if (vm.getResultCode() == VersionManager.CURRENT) {
                         progress.setImage(okImage);
-                        progress.setToolTipText(Mvplan.getResource("mvplan.gui.MainFrame.progress.current.tip"));
+                        progress.setToolTipText(MvplanInstance.getMvplan().getResource("mvplan.gui.MainFrame.progress.current.tip"));
                         updateAvailable=false;
                     }                                                       
                 }
@@ -1274,13 +1271,13 @@ public class MainFrame extends JFrame
         s=s+"<p>\u00A9 2005-2010 Guy Wittig&nbsp</p>";
         // Add localisation credit string
         try{
-            s2 = Mvplan.getResource("mvplan.gui.Mainframe.AboutDialog.localisedBy.text");
+            s2 = MvplanInstance.getMvplan().getResource("mvplan.gui.Mainframe.AboutDialog.localisedBy.text");
             s=s+s2;
         } catch (Exception e) { }
                     
         s=s+"<p>&nbsp</p>"; // Add space
  
-        s=s+Mvplan.getResource("mvplan.gui.MainFrame.AboutDialog.about.text");
+        s=s+MvplanInstance.getMvplan().getResource("mvplan.gui.MainFrame.AboutDialog.about.text");
 
         
         AboutDialog about = new AboutDialog(this, s);

@@ -27,18 +27,11 @@ package mvplan.gui;
 
 import java.awt.*;
 import java.awt.font.*;
-import java.awt.event.*;
-import java.io.*;
 import javax.swing.*;
-import javax.swing.border.*;
-import javax.swing.text.*;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
 import java.text.MessageFormat;
 import java.awt.print.*;
 import mvplan.main.Mvplan;
-import mvplan.segments.SegmentAbstract;
+import mvplan.main.MvplanInstance;
 
 
 /**
@@ -86,11 +79,11 @@ public abstract class AbstractDisplayComponent extends JComponent implements Pri
      public void setStrings() {
          // Get unit specific strings from preferences as they chage
          depthHead = Mvplan.prefs.getDepthShortString();
-         gasString = Mvplan.getResource("mvplan.gas.shortText");
-         spString = Mvplan.getResource("mvplan.sp.shortText");
-         stopChar = Mvplan.getResource("mvplan.stop.char");
-         runString = Mvplan.getResource("mvplan.run.shortText");
-         runChar = Mvplan.getResource("mvplan.run.char");                 
+         gasString = MvplanInstance.getMvplan().getResource("mvplan.gas.shortText");
+         spString = MvplanInstance.getMvplan().getResource("mvplan.sp.shortText");
+         stopChar = MvplanInstance.getMvplan().getResource("mvplan.stop.char");
+         runString = MvplanInstance.getMvplan().getResource("mvplan.run.shortText");
+         runChar = MvplanInstance.getMvplan().getResource("mvplan.run.char");                 
      }
      
    public void paintComponent(Graphics g) {

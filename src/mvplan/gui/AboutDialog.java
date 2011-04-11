@@ -29,6 +29,7 @@ import javax.swing.*;
 import java.awt.event.*;
 import java.awt.Component;
 import mvplan.main.Mvplan;
+import mvplan.main.MvplanInstance;
 import mvplan.util.BrowserLauncher;
 
 /**
@@ -91,13 +92,13 @@ public class AboutDialog extends JDialog {
     
     private void setResources() {
       
-        okButton.setText(Mvplan.getResource("mvplan.ok.text"));
-        okButton.setToolTipText(Mvplan.getResource("mvplan.ok.tip"));               
-        logoLabel.setToolTipText(Mvplan.getResource("mvplan.gui.aboutDialog.logo.tip"));        
-        updateCheckBox.setText(Mvplan.getResource("mvplan.gui.aboutDialog.check.text"));
-        updateLabel1.setText(Mvplan.getResource("mvplan.gui.aboutDialog.every.text"));
-        updateFrequency.setToolTipText(Mvplan.getResource("mvplan.gui.aboutDialog.updateFrequency.tip"));        
-        updateLabel2.setText(Mvplan.getResource("mvplan.gui.aboutDialog.days.text"));        
+        okButton.setText(MvplanInstance.getMvplan().getResource("mvplan.ok.text"));
+        okButton.setToolTipText(MvplanInstance.getMvplan().getResource("mvplan.ok.tip"));               
+        logoLabel.setToolTipText(MvplanInstance.getMvplan().getResource("mvplan.gui.aboutDialog.logo.tip"));        
+        updateCheckBox.setText(MvplanInstance.getMvplan().getResource("mvplan.gui.aboutDialog.check.text"));
+        updateLabel1.setText(MvplanInstance.getMvplan().getResource("mvplan.gui.aboutDialog.every.text"));
+        updateFrequency.setToolTipText(MvplanInstance.getMvplan().getResource("mvplan.gui.aboutDialog.updateFrequency.tip"));        
+        updateLabel2.setText(MvplanInstance.getMvplan().getResource("mvplan.gui.aboutDialog.days.text"));        
         
     }
     

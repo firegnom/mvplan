@@ -28,6 +28,7 @@ import mvplan.dive.TableGeneratorModel;
 import mvplan.segments.SegmentAbstract;
 
 import javax.swing.JTextArea;
+import mvplan.main.MvplanInstance;
         
 public class TablePrinter {
     
@@ -59,16 +60,16 @@ public class TablePrinter {
         //int ascentRow = tm.getAscentRow();
         
         // Prepare strings
-        String disclaimer = Mvplan.getResource("mvplan.disclaimer.text");        
-        String runChar = Mvplan.getResource("mvplan.run.char");
-        String stopChar = Mvplan.getResource("mvplan.stop.char");        
-        String gasString = Mvplan.getResource("mvplan.gas.shortText");
-        String spString = Mvplan.getResource("mvplan.sp.shortText");        
+        String disclaimer = MvplanInstance.getMvplan().getResource("mvplan.disclaimer.text");        
+        String runChar = MvplanInstance.getMvplan().getResource("mvplan.run.char");
+        String stopChar = MvplanInstance.getMvplan().getResource("mvplan.stop.char");        
+        String gasString = MvplanInstance.getMvplan().getResource("mvplan.gas.shortText");
+        String spString = MvplanInstance.getMvplan().getResource("mvplan.sp.shortText");        
         
         // Create heading
         textArea.append(Mvplan.appName+'\n');
-        textArea.append(Mvplan.getResource("mvplan.gui.text.ProfilePrinter.settings.text")+"="+(int)Math.round(Mvplan.prefs.getGfLow()*100.)+"-"+(int)Math.round(Mvplan.prefs.getGfHigh()*100.));
-        textArea.append(" "+ Mvplan.getResource("mvplan.gui.text.ProfilePrinter.multilevel.text")+"="+Mvplan.prefs.getGfMultilevelMode());
+        textArea.append(MvplanInstance.getMvplan().getResource("mvplan.gui.text.ProfilePrinter.settings.text")+"="+(int)Math.round(Mvplan.prefs.getGfLow()*100.)+"-"+(int)Math.round(Mvplan.prefs.getGfHigh()*100.));
+        textArea.append(" "+ MvplanInstance.getMvplan().getResource("mvplan.gui.text.ProfilePrinter.multilevel.text")+"="+Mvplan.prefs.getGfMultilevelMode());
         textArea.append(" "+tm.getModelName());
         textArea.append("\n");
         printAltitude();
@@ -119,10 +120,10 @@ public class TablePrinter {
         
         // Check oxygen limits
         if (tm.getMaxPO2() > Mvplan.prefs.getMaxPO2()) {
-            textArea.append(Mvplan.getResource("mvplan.gui.text.tablePrinter.maxPp02.text")+" "+ ((int)Math.round(tm.getMaxPO2()*100)/100.0)+" "+
-                    Mvplan.getResource("mvplan.gui.text.tablePrinter.cnsEstimated.text")+'\n');
+            textArea.append(MvplanInstance.getMvplan().getResource("mvplan.gui.text.tablePrinter.maxPp02.text")+" "+ ((int)Math.round(tm.getMaxPO2()*100)/100.0)+" "+
+                    MvplanInstance.getMvplan().getResource("mvplan.gui.text.tablePrinter.cnsEstimated.text")+'\n');
         }
-        textArea.append(Mvplan.getResource("mvplan.gui.text.tablePrinter.oxTox.text")+" "+(int)Math.round(tm.getMaxCNS()*100.)+"%"+'\n');
+        textArea.append(MvplanInstance.getMvplan().getResource("mvplan.gui.text.tablePrinter.oxTox.text")+" "+(int)Math.round(tm.getMaxCNS()*100.)+"%"+'\n');
         textArea.append(disclaimer+'\n'); 
     }
     
@@ -131,11 +132,11 @@ public class TablePrinter {
         // Is this an altitude dive ?
         if(Mvplan.prefs.getAltitude()>0.0) {
             textArea.append(String.format("%1$s %2$4.0f%3$s (%4$2.1f%3$ssw) %5$s\n",
-                    Mvplan.getResource("mvplan.gui.text.altitude.text"),
+                    MvplanInstance.getMvplan().getResource("mvplan.gui.text.altitude.text"),
                     Mvplan.prefs.getAltitude(), 
                     Mvplan.prefs.getDepthShortString(),
                     Mvplan.prefs.getPAmb(),
-                    Mvplan.getResource("mvplan.gui.text.altitudeCalibration.text")));                        
+                    MvplanInstance.getMvplan().getResource("mvplan.gui.text.altitudeCalibration.text")));                        
         }        
     }    
 }

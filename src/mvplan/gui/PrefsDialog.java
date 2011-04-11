@@ -33,7 +33,7 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.border.*;
 import java.math.BigDecimal;
-import mvplan.util.PressureConverter;
+import mvplan.main.MvplanInstance;
 
 public class PrefsDialog extends JDialog implements ActionListener, FocusListener
 {
@@ -96,7 +96,7 @@ public class PrefsDialog extends JDialog implements ActionListener, FocusListene
     public PrefsDialog(Frame frame)
     {
         super(frame,true);
-        this.setTitle(Mvplan.getResource("mvplan.gui.PrefsDialog.title"));
+        this.setTitle(MvplanInstance.getMvplan().getResource("mvplan.gui.PrefsDialog.title"));
         Container cont = getContentPane();        
         currentUnits = Mvplan.prefs.METRIC;     // Metric unless otherwise advised 
         
@@ -112,106 +112,106 @@ public class PrefsDialog extends JDialog implements ActionListener, FocusListene
         
         // GF Panel
         Border gfBorder = BorderFactory.createEtchedBorder();
-        gfPanel.setBorder(BorderFactory.createTitledBorder(gfBorder,Mvplan.getResource("mvplan.gui.PrefsDialog.GfBorder.text")));
+        gfPanel.setBorder(BorderFactory.createTitledBorder(gfBorder,MvplanInstance.getMvplan().getResource("mvplan.gui.PrefsDialog.GfBorder.text")));
         gfPanel.setLayout(new GridLayout(2,2));
         gfLow.setColumns(5);
         gfHigh.setColumns(5);
         gfLow.setText(String.valueOf((int)(Mvplan.prefs.getGfLow()*100.)));
-        gfLow.setToolTipText(Mvplan.getResource("mvplan.gui.PrefsDialog.gfLow.tip"));
+        gfLow.setToolTipText(MvplanInstance.getMvplan().getResource("mvplan.gui.PrefsDialog.gfLow.tip"));
         gfLow.addFocusListener(this);
         gfLow.setInputVerifier(new GfVerifier());
         gfHigh.setText(String.valueOf((int)(Mvplan.prefs.getGfHigh()*100.)));
-        gfHigh.setToolTipText(Mvplan.getResource("mvplan.gui.PrefsDialog.gfHigh.tip"));
+        gfHigh.setToolTipText(MvplanInstance.getMvplan().getResource("mvplan.gui.PrefsDialog.gfHigh.tip"));
         gfHigh.addFocusListener(this);
         gfHigh.setInputVerifier(new GfVerifier());        
-        gfPanel.add(new JLabel(Mvplan.getResource("mvplan.gui.PrefsDialog.gfLowLabel.text")));
+        gfPanel.add(new JLabel(MvplanInstance.getMvplan().getResource("mvplan.gui.PrefsDialog.gfLowLabel.text")));
         gfPanel.add(gfLow);
-        gfPanel.add(new JLabel(Mvplan.getResource("mvplan.gui.PrefsDialog.gfHighLabel.text")));
+        gfPanel.add(new JLabel(MvplanInstance.getMvplan().getResource("mvplan.gui.PrefsDialog.gfHighLabel.text")));
         gfPanel.add(gfHigh);
         gfPanel.setPreferredSize(new Dimension(150,80));
 
         // Stop Panel
         Border stopBorder = BorderFactory.createEtchedBorder();
         stopPanel.setBorder(BorderFactory.createTitledBorder(stopBorder,
-                Mvplan.getResource("mvplan.gui.PrefsDialog.stopBorder.text")));
+                MvplanInstance.getMvplan().getResource("mvplan.gui.PrefsDialog.stopBorder.text")));
         stopPanel.setLayout(new GridLayout(4,2));
         stopDepthIncrement.setColumns(5);
         lastStopDepth.setColumns(5);
         stopTimeIncrement.setColumns(5);
         stopDepthIncrement.setText(String.valueOf((int)Mvplan.prefs.getStopDepthIncrement()));
-        stopDepthIncrement.setToolTipText(Mvplan.getResource("mvplan.gui.PrefsDialog.stopDepthIncrement.tip"));
+        stopDepthIncrement.setToolTipText(MvplanInstance.getMvplan().getResource("mvplan.gui.PrefsDialog.stopDepthIncrement.tip"));
         stopDepthIncrement.addFocusListener(this);
         stopDepthIncrement.setInputVerifier(new SdVerifier()); 
         lastStopDepth.setText(String.valueOf(Mvplan.prefs.getLastStopDepth()));
-        lastStopDepth.setToolTipText(Mvplan.getResource("mvplan.gui.PrefsDialog.lastStopDepth.tip"));
+        lastStopDepth.setToolTipText(MvplanInstance.getMvplan().getResource("mvplan.gui.PrefsDialog.lastStopDepth.tip"));
         lastStopDepth.addFocusListener(this);
         lastStopDepth.setInputVerifier(new SdVerifier());
         stopTimeIncrement.setText(String.valueOf(Mvplan.prefs.getStopTimeIncrement()));
-        stopTimeIncrement.setToolTipText(Mvplan.getResource("mvplan.gui.PrefsDialog.stopTimeIncrement.tip"));
+        stopTimeIncrement.setToolTipText(MvplanInstance.getMvplan().getResource("mvplan.gui.PrefsDialog.stopTimeIncrement.tip"));
         stopTimeIncrement.addFocusListener(this);
         stopTimeIncrement.setInputVerifier(new StVerifier());
-        stopPanel.add(new JLabel(Mvplan.getResource("mvplan.gui.PrefsDialog.depthLabel.text")));
+        stopPanel.add(new JLabel(MvplanInstance.getMvplan().getResource("mvplan.gui.PrefsDialog.depthLabel.text")));
         stopPanel.add(stopDepthIncrement);
-        stopPanel.add(new JLabel(Mvplan.getResource("mvplan.gui.PrefsDialog.lastLabel.text")));
+        stopPanel.add(new JLabel(MvplanInstance.getMvplan().getResource("mvplan.gui.PrefsDialog.lastLabel.text")));
         stopPanel.add(lastStopDepth);
-        stopPanel.add(new JLabel(Mvplan.getResource("mvplan.gui.PrefsDialog.timeLabel.text")));
+        stopPanel.add(new JLabel(MvplanInstance.getMvplan().getResource("mvplan.gui.PrefsDialog.timeLabel.text")));
         stopPanel.add(stopTimeIncrement);
         stopPanel.setPreferredSize(new Dimension(150,100));
 
         // Dive Panel
         Border diveBorder = BorderFactory.createEtchedBorder();
-        divePanel.setBorder(BorderFactory.createTitledBorder(diveBorder,Mvplan.getResource("mvplan.gui.PrefsDialog.diveBorder.text")));
+        divePanel.setBorder(BorderFactory.createTitledBorder(diveBorder,MvplanInstance.getMvplan().getResource("mvplan.gui.PrefsDialog.diveBorder.text")));
         divePanel.setLayout(new GridLayout(4,2));
         ascentRate.setColumns(5);
         ascentRate.setText(String.valueOf(-Mvplan.prefs.getAscentRate()));
-        ascentRate.setToolTipText(Mvplan.getResource("mvplan.gui.PrefsDialog.ascentRate.tip"));
+        ascentRate.setToolTipText(MvplanInstance.getMvplan().getResource("mvplan.gui.PrefsDialog.ascentRate.tip"));
         ascentRate.addFocusListener(this);    
         ascentRate.setInputVerifier(new RateVerifier());
         ascentRate.setName("ascentRate");   // For verifier to identify component
         descentRate.setColumns(5); 
         descentRate.setText(String.valueOf(Mvplan.prefs.getDescentRate()));
-        descentRate.setToolTipText(Mvplan.getResource("mvplan.gui.PrefsDialog.descentRate.tip"));          
+        descentRate.setToolTipText(MvplanInstance.getMvplan().getResource("mvplan.gui.PrefsDialog.descentRate.tip"));          
         descentRate.addFocusListener(this);
         descentRate.setInputVerifier(new RateVerifier()); 
         descentRate.setName("descentRate");   // For verifier to identify component
         altitude.setColumns(5);
         altitude.setText(String.valueOf(Mvplan.prefs.getAltitude()));
-        altitude.setToolTipText(Mvplan.getResource("mvplan.gui.PrefsDialog.altitude.tip"));
+        altitude.setToolTipText(MvplanInstance.getMvplan().getResource("mvplan.gui.PrefsDialog.altitude.tip"));
         altitude.addFocusListener(this);
         altitude.setName("altitude");
         altitude.setInputVerifier(new AltitudeVerifier());   
-        divePanel.add(new JLabel(Mvplan.getResource("mvplan.gui.PrefsDialog.ascentLabel.text")));
+        divePanel.add(new JLabel(MvplanInstance.getMvplan().getResource("mvplan.gui.PrefsDialog.ascentLabel.text")));
         divePanel.add(ascentRate);        
-        divePanel.add(new JLabel(Mvplan.getResource("mvplan.gui.PrefsDialog.descentLabel.text")));        
+        divePanel.add(new JLabel(MvplanInstance.getMvplan().getResource("mvplan.gui.PrefsDialog.descentLabel.text")));        
         divePanel.add(descentRate);
-        divePanel.add(new JLabel(Mvplan.getResource("mvplan.gui.PrefsDialog.altitudeLabel.text")));        
+        divePanel.add(new JLabel(MvplanInstance.getMvplan().getResource("mvplan.gui.PrefsDialog.altitudeLabel.text")));        
         divePanel.add(altitude);
         divePanel.setPreferredSize(new Dimension(150,100));        
         
         // Options Panel
         Border optionsBorder = BorderFactory.createEtchedBorder();
-        optionsPanel.setBorder(BorderFactory.createTitledBorder(optionsBorder,Mvplan.getResource("mvplan.gui.PrefsDialog.prefsBorder.text")));
+        optionsPanel.setBorder(BorderFactory.createTitledBorder(optionsBorder,MvplanInstance.getMvplan().getResource("mvplan.gui.PrefsDialog.prefsBorder.text")));
         optionsPanel.setLayout(new GridLayout(4,1));
-        forceStopsCB.setText(Mvplan.getResource("mvplan.gui.PrefsDialog.forceStopsCB.text"));
-        forceStopsCB.setToolTipText(Mvplan.getResource("mvplan.gui.PrefsDialog.forceStopsCB.tip"));
+        forceStopsCB.setText(MvplanInstance.getMvplan().getResource("mvplan.gui.PrefsDialog.forceStopsCB.text"));
+        forceStopsCB.setToolTipText(MvplanInstance.getMvplan().getResource("mvplan.gui.PrefsDialog.forceStopsCB.tip"));
         forceStopsCB.setSelected(Mvplan.prefs.getForceAllStops());
         forceStopsCB.setEnabled(false);
-        runTimeCB.setText(Mvplan.getResource("mvplan.gui.PrefsDialog.runTimeCB.text"));
-        runTimeCB.setToolTipText(Mvplan.getResource("mvplan.gui.PrefsDialog.runTimeCB.tip"));
+        runTimeCB.setText(MvplanInstance.getMvplan().getResource("mvplan.gui.PrefsDialog.runTimeCB.text"));
+        runTimeCB.setToolTipText(MvplanInstance.getMvplan().getResource("mvplan.gui.PrefsDialog.runTimeCB.tip"));
         runTimeCB.setSelected(Mvplan.prefs.getRuntimeFlag());
-        extendedOutputCB.setToolTipText(Mvplan.getResource("mvplan.gui.PrefsDialog.extendedOutputCB.tip"));
-        extendedOutputCB.setText(Mvplan.getResource("mvplan.gui.PrefsDialog.extendedOutputCB.text"));
+        extendedOutputCB.setToolTipText(MvplanInstance.getMvplan().getResource("mvplan.gui.PrefsDialog.extendedOutputCB.tip"));
+        extendedOutputCB.setText(MvplanInstance.getMvplan().getResource("mvplan.gui.PrefsDialog.extendedOutputCB.text"));
         if (Mvplan.prefs.getOutputStyle()==Prefs.BRIEF)
             extendedOutputCB.setSelected(false);
         else
             extendedOutputCB.setSelected(true);   
-        mvMultilevelModeCB.setText(Mvplan.getResource("mvplan.gui.PrefsDialog.mvMultilevelModeCB.text"));
-        mvMultilevelModeCB.setToolTipText(Mvplan.getResource("mvplan.gui.PrefsDialog.mvMultilevelModeCB.tip"));
+        mvMultilevelModeCB.setText(MvplanInstance.getMvplan().getResource("mvplan.gui.PrefsDialog.mvMultilevelModeCB.text"));
+        mvMultilevelModeCB.setToolTipText(MvplanInstance.getMvplan().getResource("mvplan.gui.PrefsDialog.mvMultilevelModeCB.tip"));
         mvMultilevelModeCB.setSelected(Mvplan.prefs.getGfMultilevelMode());
 
 
         cmbModel.setSelectedItem(Mvplan.prefs.getModelClassName());
-        cmbModel.setToolTipText(Mvplan.getResource("mvplan.gui.PrefsDialog.cmbModel.tip"));
+        cmbModel.setToolTipText(MvplanInstance.getMvplan().getResource("mvplan.gui.PrefsDialog.cmbModel.tip"));
 
 
         //optionsPanel.add(forceStopsCB);
@@ -223,30 +223,30 @@ public class PrefsDialog extends JDialog implements ActionListener, FocusListene
 
         // Gas Panel
         Border gasBorder = BorderFactory.createEtchedBorder();
-        gasPanel.setBorder(BorderFactory.createTitledBorder(gasBorder,Mvplan.getResource("mvplan.gui.PrefsDialog.gasBorder.text")));
+        gasPanel.setBorder(BorderFactory.createTitledBorder(gasBorder,MvplanInstance.getMvplan().getResource("mvplan.gui.PrefsDialog.gasBorder.text")));
         gasPanel.setLayout(new GridLayout(2,2));
         diveRMV.setColumns(5);
         decoRMV.setColumns(5);
         diveRMV.setText(String.valueOf(Mvplan.prefs.getDiveRMV()));
-        diveRMV.setToolTipText(Mvplan.getResource("mvplan.gui.PrefsDialog.diveRMV.tip"));
+        diveRMV.setToolTipText(MvplanInstance.getMvplan().getResource("mvplan.gui.PrefsDialog.diveRMV.tip"));
         diveRMV.addFocusListener(this);
         diveRMV.setInputVerifier(new RmvVerifier());
         decoRMV.setText(String.valueOf(Mvplan.prefs.getDecoRMV()));
-        decoRMV.setToolTipText(Mvplan.getResource("mvplan.gui.PrefsDialog.decoRMV.tip"));
+        decoRMV.setToolTipText(MvplanInstance.getMvplan().getResource("mvplan.gui.PrefsDialog.decoRMV.tip"));
         decoRMV.addFocusListener(this);
         decoRMV.setInputVerifier(new RmvVerifier());        
-        gasPanel.add(new JLabel(Mvplan.getResource("mvplan.gui.PrefsDialog.diveRMV.text")));
+        gasPanel.add(new JLabel(MvplanInstance.getMvplan().getResource("mvplan.gui.PrefsDialog.diveRMV.text")));
         gasPanel.add(diveRMV);
-        gasPanel.add(new JLabel(Mvplan.getResource("mvplan.gui.PrefsDialog.decoRMV.text")));
+        gasPanel.add(new JLabel(MvplanInstance.getMvplan().getResource("mvplan.gui.PrefsDialog.decoRMV.text")));
         gasPanel.add(decoRMV);
         gasPanel.setPreferredSize(new Dimension(150,80));
         
         // Units panel        
         Border unitsBorder = BorderFactory.createEtchedBorder();
-        unitsPanel.setBorder(BorderFactory.createTitledBorder(unitsBorder,Mvplan.getResource("mvplan.gui.PrefsDialog.unitsBorder.text")));
+        unitsPanel.setBorder(BorderFactory.createTitledBorder(unitsBorder,MvplanInstance.getMvplan().getResource("mvplan.gui.PrefsDialog.unitsBorder.text")));
         unitsPanel.setLayout(new GridLayout(2,1));
-        metricButton = new JRadioButton(Mvplan.getResource("mvplan.gui.PrefsDialog.metricButton.text"));
-        imperialButton = new JRadioButton(Mvplan.getResource("mvplan.gui.PrefsDialog.imperialButton.text"));
+        metricButton = new JRadioButton(MvplanInstance.getMvplan().getResource("mvplan.gui.PrefsDialog.metricButton.text"));
+        imperialButton = new JRadioButton(MvplanInstance.getMvplan().getResource("mvplan.gui.PrefsDialog.imperialButton.text"));
         ButtonGroup unitsButtons = new ButtonGroup();
         unitsButtons.add(metricButton);
         unitsButtons.add(imperialButton);
@@ -254,10 +254,10 @@ public class PrefsDialog extends JDialog implements ActionListener, FocusListene
         unitsPanel.add(imperialButton);
         metricButton.setActionCommand("metric");
         metricButton.addActionListener(this);
-        metricButton.setToolTipText(Mvplan.getResource("mvplan.gui.PrefsDialog.metricButton.tip"));
+        metricButton.setToolTipText(MvplanInstance.getMvplan().getResource("mvplan.gui.PrefsDialog.metricButton.tip"));
         imperialButton.setActionCommand("imperial");
         imperialButton.addActionListener(this);
-        imperialButton.setToolTipText(Mvplan.getResource("mvplan.gui.PrefsDialog.imperialButton.tip"));        
+        imperialButton.setToolTipText(MvplanInstance.getMvplan().getResource("mvplan.gui.PrefsDialog.imperialButton.tip"));        
         
         if(Mvplan.prefs.getUnits()==Mvplan.prefs.METRIC) {
             metricButton.setSelected(true); 
@@ -274,11 +274,11 @@ public class PrefsDialog extends JDialog implements ActionListener, FocusListene
         message.setBorder(null);
         message.setForeground(Color.RED);  
         message.setBackground(this.getBackground());
-        okButton.setText(Mvplan.getResource("mvplan.gui.PrefsDialog.okButton.text"));
-        okButton.setToolTipText(Mvplan.getResource("mvplan.gui.PrefsDialog.okButton.tip"));
+        okButton.setText(MvplanInstance.getMvplan().getResource("mvplan.gui.PrefsDialog.okButton.text"));
+        okButton.setToolTipText(MvplanInstance.getMvplan().getResource("mvplan.gui.PrefsDialog.okButton.tip"));
         okButton.setActionCommand("ok");
-        cancelButton.setText(Mvplan.getResource("mvplan.gui.PrefsDialog.cancelButton.text"));
-        cancelButton.setToolTipText(Mvplan.getResource("mvplan.gui.PrefsDialog.cancelButton.tip"));
+        cancelButton.setText(MvplanInstance.getMvplan().getResource("mvplan.gui.PrefsDialog.cancelButton.text"));
+        cancelButton.setToolTipText(MvplanInstance.getMvplan().getResource("mvplan.gui.PrefsDialog.cancelButton.tip"));
         cancelButton.setActionCommand("cancel");
         okButton.setPreferredSize(new Dimension(80,25));
         cancelButton.setPreferredSize(new Dimension(80,25));
@@ -349,14 +349,14 @@ public class PrefsDialog extends JDialog implements ActionListener, FocusListene
      */
     private void setLimits(){
         if(Mvplan.prefs.getExtendedLimits()) {
-            if(JOptionPane.showConfirmDialog(this,Mvplan.getResource("mvplan.gui.PrefDialog.LimitsDialog.clear.text"),
-                    Mvplan.getResource("mvplan.gui.PrefDialog.LimitsDialog.title"),
+            if(JOptionPane.showConfirmDialog(this,MvplanInstance.getMvplan().getResource("mvplan.gui.PrefDialog.LimitsDialog.clear.text"),
+                    MvplanInstance.getMvplan().getResource("mvplan.gui.PrefDialog.LimitsDialog.title"),
                     JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE) == JOptionPane.YES_OPTION)
                 Mvplan.prefs.setExtendedLimits(false);
         } else {
             if(JOptionPane.showConfirmDialog(this,
-                    Mvplan.getResource("mvplan.gui.PrefDialog.LimitsDialog.confirm.text"),
-                    Mvplan.getResource("mvplan.gui.PrefDialog.LimitsDialog.title"),
+                    MvplanInstance.getMvplan().getResource("mvplan.gui.PrefDialog.LimitsDialog.confirm.text"),
+                    MvplanInstance.getMvplan().getResource("mvplan.gui.PrefDialog.LimitsDialog.title"),
                     JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE)== JOptionPane.YES_OPTION)
                 Mvplan.prefs.setExtendedLimits(true);
         }                    
@@ -454,8 +454,8 @@ public class PrefsDialog extends JDialog implements ActionListener, FocusListene
                     // If necessary display warning message regarding depth gauge calibration
                     if (d>0 && Mvplan.prefs.getAltitude()==0.0) {                    
                         JOptionPane.showMessageDialog((this),
-                            Mvplan.getResource("mvplan.gui.PrefsDialog.altitudeWarning.text"),
-                            Mvplan.getResource("mvplan.gui.PrefsDialog.altitudeWarning.title"),
+                            MvplanInstance.getMvplan().getResource("mvplan.gui.PrefsDialog.altitudeWarning.text"),
+                            MvplanInstance.getMvplan().getResource("mvplan.gui.PrefsDialog.altitudeWarning.title"),
                             JOptionPane.WARNING_MESSAGE);     
                     }
                     Mvplan.prefs.setAltitude(d);  
@@ -572,7 +572,7 @@ public class PrefsDialog extends JDialog implements ActionListener, FocusListene
             } catch (NumberFormatException e) {}
             if (! passed) {
                 comp.getToolkit().beep();
-                message.setText(Mvplan.getResource("mvplan.gui.PrefsDialog.Verifier.errorMessage.text")+
+                message.setText(MvplanInstance.getMvplan().getResource("mvplan.gui.PrefsDialog.Verifier.errorMessage.text")+
                         " "+min+" - "+max);
                 field.selectAll();
             }
@@ -602,7 +602,7 @@ public class PrefsDialog extends JDialog implements ActionListener, FocusListene
             } catch (NumberFormatException e) {}
             if (! passed) {
                 comp.getToolkit().beep();
-                message.setText(Mvplan.getResource("mvplan.gui.PrefsDialog.Verifier.errorMessage.text")+
+                message.setText(MvplanInstance.getMvplan().getResource("mvplan.gui.PrefsDialog.Verifier.errorMessage.text")+
                         " "+0+" - "+altitudeMax);
                 field.selectAll();
             }
@@ -626,7 +626,7 @@ public class PrefsDialog extends JDialog implements ActionListener, FocusListene
             } catch (NumberFormatException e) {}
             if (! passed) {
                 comp.getToolkit().beep();
-                 message.setText(Mvplan.getResource("mvplan.gui.PrefsDialog.Verifier.errorMessage.text")+
+                 message.setText(MvplanInstance.getMvplan().getResource("mvplan.gui.PrefsDialog.Verifier.errorMessage.text")+
                         " "+STMIN+" - "+STMAX);
                 field.selectAll();
             }
@@ -650,7 +650,7 @@ public class PrefsDialog extends JDialog implements ActionListener, FocusListene
             } catch (NumberFormatException e) {}
             if (! passed) {
                 comp.getToolkit().beep();
-                message.setText(Mvplan.getResource("mvplan.gui.PrefsDialog.Verifier.errorMessage.text")+
+                message.setText(MvplanInstance.getMvplan().getResource("mvplan.gui.PrefsDialog.Verifier.errorMessage.text")+
                         " "+RMVMIN+" - "+RMVMAX);
                 field.selectAll();
             }
@@ -681,7 +681,7 @@ public class PrefsDialog extends JDialog implements ActionListener, FocusListene
             } catch (NumberFormatException e) {}
             if (! passed) {
                 comp.getToolkit().beep();
-                message.setText(Mvplan.getResource("mvplan.gui.PrefsDialog.Verifier.errorMessage.text")+
+                message.setText(MvplanInstance.getMvplan().getResource("mvplan.gui.PrefsDialog.Verifier.errorMessage.text")+
                         " "+stopDepthMin+" - "+stopDepthMax);
                 field.selectAll();
             }
@@ -704,7 +704,7 @@ public class PrefsDialog extends JDialog implements ActionListener, FocusListene
             } catch (NumberFormatException e) {}
             if (! passed) {
                 comp.getToolkit().beep();
-                message.setText(Mvplan.getResource("mvplan.gui.PrefsDialog.Verifier.errorMessage.text")+
+                message.setText(MvplanInstance.getMvplan().getResource("mvplan.gui.PrefsDialog.Verifier.errorMessage.text")+
                         " "+(int)(Mvplan.prefs.getGfMin()*100)+" - "+(int)(Mvplan.prefs.getGfMax()*100));
                 field.selectAll();
             }
