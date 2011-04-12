@@ -14,6 +14,7 @@ import mvplan.util.Version;
  */
 public interface  IMvplan {
     public String getResource(String res);
+    public String getAppName();
     public Prefs getPrefs();
     public int getDebug();
     public Version getVersion();

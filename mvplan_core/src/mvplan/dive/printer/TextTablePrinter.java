@@ -23,18 +23,16 @@
 
 package mvplan.dive.printer;
 
-import mvplan.main.Mvplan;
 import mvplan.dive.TableGeneratorModel;
 import mvplan.segments.SegmentAbstract;
 
-import javax.swing.JTextArea;
 import mvplan.main.MvplanInstance;
         
 public class TextTablePrinter extends TablePrinter<StringBuffer> {
     
     private StringBuffer textArea;
     private TableGeneratorModel tm;
-    private boolean showStopTime = Mvplan.prefs.isShowStopTime();  
+    private boolean showStopTime = MvplanInstance.getPrefs().isShowStopTime();  
     
     /** Creates a new instance of TablePrinter */
     public TextTablePrinter(TableGeneratorModel tm, StringBuffer textArea) {
@@ -71,9 +69,9 @@ public class TextTablePrinter extends TablePrinter<StringBuffer> {
         String spString = MvplanInstance.getMvplan().getResource("mvplan.sp.shortText");        
         
         // Create heading
-        textArea.append(Mvplan.appName+'\n');
-        textArea.append(MvplanInstance.getMvplan().getResource("mvplan.gui.text.ProfilePrinter.settings.text")+"="+(int)Math.round(Mvplan.prefs.getGfLow()*100.)+"-"+(int)Math.round(Mvplan.prefs.getGfHigh()*100.));
-        textArea.append(" "+ MvplanInstance.getMvplan().getResource("mvplan.gui.text.ProfilePrinter.multilevel.text")+"="+Mvplan.prefs.getGfMultilevelMode());
+        textArea.append(MvplanInstance.getMvplan().getAppName()+'\n');
+        textArea.append(MvplanInstance.getMvplan().getResource("mvplan.gui.text.ProfilePrinter.settings.text")+"="+(int)Math.round(MvplanInstance.getPrefs().getGfLow()*100.)+"-"+(int)Math.round(MvplanInstance.getPrefs().getGfHigh()*100.));
+        textArea.append(" "+ MvplanInstance.getMvplan().getResource("mvplan.gui.text.ProfilePrinter.multilevel.text")+"="+MvplanInstance.getPrefs().getGfMultilevelMode());
         textArea.append(" "+tm.getModelName());
         textArea.append("\n");
         printAltitude();
@@ -84,7 +82,7 @@ public class TextTablePrinter extends TablePrinter<StringBuffer> {
         separator=separator+"-----------------\n";
         
         // Create table heading row
-        String result = "   "+Mvplan.prefs.getDepthShortString()+" ";
+        String result = "   "+MvplanInstance.getPrefs().getDepthShortString()+" ";
         for (i=0;i<numProfiles;i++) 
             //result = showStopTime ? result+"  S   R ": result+"   R "; 
             result = showStopTime ? result+"  "+stopChar+"   "+runChar+" ": result+"   "+runChar+" ";
@@ -94,7 +92,7 @@ public class TextTablePrinter extends TablePrinter<StringBuffer> {
             // Get depth of this series of segments from longest column
             sl=segmentArray[longestProfile][j];  
             if(sl==null) {
-                if(Mvplan.DEBUG>0) System.err.println("MultiProfile: null segment at profile:"+longestProfile+" row:"+j);
+                if(MvplanInstance.getMvplan().getDebug()>0) System.err.println("MultiProfile: null segment at profile:"+longestProfile+" row:"+j);
                 return textArea;
             }  
             if ((sl.getDepth()-(int)sl.getDepth())>0) // Do we have non-integer depth ?      
@@ -123,7 +121,7 @@ public class TextTablePrinter extends TablePrinter<StringBuffer> {
         textArea.append(result);
         
         // Check oxygen limits
-        if (tm.getMaxPO2() > Mvplan.prefs.getMaxPO2()) {
+        if (tm.getMaxPO2() > MvplanInstance.getPrefs().getMaxPO2()) {
             textArea.append(MvplanInstance.getMvplan().getResource("mvplan.gui.text.tablePrinter.maxPp02.text")+" "+ ((int)Math.round(tm.getMaxPO2()*100)/100.0)+" "+
                     MvplanInstance.getMvplan().getResource("mvplan.gui.text.tablePrinter.cnsEstimated.text")+'\n');
         }
@@ -135,12 +133,12 @@ public class TextTablePrinter extends TablePrinter<StringBuffer> {
     /* Print altitude message */
     private void printAltitude() {
         // Is this an altitude dive ?
-        if(Mvplan.prefs.getAltitude()>0.0) {
+        if(MvplanInstance.getPrefs().getAltitude()>0.0) {
             textArea.append(String.format("%1$s %2$4.0f%3$s (%4$2.1f%3$ssw) %5$s\n",
                     MvplanInstance.getMvplan().getResource("mvplan.gui.text.altitude.text"),
-                    Mvplan.prefs.getAltitude(), 
-                    Mvplan.prefs.getDepthShortString(),
-                    Mvplan.prefs.getPAmb(),
+                    MvplanInstance.getPrefs().getAltitude(), 
+                    MvplanInstance.getPrefs().getDepthShortString(),
+                    MvplanInstance.getPrefs().getPAmb(),
                     MvplanInstance.getMvplan().getResource("mvplan.gui.text.altitudeCalibration.text")));                        
         }        
     }    

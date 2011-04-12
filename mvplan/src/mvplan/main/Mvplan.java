@@ -152,6 +152,11 @@ public class Mvplan implements IMvplan
             return "<"+key+">";
         }
     }
+
+    public String getAppName() {
+        return appName;
+    }
+    
     
     
     public static void main(String[] args)
