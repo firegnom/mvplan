@@ -71,7 +71,7 @@ public class TextProfilePrinter extends ProfilePrinter <StringBuffer>{
         
         if(profile.getIsRepetitiveDive()) {
             // Print repetitive dive heading
-            textArea.append('\n'+mvplan.getResource("mvplan.gui.text.ProfilePrinter.repetitiveDive.text")+'\n'+'\n'+Mvplan.appName+'\n'+
+            textArea.append('\n'+mvplan.getResource("mvplan.gui.text.ProfilePrinter.repetitiveDive.text")+"\n\n"+Mvplan.appName+'\n'+
                     mvplan.getResource("mvplan.gui.text.ProfilePrinter.surfaceInterval.text")+profile.getSurfaceInterval()+" "+
                     mvplan.getResource("mvplan.minutes.shortText")+'\n');
         } else
