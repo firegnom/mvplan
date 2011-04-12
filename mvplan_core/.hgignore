@@ -1,5 +1,0 @@
-syntax: regexp
-build*
-dist*
-nbproject/private*
-tmp*

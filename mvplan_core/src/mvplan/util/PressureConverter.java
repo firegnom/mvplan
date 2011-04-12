@@ -47,18 +47,4 @@ public class PressureConverter {
         else
             return 0.0;
     }
-    
-        public static void main(String[] args)
-    {
-            // This is for testing
-            PressureConverter pc = new PressureConverter();
-            System.out.println("Altitude: "+0.0+" Pressure: "+pc.altitudeToPressure(0.0));
-            System.out.println("Altitude: "+500.0+" Pressure: "+pc.altitudeToPressure(500.0));
-            System.out.println("Altitude: "+1000.0+" Pressure: "+pc.altitudeToPressure(1000.0));
-            System.out.println("Altitude: "+2000.0+" Pressure: "+pc.altitudeToPressure(2000.0));
-            System.out.println("Altitude: "+3000.0+" Pressure: "+pc.altitudeToPressure(3000.0));
-            System.out.println("Altitude: "+4000.0+" Pressure: "+pc.altitudeToPressure(4000.0));
-            System.out.println("Altitude: "+5000.0+" Pressure: "+pc.altitudeToPressure(5000.0));        
-    }
-    
 }

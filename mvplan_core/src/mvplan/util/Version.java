@@ -24,16 +24,16 @@
 
 package mvplan.util;
 
-import java.util.Hashtable;
+import java.util.HashMap;
 
-public class Version implements Comparable {
+public class Version implements Comparable<Version> {
     
     private int majorVersion;
     private int minorVersion;
     private int patchVersion;
     private String statusString;
     private String dateString;
-    private  Hashtable lookupTable;
+    private  HashMap lookupTable;
     
     public static final int UNDEFINED=0;
     public static final int TEST=10;
@@ -49,7 +49,7 @@ public class Version implements Comparable {
     
     public Version(int major, int minor, int patch, String status, String date){
         // Create hashmap
-        lookupTable = new Hashtable();
+        lookupTable = new HashMap();
         lookupTable.put("UNDEFINED",new Integer(0));
         lookupTable.put("TEST",new Integer(1));
         lookupTable.put("ALPHA",new Integer(2));
@@ -63,7 +63,6 @@ public class Version implements Comparable {
         dateString=date;
     }
     
-    @Override
     public String toString() {
         String s = majorVersion+"."+minorVersion;
         if( patchVersion > 0 ) s=s+"."+patchVersion;
@@ -80,13 +79,7 @@ public class Version implements Comparable {
         return n1-n2;        
     }
     
-    public int compareTo(Object o){
-        Version v;
-        try {
-            v = (Version)o;
-        } catch (Exception e) {
-            return -1;
-        }
+    public int compareTo(Version v){
         if(v.getMajorVersion()==majorVersion)
             if(v.getMinorVersion()==minorVersion)
                 if(compareStatus(v.getStatus(), statusString) ==0)
@@ -131,8 +124,8 @@ public class Version implements Comparable {
     }
 
     public void setStatus(String status) {
-        if(lookupTable.get(status)!= null)
-            statusString = status;
+        if(lookupTable.get(status.toUpperCase())!= null)
+            statusString = status.toUpperCase();
         else
             statusString="UNKNOWN";
     }
@@ -144,37 +137,5 @@ public class Version implements Comparable {
     public void setDateString(String dateString) {
         this.dateString = dateString;
     }
-    
-    /** Test method */
-    public static void main(String [] args) {
-        Version testV = new Version(1,1,0, "BETA", "Today");
-        System.out.println("Version: testing "+testV);
-        
-        Version testV2 = new Version(2, 1, 1, "UNDEFINED", "Tomorrow");
-        System.out.println("Compared with "+testV2+" is "+testV.compareTo(testV2));
-        
-        testV2 = new Version(0, 1, 1, "UNDEFINED", "Tomorrow");
-        System.out.println("Compared with "+testV2+" is "+testV.compareTo(testV2));
-        
-        testV2 = new Version(1,2 , 1, "UNDEFINED", "Tomorrow");
-        System.out.println("Compared with "+testV2+" is "+testV.compareTo(testV2));
-        
-        testV2 = new Version(1, 0, 1, "UNDEFINED", "Tomorrow");
-        System.out.println("Compared with "+testV2+" is "+testV.compareTo(testV2));
-        
-        testV2 = new Version(1, 1, 2, "UNDEFINED", "Tomorrow");
-        System.out.println("Compared with "+testV2+" is "+testV.compareTo(testV2));
-                
-        testV2 = new Version(1, 1, 0, "UNDEFINED", "Tomorrow");
-        System.out.println("Compared with "+testV2+" is "+testV.compareTo(testV2));
-                        
-        testV2 = new Version(1, 1, 2, "BETA", "Tomorrow");
-        System.out.println("Compared with "+testV2+" is "+testV.compareTo(testV2));
-        
-        testV2 = new Version(1, 1, 1, "RELEASED", "Tomorrow");
-        System.out.println("Compared with "+testV2+" is "+testV.compareTo(testV2));
-        
-    }
-    
     
 }
