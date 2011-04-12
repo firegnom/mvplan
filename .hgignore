@@ -2,7 +2,8 @@ syntax: regexp
 .DS_Store$
 mvplan/build/*
 mvplan/dist/*
-mvplan/nbproject/private/*
+mvplan/nbproject/private*
+mvplan/mvplan.xml
 mvplan_core/build/*
 mvplan_core/dist/*
-mvplan/mvplan.xml
+mvplan_core/nbproject/private*
