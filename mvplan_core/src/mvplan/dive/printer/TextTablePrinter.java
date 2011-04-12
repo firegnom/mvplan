@@ -21,7 +21,7 @@
  */
 
 
-package mvplan.gui.text;
+package mvplan.dive.printer;
 
 import mvplan.main.Mvplan;
 import mvplan.dive.TableGeneratorModel;
@@ -30,28 +30,32 @@ import mvplan.segments.SegmentAbstract;
 import javax.swing.JTextArea;
 import mvplan.main.MvplanInstance;
         
-public class TablePrinter {
+public class TextTablePrinter extends TablePrinter<StringBuffer> {
     
-    private JTextArea textArea;
+    private StringBuffer textArea;
     private TableGeneratorModel tm;
     private boolean showStopTime = Mvplan.prefs.isShowStopTime();  
     
     /** Creates a new instance of TablePrinter */
-    public TablePrinter(TableGeneratorModel tm, JTextArea textArea) {
+    public TextTablePrinter(TableGeneratorModel tm, StringBuffer textArea) {
+        super(tm, textArea); 
         // Store locally
         this.tm=tm;
         this.textArea=textArea;             
                    
     }
+
+ 
+    
     
     /** Prints table to textArea */
-    public void doPrintTable() {
+    public StringBuffer print() {
         String separator;
         int i,j;
         SegmentAbstract s,sl;
         // Get segment array
         SegmentAbstract [][] segmentArray = tm.getSegmentArray();   
-        if(segmentArray==null) return;
+        if(segmentArray==null) return textArea;
         
         // Determine number of profiles, segments, longest profile, row at which ascent starts
         int numProfiles = tm.getNumProfiles();
@@ -91,7 +95,7 @@ public class TablePrinter {
             sl=segmentArray[longestProfile][j];  
             if(sl==null) {
                 if(Mvplan.DEBUG>0) System.err.println("MultiProfile: null segment at profile:"+longestProfile+" row:"+j);
-                return;
+                return textArea;
             }  
             if ((sl.getDepth()-(int)sl.getDepth())>0) // Do we have non-integer depth ?      
                 result = result+ String.format(" %1$3.1f ", sl.getDepth() );   
@@ -125,6 +129,7 @@ public class TablePrinter {
         }
         textArea.append(MvplanInstance.getMvplan().getResource("mvplan.gui.text.tablePrinter.oxTox.text")+" "+(int)Math.round(tm.getMaxCNS()*100.)+"%"+'\n');
         textArea.append(disclaimer+'\n'); 
+         return textArea;
     }
     
     /* Print altitude message */

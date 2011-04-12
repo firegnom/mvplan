@@ -24,6 +24,8 @@
 
 package mvplan.gui;
 
+import mvplan.dive.printer.TextTablePrinter;
+import mvplan.dive.printer.TextProfilePrinter;
 import mvplan.util.MyFileFilter;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
@@ -1075,8 +1077,7 @@ public class MainFrame extends JFrame
             // Check the returnCode to see if there were problems
             switch(returnCode) {
                 case Profile.SUCCESS:
-                    TablePrinter tp = new TablePrinter(mp, text);
-                    tp.doPrintTable();                      
+                    new JTextAreaTablePrinter(mp, text).print();                      
                     currentTable=mp;
                     printButton.setEnabled(true);
                     clearButton.setEnabled(true);    
@@ -1146,7 +1147,7 @@ public class MainFrame extends JFrame
                             clearButton.setEnabled(true);
                             saveButton.setEnabled(true);
                             setTissueIcon();
-                            new ProfilePrinter(currentProfile,textArea, knownGases).doPrintTable();
+                            new JTextAreaProfilePrinter(currentProfile,textArea, knownGases).print();
                             break;
 
             case Profile.CEILING_VIOLATION:

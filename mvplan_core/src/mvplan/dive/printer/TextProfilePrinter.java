@@ -19,44 +19,47 @@
  *   The GNU General Public License can be read at http://www.gnu.org/licenses/licenses.html
  */
 
-package mvplan.gui.text;
+package mvplan.dive.printer;
 
 import java.math.BigDecimal;
+import mvplan.main.IMvplan;
 import mvplan.main.Mvplan;
 import mvplan.segments.SegmentAbstract;
 import mvplan.dive.Profile;
 import mvplan.gas.Gas;
 import mvplan.prefs.Prefs;
 
-import javax.swing.JTextArea;
 import java.util.ArrayList;
 import java.util.Iterator;
 import mvplan.main.MvplanInstance;
 //import java.util.MissingResourceException;
 
-public class ProfilePrinter {
+public class TextProfilePrinter extends ProfilePrinter <StringBuffer>{
+    private IMvplan mvplan = MvplanInstance.getMvplan();
    
-    private JTextArea textArea;
+    private StringBuffer textArea;
     private Profile profile;
     //private boolean showStopTime = Mvplan.prefs.isShowStopTime();
     private String disclaimer;
     private ArrayList knownGases;
     
     /** Creates a new instance of ProfilePrinter */
-    public ProfilePrinter(Profile p, JTextArea text, ArrayList knownGases) {
+    public TextProfilePrinter(Profile p, StringBuffer text, ArrayList knownGases) {
+        super(p, text, knownGases);
         this.profile=p;
         this.textArea=text;
         this.knownGases = knownGases;
-        disclaimer = MvplanInstance.getMvplan().getResource("mvplan.disclaimer.text");            
+        disclaimer = mvplan.getResource("mvplan.disclaimer.text");            
     }
     /* 
      * Prints the dive table
      */
-    public void doPrintTable() {
+    public StringBuffer print() {
         if(Mvplan.prefs.getOutputStyle()==Prefs.BRIEF)
             doPrintShortTable();
         else
             doPrintExtendedTable();
+        return textArea;
     }
 
     /** 
@@ -68,21 +71,21 @@ public class ProfilePrinter {
         
         if(profile.getIsRepetitiveDive()) {
             // Print repetitive dive heading
-            textArea.append('\n'+MvplanInstance.getMvplan().getResource("mvplan.gui.text.ProfilePrinter.repetitiveDive.text")+'\n'+'\n'+Mvplan.appName+'\n'+
-                    MvplanInstance.getMvplan().getResource("mvplan.gui.text.ProfilePrinter.surfaceInterval.text")+profile.getSurfaceInterval()+" "+
-                    MvplanInstance.getMvplan().getResource("mvplan.minutes.shortText")+'\n');
+            textArea.append('\n'+mvplan.getResource("mvplan.gui.text.ProfilePrinter.repetitiveDive.text")+'\n'+'\n'+Mvplan.appName+'\n'+
+                    mvplan.getResource("mvplan.gui.text.ProfilePrinter.surfaceInterval.text")+profile.getSurfaceInterval()+" "+
+                    mvplan.getResource("mvplan.minutes.shortText")+'\n');
         } else
             textArea.append(Mvplan.appName+'\n');
 
         // Print settings heading
-        textArea.append(MvplanInstance.getMvplan().getResource("mvplan.gui.text.ProfilePrinter.settings.text")+"="+
+        textArea.append(mvplan.getResource("mvplan.gui.text.ProfilePrinter.settings.text")+"="+
                         (int)Math.round(Mvplan.prefs.getGfLow()*100.)+"-"+(int)Math.round(Mvplan.prefs.getGfHigh()*100.));
-        textArea.append(" "+ MvplanInstance.getMvplan().getResource("mvplan.gui.text.ProfilePrinter.factors.text") + Prefs.getPrefs().getFactorComp() + "/"+ Prefs.getPrefs().getFactorDecomp());
+        textArea.append(" "+ mvplan.getResource("mvplan.gui.text.ProfilePrinter.factors.text") + Prefs.getPrefs().getFactorComp() + "/"+ Prefs.getPrefs().getFactorDecomp());
         if (Mvplan.prefs.getGfMultilevelMode())
-            textArea.append(" "+MvplanInstance.getMvplan().getResource("mvplan.gui.text.ProfilePrinter.multilevel.text"));
-        textArea.append(" "+MvplanInstance.getMvplan().getResource("mvplan.gui.text.ProfilePrinter.pph2o.text")+"="+
+            textArea.append(" "+mvplan.getResource("mvplan.gui.text.ProfilePrinter.multilevel.text"));
+        textArea.append(" "+mvplan.getResource("mvplan.gui.text.ProfilePrinter.pph2o.text")+"="+
                         Mvplan.prefs.getPH2O()+" "+Mvplan.prefs.getDepthShortString()+
-                        MvplanInstance.getMvplan().getResource("mvplan.gui.text.ProfilePrinter.seaWater.shortText"));
+                        mvplan.getResource("mvplan.gui.text.ProfilePrinter.seaWater.shortText"));
         textArea.append(" "+profile.getModel().getModelName());
         textArea.append("\n");
         printAltitude();
@@ -109,20 +112,20 @@ public class ProfilePrinter {
         String volumeUnits = Mvplan.prefs.getVolumeShortString();
         
         // Gas usage heading
-        textArea.append('\n'+MvplanInstance.getMvplan().getResource("mvplan.gui.text.ProfilePrinter.gasEstimate.text")+" ="+
-                        Mvplan.prefs.getDiveRMV()+", "+MvplanInstance.getMvplan().getResource("mvplan.gui.text.ProfilePrinter.decoRmv.text")+
-                        " ="+Mvplan.prefs.getDecoRMV()+volumeUnits+"/"+ MvplanInstance.getMvplan().getResource("mvplan.minutes.shortText") + '\n');
+        textArea.append('\n'+mvplan.getResource("mvplan.gui.text.ProfilePrinter.gasEstimate.text")+" ="+
+                        Mvplan.prefs.getDiveRMV()+", "+mvplan.getResource("mvplan.gui.text.ProfilePrinter.decoRmv.text")+
+                        " ="+Mvplan.prefs.getDecoRMV()+volumeUnits+"/"+ mvplan.getResource("mvplan.minutes.shortText") + '\n');
         while(i2.hasNext()) {
             Gas g=(Gas)i2.next();
             if(g.getVolume()> 0.0d)
                 textArea.append(g+" : "+ roundDouble(1, g.getVolume())+volumeUnits+'\n');
         }
-        textArea.append(MvplanInstance.getMvplan().getResource("mvplan.gui.text.ProfilePrinter.oxygenToxcicity.text")+" "+
-                        (int)profile.getModel().getOxTox().getOtu()+ " "+MvplanInstance.getMvplan().getResource("mvplan.gui.text.ProfilePrinter.cns.text")+
+        textArea.append(mvplan.getResource("mvplan.gui.text.ProfilePrinter.oxygenToxcicity.text")+" "+
+                        (int)profile.getModel().getOxTox().getOtu()+ " "+mvplan.getResource("mvplan.gui.text.ProfilePrinter.cns.text")+
                         ": "+(int)(profile.getModel().getOxTox().getCns()*100.)+"%"+'\n');
         if (profile.getModel().getOxTox().getMaxOx() > Mvplan.prefs.getMaxPO2() )
-            textArea.append(MvplanInstance.getMvplan().getResource("mvplan.gui.text.ProfilePrinter.warningPpO2.text")+": "+ ((int)(profile.getModel().getOxTox().getMaxOx()*100)/100.0)+
-                    " "+MvplanInstance.getMvplan().getResource("mvplan.gui.text.ProfilePrinter.atmCnsEstimate.text")+'\n');
+            textArea.append(mvplan.getResource("mvplan.gui.text.ProfilePrinter.warningPpO2.text")+": "+ ((int)(profile.getModel().getOxTox().getMaxOx()*100)/100.0)+
+                    " "+mvplan.getResource("mvplan.gui.text.ProfilePrinter.atmCnsEstimate.text")+'\n');
         textArea.append(disclaimer+'\n');        
     }
     
@@ -137,23 +140,23 @@ public class ProfilePrinter {
 
         if(profile.getIsRepetitiveDive()) {
             // Print repetitive dive heading
-            textArea.append('\n'+MvplanInstance.getMvplan().getResource("mvplan.gui.text.ProfilePrinter.repetitiveDive.text")+'\n'+'\n'+Mvplan.appName+'\n'+
-                    MvplanInstance.getMvplan().getResource("mvplan.gui.text.ProfilePrinter.surfaceInterval.text")+profile.getSurfaceInterval()+" "+
-                    MvplanInstance.getMvplan().getResource("mvplan.minutes.shortText")+'\n');
+            textArea.append('\n'+mvplan.getResource("mvplan.gui.text.ProfilePrinter.repetitiveDive.text")+'\n'+'\n'+Mvplan.appName+'\n'+
+                    mvplan.getResource("mvplan.gui.text.ProfilePrinter.surfaceInterval.text")+profile.getSurfaceInterval()+" "+
+                    mvplan.getResource("mvplan.minutes.shortText")+'\n');
         } else
             textArea.append(Mvplan.appName+'\n');;
 
         // Print settings heading
-        textArea.append(MvplanInstance.getMvplan().getResource("mvplan.gui.text.ProfilePrinter.settings.text")+"="+
+        textArea.append(mvplan.getResource("mvplan.gui.text.ProfilePrinter.settings.text")+"="+
                         (int)Math.round(Mvplan.prefs.getGfLow()*100.)+"-"+(int)Math.round(Mvplan.prefs.getGfHigh()*100.));
         if( Prefs.getPrefs().isUsingFactors())
-            textArea.append(" "+ MvplanInstance.getMvplan().getResource("mvplan.gui.text.ProfilePrinter.factors.text") + Prefs.getPrefs().getFactorComp() + "/"+ Prefs.getPrefs().getFactorDecomp());
+            textArea.append(" "+ mvplan.getResource("mvplan.gui.text.ProfilePrinter.factors.text") + Prefs.getPrefs().getFactorComp() + "/"+ Prefs.getPrefs().getFactorDecomp());
         if (Mvplan.prefs.getGfMultilevelMode())
-            textArea.append(" "+MvplanInstance.getMvplan().getResource("mvplan.gui.text.ProfilePrinter.multilevel.text"));
+            textArea.append(" "+mvplan.getResource("mvplan.gui.text.ProfilePrinter.multilevel.text"));
         textArea.append(" "+profile.getModel().getModelName());
         textArea.append("\n");        
         printAltitude();        
-        textArea.append("    "+Mvplan.prefs.getDepthShortString()+"   "+MvplanInstance.getMvplan().getResource("mvplan.gui.text.ProfilePrinter.heading.text")+'\n');
+        textArea.append("    "+Mvplan.prefs.getDepthShortString()+"   "+mvplan.getResource("mvplan.gui.text.ProfilePrinter.heading.text")+'\n');
         textArea.append("=============================="+'\n');
         //              "- 120  00:00  000  88/88  1.30  
         segments = profile.getProfile();      
@@ -181,11 +184,11 @@ public class ProfilePrinter {
         // Is this an altitude dive ?
         if(Mvplan.prefs.getAltitude()>0.0) {
             textArea.append(String.format("%1$s %2$4.0f%6$s (%4$1.2f%3$s) %5$s\n",
-                    MvplanInstance.getMvplan().getResource("mvplan.gui.text.altitude.text"),
+                    mvplan.getResource("mvplan.gui.text.altitude.text"),
                     Mvplan.prefs.getAltitude(), 
-                    MvplanInstance.getMvplan().getResource("mvplan.bar.text"),
+                    mvplan.getResource("mvplan.bar.text"),
                     Mvplan.prefs.getPAmb()/Mvplan.prefs.getPConversion(),
-                    MvplanInstance.getMvplan().getResource("mvplan.gui.text.altitudeCalibration.text"),
+                    mvplan.getResource("mvplan.gui.text.altitudeCalibration.text"),
                     Mvplan.prefs.getDepthShortString() ) );                        
         }        
     }
@@ -199,4 +202,9 @@ public class ProfilePrinter {
         bd = bd.setScale(decimalPlace,BigDecimal.ROUND_HALF_UP);
         return bd.doubleValue();                
     }
+
+   
+    
+    
+    
 }
