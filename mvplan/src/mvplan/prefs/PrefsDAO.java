@@ -26,6 +26,7 @@ package mvplan.prefs;
 
 import java.io.*;
 import java.beans.*;
+import mvplan.prefs.Prefs;
 
 /**
  *

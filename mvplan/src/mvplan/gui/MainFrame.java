@@ -24,6 +24,7 @@
 
 package mvplan.gui;
 
+import mvplan.util.MyFileFilter;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
 import java.math.BigDecimal;

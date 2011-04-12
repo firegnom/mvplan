@@ -27,7 +27,6 @@ package mvplan.gas;
 
 import java.io.*;
 import java.text.MessageFormat;
-import mvplan.main.IMvplan;
 import mvplan.main.MvplanInstance;
 
 

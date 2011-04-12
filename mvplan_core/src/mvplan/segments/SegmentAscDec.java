@@ -24,8 +24,6 @@
 
 package mvplan.segments;
 
-import mvplan.main.IMvplan;
-import java.text.MessageFormat;
 import mvplan.gas.Gas;
 import mvplan.main.MvplanInstance;
 

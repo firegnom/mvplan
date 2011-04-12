@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<java version="1.6.0_24" class="java.beans.XMLDecoder"> 
+ <object class="mvplan.prefs.Prefs"> 
+  <void property="PAmb"> 
+   <double>10.0</double> 
+  </void> 
+  <void property="PH2O"> 
+   <double>0.627</double> 
+  </void> 
+  <void property="agreedToTerms"> 
+   <boolean>true</boolean> 
+  </void> 
+  <void property="ascentRate"> 
+   <double>-10.0</double> 
+  </void> 
+  <void property="backgroundColour"> 
+   <object class="java.awt.Color"> 
+    <int>228</int> 
+    <int>255</int> 
+    <int>255</int> 
+    <int>255</int> 
+   </object> 
+  </void> 
+  <void property="decoRMV"> 
+   <double>12.0</double> 
+  </void> 
+  <void property="descentRate"> 
+   <double>20.0</double> 
+  </void> 
+  <void property="diveRMV"> 
+   <double>17.0</double> 
+  </void> 
+  <void property="factorComp"> 
+   <double>1.0</double> 
+  </void> 
+  <void property="factorDecomp"> 
+   <double>1.0</double> 
+  </void> 
+  <void property="forceAllStops"> 
+   <boolean>true</boolean> 
+  </void> 
+  <void property="frameSizeX"> 
+   <int>800</int> 
+  </void> 
+  <void property="frameSizeY"> 
+   <int>600</int> 
+  </void> 
+  <void property="frameSplit"> 
+   <int>320</int> 
+  </void> 
+  <void property="gfHigh"> 
+   <double>0.8</double> 
+  </void> 
+  <void property="gfLow"> 
+   <double>0.3</double> 
+  </void> 
+  <void property="homeURL"> 
+   <string>http://wittig.net.au/diving/mvplan.html</string> 
+  </void> 
+  <void property="lastStopDepth"> 
+   <double>3.0</double> 
+  </void> 
+  <void property="lastUpdateCheck"> 
+   <object class="java.util.Date"> 
+    <long>1302546156015</long> 
+   </object> 
+  </void> 
+  <void property="modelClass"> 
+   <string>mvplan.model.ZHL16B</string> 
+  </void> 
+  <void property="modifiers"> 
+   <array class="int" length="5"> 
+    <void index="1"> 
+     <int>2</int> 
+    </void> 
+    <void index="2"> 
+     <int>4</int> 
+    </void> 
+    <void index="3"> 
+     <int>6</int> 
+    </void> 
+    <void index="4"> 
+     <int>8</int> 
+    </void> 
+   </array> 
+  </void> 
+  <void property="prefGases"> 
+   <object class="java.util.ArrayList"> 
+    <void method="add"> 
+     <object id="Gas0" class="mvplan.gas.Gas"> 
+      <void property="FO2"> 
+       <double>0.21</double> 
+      </void> 
+      <void property="enable"> 
+       <boolean>true</boolean> 
+      </void> 
+      <void property="mod"> 
+       <double>66.0</double> 
+      </void> 
+     </object> 
+    </void> 
+   </object> 
+  </void> 
+  <void property="prefSegments"> 
+   <object class="java.util.ArrayList"> 
+    <void method="add"> 
+     <object class="mvplan.segments.SegmentDive"> 
+      <void property="depth"> 
+       <double>30.0</double> 
+      </void> 
+      <void property="gas"> 
+       <object idref="Gas0"/> 
+      </void> 
+      <void property="setpoint"> 
+       <double>1.3</double> 
+      </void> 
+      <void property="time"> 
+       <double>20.0</double> 
+      </void> 
+     </object> 
+    </void> 
+   </object> 
+  </void> 
+  <void property="printColour"> 
+   <boolean>true</boolean> 
+  </void> 
+  <void property="printFontBodySize"> 
+   <int>9</int> 
+  </void> 
+  <void property="printFontHeaderSize"> 
+   <int>8</int> 
+  </void> 
+  <void property="printFontName"> 
+   <string>Arial</string> 
+  </void> 
+  <void property="runtimeFlag"> 
+   <boolean>true</boolean> 
+  </void> 
+  <void property="showRunTime"> 
+   <boolean>true</boolean> 
+  </void> 
+  <void property="showStopTime"> 
+   <boolean>true</boolean> 
+  </void> 
+  <void property="stopDepthIncrement"> 
+   <double>3.0</double> 
+  </void> 
+  <void property="stopTimeIncrement"> 
+   <double>1.0</double> 
+  </void> 
+  <void property="updateCheckFrequency"> 
+   <int>7</int> 
+  </void> 
+  <void property="updateVersionURL"> 
+   <string>http://server.local/mvplan/Version</string> 
+  </void> 
+ </object> 
+</java> 

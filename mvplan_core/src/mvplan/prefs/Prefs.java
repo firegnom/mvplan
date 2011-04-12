@@ -33,7 +33,6 @@ import java.util.Locale;
 import mvplan.gas.Gas;
 import mvplan.segments.SegmentAbstract;
 import mvplan.segments.SegmentDive;
-import mvplan.main.IMvplan;
 import java.util.Date;
 import java.util.Calendar;
 import java.awt.Color;

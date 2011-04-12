@@ -26,7 +26,6 @@ package mvplan.segments;
 
 import java.io.*;
 import mvplan.gas.Gas;
-import mvplan.main.IMvplan;
 import mvplan.main.MvplanInstance;
 
 public abstract class SegmentAbstract implements Serializable, Cloneable

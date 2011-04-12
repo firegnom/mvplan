@@ -35,7 +35,6 @@
 package mvplan.model;
 
 import java.io.Serializable;
-import mvplan.main.IMvplan;
 import mvplan.main.MvplanInstance;
 
 
