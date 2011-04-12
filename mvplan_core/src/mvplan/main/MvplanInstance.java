@@ -5,12 +5,22 @@
 
 package mvplan.main;
 
+import mvplan.prefs.Prefs;
+
 /**
  *
  * @author Maciej Kaniewski
  */
 public class MvplanInstance {
     private static IMvplan mvplan;
+    
+    public static Prefs getPrefs(){
+        if (mvplan != null){
+            return mvplan.getPrefs();
+        }
+        return null;
+    }
+    
     public static IMvplan getMvplan(){
         return mvplan;
     }

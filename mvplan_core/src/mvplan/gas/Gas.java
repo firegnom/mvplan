@@ -28,10 +28,12 @@ package mvplan.gas;
 import java.io.*;
 import java.text.MessageFormat;
 import mvplan.main.MvplanInstance;
+import mvplan.prefs.Prefs;
 
 
 public class Gas implements Comparable, Serializable, Cloneable
 {
+    private static Prefs prefs = MvplanInstance.getPrefs();
     private double fHe,fO2; // Gas fractions
     private double mod;     // Maximum operating depth 
     private double volume;  // Accumulate gas volume
@@ -83,9 +85,9 @@ public class Gas implements Comparable, Serializable, Cloneable
         // Check MOD for sensible value   
         if(fO2 == 0.0 && mod == 0.0)    // Leave empty gases alone to allow construction
             return passed;
-        if(MvplanInstance.getMvplan() != null && MvplanInstance.getMvplan().getPrefs() != null) {   // Need to check that prefs exists. We can get to this point during the initilisation of the prefs object
-            double d = ((mod+MvplanInstance.getMvplan().getPrefs().getPConversion())/MvplanInstance.getMvplan().getPrefs().getPConversion()*fO2);
-            passed = (d <= MvplanInstance.getMvplan().getPrefs().getMaxMOD()+0.05);  // Tolerance of 0.05 to prevent unneccessary failure due to rounding
+        if(MvplanInstance.getMvplan() != null && prefs != null) {   // Need to check that prefs exists. We can get to this point during the initilisation of the prefs object
+            double d = ((mod+prefs.getPConversion())/prefs.getPConversion()*fO2);
+            passed = (d <= prefs.getMaxMOD()+0.05);  // Tolerance of 0.05 to prevent unneccessary failure due to rounding
         }
             
         return passed;        
@@ -94,19 +96,19 @@ public class Gas implements Comparable, Serializable, Cloneable
      * Method to get a maximum MOD based on O2 fraction
      */
     public static double getMaxMod(double o) {
-        return (MvplanInstance.getMvplan().getPrefs().getMaxMOD()/o * MvplanInstance.getMvplan().getPrefs().getPConversion())-MvplanInstance.getMvplan().getPrefs().getPConversion();
+        return (prefs.getMaxMOD()/o * prefs.getPConversion())-prefs.getPConversion();
     }
     /* 
      * Method to get a MOD based on O2 fraction and maximum ppO2
      */
     public static double getMod(double fO2, double ppO2) {
-        return (ppO2/fO2 * MvplanInstance.getMvplan().getPrefs().getPConversion())-MvplanInstance.getMvplan().getPrefs().getPConversion();
+        return (ppO2/fO2 * prefs.getPConversion())-prefs.getPConversion();
     }
     /* 
      * Method to get a ppO2 based on O2 fraction and MOD
      */
     public static double getppO2(double f, double m) {
-        return ( (m+MvplanInstance.getMvplan().getPrefs().getPConversion())*f/MvplanInstance.getMvplan().getPrefs().getPConversion());
+        return ( (m+prefs.getPConversion())*f/prefs.getPConversion());
     }
     
     /**

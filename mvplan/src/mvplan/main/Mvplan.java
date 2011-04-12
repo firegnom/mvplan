@@ -45,10 +45,10 @@ public class Mvplan implements IMvplan
     private static final float MIN_JVM = 1.5f;               // Minimum Java JVM requirement. Checked on startup.
     static final String PREF_FILE = "mvplan.xml";            // Preferences file name
     public static String prefFile;
-    public static final int DEBUG = 1;      // 0 == no debug, 1 == basic or current debug, 2 == full trace
+    public static final int DEBUG = 2;      // 0 == no debug, 1 == basic or current debug, 2 == full trace
     public static Prefs prefs;              // Preferences object. Pseudo Singleton.
     private static ResourceBundle stringResource;   // String resources for the application
-    public static Locale preferredLocale=null;     // For language preference
+    public static Locale preferredLocale=new Locale("pl");     // For language preference
     public static String appName;
     public static Version mvplanVersion;    // App version. See Version Class    
 
@@ -138,7 +138,7 @@ public class Mvplan implements IMvplan
         
     }
     
-    /* 
+    /**
      * Provide safe access to resources. 
      * Does not throw exception if a resoure is not found, but displays it's key so it can be debugged.
      */

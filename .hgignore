@@ -5,3 +5,4 @@ mvplan/dist/*
 mvplan/nbproject/private/*
 mvplan_core/build/*
 mvplan_core/dist/*
+mvplan/mvplan.xml

@@ -47,6 +47,7 @@ public class Prefs implements Serializable
     public final static int IMPERIAL=1;
     public final static double ALTITUDE_MAX = 3000;
     public final static double METERS_TO_FEET = 3.3;
+    private int debug = MvplanInstance.getMvplan().getDebug();
 
     private int units;                  // 0 = metric or 1 = imperial    
     private boolean disableModUpdate;       // Automatically update MODS on units switch
@@ -73,7 +74,7 @@ public class Prefs implements Serializable
     private boolean runtimeFlag;         // Flag for segtime == runtime (first non-zero segment)
     private int outputStyle;             // Defines output style, as per below    
     private boolean printColour;         // Print coloured dive tables
-    private Color backgroundColour;          // Colour to use
+    private int backgroundColour;          // Colour to use
     private boolean showSeconds;         // Show seconds in dive table 
     private boolean showStopTime;       // Show stop time in dive Table
     private boolean showRunTime;        // Show Run Time in dive table
@@ -156,7 +157,7 @@ public class Prefs implements Serializable
         outputStyle=BRIEF;
         showSeconds=false;
         printColour=true;
-        backgroundColour = new  Color(228,255,255);
+        backgroundColour = 0xE4ffff;
         showStopTime=true;
         showRunTime=true;
         showGasFirst=false;        
@@ -180,7 +181,7 @@ public class Prefs implements Serializable
         lastUpdateCheck=Calendar.getInstance().getTime();
         updateCheckDisable=false;
         updateCheckFrequency=7;
-        if(MvplanInstance.getMvplan().getDebug()>0)
+        if(debug>0)
             updateVersionURL="http://server.local/mvplan/Version";
         else
             updateVersionURL="http://services.wittig.net.au/mvplan/Version";
@@ -212,7 +213,7 @@ public class Prefs implements Serializable
              maxDepth= limits ? 660.0 : 330.0;         
     }
     
-    /*
+    /**
      * Checks that prefs are valid. This is necessary due to the possibility of missing XML tags.
      *
      */
@@ -283,14 +284,14 @@ public class Prefs implements Serializable
         if (printFontHeaderSize<6 || printFontHeaderSize>18) printFontHeaderSize=8;
         if (lastUpdateCheck==null) lastUpdateCheck=Calendar.getInstance().getTime();
         if (updateCheckFrequency<0 || updateCheckFrequency>365) updateCheckFrequency=7;
-        if(MvplanInstance.getMvplan().getDebug()>0)
+        if(debug>0)
             updateVersionURL="http://server.local/mvplan/Version";
         else
             updateVersionURL="http://services.wittig.net.au/mvplan/Version";
         homeURL="http://wittig.net.au/diving/mvplan.html";
         if (modifiers == null) modifiers = new int [] {0,2,4,6,8};
         if (!showStopTime && !showRunTime) showRunTime=true;   
-        if (backgroundColour == null) backgroundColour = new  Color(228,255,255);
+        if (backgroundColour == 0) backgroundColour = 0xE4ffff;
                   
         // Check ArrayLists for consistency
         Iterator it = prefSegments.iterator();
@@ -299,16 +300,16 @@ public class Prefs implements Serializable
             seg = (SegmentAbstract)it.next();
             if( seg.getGas() == null ) {
                 seg.setGas( (Gas)prefGases.get(0));  
-                if(MvplanInstance.getMvplan().getDebug() >0) System.out.println("Prefs: fixed missing gas.");
+                if(debug >0) System.out.println("Prefs: fixed missing gas.");
             }
         }        
     }
-        /*
+     /**
      * Used to change the units. Needs to make some changes to some parameters
      */
     public void setUnitsTo(int units) {
         if (this.units == units)    return;
-        if(MvplanInstance.getMvplan().getDebug()>0) System.out.println("Prefs: setting units to "+units);
+        if(debug>0) System.out.println("Prefs: setting units to "+units);
         setUnits(units);
         if(units==METRIC) {
             //ascentRate=-10.0;                
@@ -324,7 +325,7 @@ public class Prefs implements Serializable
         validatePrefs();    // Just check that everything is still ok.
     }
 
-    /* 
+    /** 
      * Sets altitude and corresponding ambient pressure pAmb 
      */
     public void setAltitude( double alt) {
@@ -339,7 +340,7 @@ public class Prefs implements Serializable
             pAmb=PressureConverter.altitudeToPressure(alt/METERS_TO_FEET)*METERS_TO_FEET; // This class is metric so convert for feet
             altitude = alt;             
         }     
-        if(MvplanInstance.getMvplan().getDebug() > 0) System.out.println("setAltitude: "+altitude+" "+ pAmb);
+        if(debug > 0) System.out.println("setAltitude: "+altitude+" "+ pAmb);
     }
     
 
@@ -445,7 +446,7 @@ public class Prefs implements Serializable
     public void setModelClass(String s)             { modelClass=s; }
     public void setModelClassName(String s)         { modelClass="mvplan.model."+s;}
     
-    /* Flags are used to alter program operation level
+    /** Flags are used to alter program operation level
      * Currently:
      *  8 = expedition mode with extended limits.
      *
@@ -483,11 +484,11 @@ public class Prefs implements Serializable
         this.showGasFirst = showGasFirst;
     }
 
-    public Color getBackgroundColour() {
+    public int getBackgroundColour() {
         return backgroundColour;
     }
 
-    public void setBackgroundColour(Color backgroundColour) {
+    public void setBackgroundColour(int backgroundColour) {
         this.backgroundColour = backgroundColour;
     }
 

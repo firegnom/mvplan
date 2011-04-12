@@ -194,7 +194,7 @@ public class TableDisplayComponent extends AbstractDisplayComponent
         if(printColour)  {
             int shadeWidth = showStopTime ? (int)(charWidth*(timeColumnWidth+runTimeColumnWidth)+4*CELLPADX) : (int)(charWidth*(runTimeColumnWidth)+2*CELLPADX);
             cp= showGasFirst ? 3 : 1;   
-            g2.setPaint(Mvplan.prefs.getBackgroundColour());             
+            g2.setPaint(new Color(Mvplan.prefs.getBackgroundColour()));             
             for(i=0;i<numProfiles;i+=2) {      
                 g2.fillRect((int)(cols[cp]+1),(int)(PADY+lineHeight+1),shadeWidth,(int)(tableHeight-lineHeight) ); 
                 cp+=cn*2;

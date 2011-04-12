@@ -150,7 +150,7 @@ public class ProfileDisplayComponent extends AbstractDisplayComponent
             for (i=0; i<=numSegments+2; i++) {  
                 if ( (i>2) & ((i/2)*2!=i) ){    // Every 2nd line
                     y=PADY+(i*lineHeight);     
-                    g2.setPaint(Mvplan.prefs.getBackgroundColour());
+                    g2.setPaint(new Color(Mvplan.prefs.getBackgroundColour()));
                     g2.fillRect((int)PADX,(int)(y-lineHeight),(int)(c6-c0),(int)lineHeight+1 );
                     g2.setPaint(getForeground());
                 }

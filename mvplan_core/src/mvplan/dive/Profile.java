@@ -33,15 +33,14 @@
 
 package mvplan.dive;
 
-import mvplan.main.IMvplan;
 
-//import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import mvplan.gas.Gas;
 import mvplan.main.MvplanInstance;
 import mvplan.model.*;
+import mvplan.prefs.Prefs;
 import mvplan.segments.SegmentAscDec;
 import mvplan.segments.SegmentDive;
 import mvplan.segments.SegmentDeco;
@@ -52,6 +51,9 @@ import mvplan.segments.SegmentAbstract;
 
 public class Profile
 {
+    private final int debug = MvplanInstance.getMvplan().getDebug();
+    private Prefs prefs = MvplanInstance.getMvplan().getPrefs();
+    
     private ArrayList<SegmentAbstract> inputSegments;    // Stores input dive segment objects passed from GUI and enabled
     private ArrayList<SegmentAbstract> outputSegments;   // Stores output segments produced by theis class
     private ArrayList<Gas> gases;                        // Stores dive gas objects passed from GUI and enabled
@@ -94,12 +96,12 @@ public class Profile
             isRepetativeDive=false;
             // TODO Define which concrete model to use
              try {                
-                if (MvplanInstance.getMvplan().getDebug()>0) System.out.println("Loading model class:"+MvplanInstance.getMvplan().getPrefs().getModelClass());
-                modelClass = Class.forName(MvplanInstance.getMvplan().getPrefs().getModelClass());
+                if (debug>0) System.out.println("Loading model class:"+prefs.getModelClass());
+                modelClass = Class.forName(prefs.getModelClass());
                 model = (AbstractModel)modelClass.newInstance();
             } catch (Exception ex) {
                 model = new ZHL16B();
-                if (MvplanInstance.getMvplan().getDebug()>0) System.out.println("Model instantiation exception for: "+ex.getMessage());
+                if (debug>0) System.out.println("Model instantiation exception for: "+ex.getMessage());
             }
 
             //model = new ZHL16B();
@@ -130,7 +132,7 @@ public class Profile
             g.setVolume(0.0);   // Reset the gas volume to zero
             if (g.getEnable()==true) {
                 // Add enabled gases only to gas arraylist
-                if(MvplanInstance.getMvplan().getDebug() >1) System.out.println("Adding gas "+g);
+                if(debug >1) System.out.println("Adding gas "+g);
                 gases.add(g);            
             }
         }
@@ -177,7 +179,7 @@ public class Profile
         SegmentDive sd;
         double t;
         double deltaDepth;
-        boolean runtimeFlag=MvplanInstance.getMvplan().getPrefs().getRuntimeFlag();      // Used to decide if segment represents runtime or segtime
+        boolean runtimeFlag=prefs.getRuntimeFlag();      // Used to decide if segment represents runtime or segtime
     
         // Check that there are segments to process
         if (!isDiveSegments()) 
@@ -200,20 +202,20 @@ public class Profile
         Iterator it=inputSegments.iterator();        
         while(it.hasNext()) {
             s=(SegmentAbstract)it.next();   // Get segment
-            if (MvplanInstance.getMvplan().getDebug() >1) System.out.println("Processing: "+s);
+            if (debug >1) System.out.println("Processing: "+s);
             if(s.getType() == SegmentAbstract.CONST) {      // Should be constant depth segments only
                 sd=(SegmentDive)s;      
                 deltaDepth=sd.getDepth()-currentDepth;  // Has depth changed ?
                 // Ascend or descend to dive segment, using existing gas and ppO2 settings
                 if(deltaDepth>0.0) {  // Segment causes a descent
                     try {
-                        model.ascDec(currentDepth,sd.getDepth(),MvplanInstance.getMvplan().getPrefs().getDescentRate(),currentGas.getFHe(),currentGas.getFN2(),ppO2);
+                        model.ascDec(currentDepth,sd.getDepth(),prefs.getDescentRate(),currentGas.getFHe(),currentGas.getFN2(),ppO2);
                     } catch (ModelStateException e) { 
                         return PROCESSING_ERROR;  
                     }
                     // Add segment to output segments
-                    outputSegments.add(new SegmentAscDec(currentDepth,sd.getDepth(),MvplanInstance.getMvplan().getPrefs().getDescentRate(),currentGas,ppO2));
-                    runTime+=deltaDepth/MvplanInstance.getMvplan().getPrefs().getDescentRate();
+                    outputSegments.add(new SegmentAscDec(currentDepth,sd.getDepth(),prefs.getDescentRate(),currentGas,ppO2));
+                    runTime+=deltaDepth/prefs.getDescentRate();
 
                 } else if (deltaDepth < 0.0) { // Segment causes an ascent. 
                     // Call ascend() to process this as it can require decompression
@@ -284,30 +286,30 @@ public class Profile
      */
     public int ascend(double target)
     {
-        //boolean surfacing=false;    // Flag to indicate we are headed for final deco to surface
-        //boolean openCircuit=true;   // Flag to indicate that we are OC or bailing out
-        boolean inDecoCycle=false;  // Flag to track if we are in a deco cycle
-        boolean inAscentCycle=false;// Flag to track if we are in a free ascent cycle as opposed to a deco cycle
-        boolean forceDecoStop=false;// Flag for forcing every deco stop. // TODO - ALWAYS TRUE IN LOGIC
-        double stopTime;            // Used for deco stop time
-        double decoStopTime=0;      // Accumulates deco stop time
-        double startDepth;          // Holds depth at start of ascent segment
-        double maxMV=0;             // Holds maximum mvgradient at each stop
-        double nextStopDepth;       // Next proposed stop depth
-        int control=0;              // Stores controlling compartment at new depth
-        double ceiling;             // Used to store ceiling
+        //boolean surfacing=false;      // Flag to indicate we are headed for final deco to surface
+        //boolean openCircuit=true;     // Flag to indicate that we are OC or bailing out
+        boolean inDecoCycle=false;      // Flag to track if we are in a deco cycle
+        boolean inAscentCycle=false;    // Flag to track if we are in a free ascent cycle as opposed to a deco cycle
+        boolean forceDecoStop=false;    // Flag for forcing every deco stop. // TODO - ALWAYS TRUE IN LOGIC
+        double stopTime;                // Used for deco stop time
+        double decoStopTime=0;          // Accumulates deco stop time
+        double startDepth;              // Holds depth at start of ascent segment
+        double maxMV=0;                 // Holds maximum mvgradient at each stop
+        double nextStopDepth;           // Next proposed stop depth
+        int control=0;                  // Stores controlling compartment at new depth
+        double ceiling;                 // Used to store ceiling
         Gas tempGas;        
-        SegmentDeco decoSegment;    // Use for adding deco segments
+        SegmentDeco decoSegment;        // Use for adding deco segments
         
-        if (MvplanInstance.getMvplan().getDebug() > 1) System.out.println("\nASCEND: started ascent to: "+target);
-        if (MvplanInstance.getMvplan().getDebug() > 1) System.out.println("RT: "+runTime+" ppO2: "+ppO2);        
+        if (debug > 1) System.out.println("\nASCEND: started ascent to: "+target);
+        if (debug > 1) System.out.println("RT: "+runTime+" ppO2: "+ppO2);        
         /*
          * Set up some initial stuff:
          *      Are we surfacing
          *      Are we open circuit deco == bailing out     
          */
             
-        if(inFinalAscent && (MvplanInstance.getMvplan().getPrefs().getOcDeco()))  {      // Switch to Open circuit deco  
+        if(inFinalAscent && (prefs.getOcDeco()))  {      // Switch to Open circuit deco  
             currentGasIndex=-1;
             setDecoGas(currentDepth);   // Or pick a better gas. Also sets OC mode
         }
@@ -316,19 +318,19 @@ public class Profile
             return PROCESSING_ERROR;
         
         // Set initial stop to be the next integral stop depth
-        if ((currentDepth%(int)MvplanInstance.getMvplan().getPrefs().getStopDepthIncrement()) > 0)   // Are we on a stop depth already ?
+        if ((currentDepth%(int)prefs.getStopDepthIncrement()) > 0)   // Are we on a stop depth already ?
             // If not, go to next stop depth
-            nextStopDepth= (int)(currentDepth /  MvplanInstance.getMvplan().getPrefs().getStopDepthIncrement()) * (int)MvplanInstance.getMvplan().getPrefs().getStopDepthIncrement();
+            nextStopDepth= (int)(currentDepth /  prefs.getStopDepthIncrement()) * (int)prefs.getStopDepthIncrement();
         else
-            nextStopDepth = (int)(currentDepth - MvplanInstance.getMvplan().getPrefs().getStopDepthIncrement());           
+            nextStopDepth = (int)(currentDepth - prefs.getStopDepthIncrement());           
            
         // Check in case we are overshooting or hit last stop or any of the other bizzar combinations ...
-        if((nextStopDepth < target) || (currentDepth < MvplanInstance.getMvplan().getPrefs().getLastStopDepth()))
+        if((nextStopDepth < target) || (currentDepth < prefs.getLastStopDepth()))
             nextStopDepth=target;
-        else if(currentDepth==MvplanInstance.getMvplan().getPrefs().getLastStopDepth()) 
+        else if(currentDepth==prefs.getLastStopDepth()) 
             nextStopDepth=target;
-        else if(nextStopDepth < MvplanInstance.getMvplan().getPrefs().getLastStopDepth()) 
-            nextStopDepth=MvplanInstance.getMvplan().getPrefs().getLastStopDepth();
+        else if(nextStopDepth < prefs.getLastStopDepth()) 
+            nextStopDepth=prefs.getLastStopDepth();
                 
         startDepth=currentDepth;    // Initialise ascent segment start depth
         inAscentCycle=true;         // Start in free ascent
@@ -340,21 +342,21 @@ public class Profile
         maxMV=model.mValue(currentDepth);
         control = model.controlCompartment();
         
-        if (MvplanInstance.getMvplan().getDebug() > 1) System.out.println("Initial stop depth: "+nextStopDepth);        
-        if (MvplanInstance.getMvplan().getDebug() > 1) System.out.println(" ... ceiling is now:"+model.ceiling());
-        if (MvplanInstance.getMvplan().getDebug() > 1) System.out.println(" ... set m-value gradient for: "+nextStopDepth);
+        if (debug > 1) System.out.println("Initial stop depth: "+nextStopDepth);        
+        if (debug > 1) System.out.println(" ... ceiling is now:"+model.ceiling());
+        if (debug > 1) System.out.println(" ... set m-value gradient for: "+nextStopDepth);
         
         while (currentDepth > target) {              
             // Can we move to the proposed next stop depth ?
             while (forceDecoStop || (nextStopDepth < model.ceiling())) {
                 // Need to decompress .... enter decompression loop
-                if (MvplanInstance.getMvplan().getDebug() > 1) System.out.println(" ... entering decompression loop ...");
+                if (debug > 1) System.out.println(" ... entering decompression loop ...");
                 inDecoCycle=true;
                 forceDecoStop=false;    // Only used for first entry into deco stop
                 if(inAscentCycle) {     // Finalise last ascent cycle as we are now decompressing
                     if(startDepth > currentDepth)   // Did we ascend at all ?
                         // Add ascent segment 
-                        outputSegments.add(new SegmentAscDec(startDepth,currentDepth,MvplanInstance.getMvplan().getPrefs().getAscentRate(),currentGas,ppO2));  
+                        outputSegments.add(new SegmentAscDec(startDepth,currentDepth,prefs.getAscentRate(),currentGas,ppO2));  
                     inAscentCycle=false;
                     // TODO - start depth is not re-initialised after first use
                 }
@@ -362,34 +364,34 @@ public class Profile
                 // set m-value gradient under the following conditions:
                 //      if not in multilevel mode, then set it as soon as we do a decompression cycle
                 //      otherwise wait until we are finally surfacing before setting it
-                if ((!MvplanInstance.getMvplan().getPrefs().getGfMultilevelMode() || inFinalAscent) && !model.getGradient().isGfSet()) { 
+                if ((!prefs.getGfMultilevelMode() || inFinalAscent) && !model.getGradient().isGfSet()) { 
                     model.getGradient().setGfSlopeAtDepth(currentDepth);
-                    if (MvplanInstance.getMvplan().getDebug() > 1) System.out.println(" ... m-Value gradient slope set at: "+currentDepth+" GF is:"+ model.getGradient().getGf());                      
+                    if (debug > 1) System.out.println(" ... m-Value gradient slope set at: "+currentDepth+" GF is:"+ model.getGradient().getGf());                      
                     model.getGradient().setGfAtDepth(nextStopDepth);
-                    if (MvplanInstance.getMvplan().getDebug() > 1) System.out.println(" ... set m-value gradient for: "+nextStopDepth+" to:"+model.getGradient().getGf());                                        
+                    if (debug > 1) System.out.println(" ... set m-value gradient for: "+nextStopDepth+" to:"+model.getGradient().getGf());                                        
                 }
                 
                 // Round up runtime to integral number of minutes - only first time through on this cycle
-                if( decoStopTime==0 && (runTime%MvplanInstance.getMvplan().getPrefs().getStopTimeIncrement() > 0))  // Is this not an integral time
-                    stopTime=(int)(runTime/MvplanInstance.getMvplan().getPrefs().getStopTimeIncrement())*MvplanInstance.getMvplan().getPrefs().getStopTimeIncrement() +
-                            MvplanInstance.getMvplan().getPrefs().getStopTimeIncrement()-runTime;
+                if( decoStopTime==0 && (runTime%prefs.getStopTimeIncrement() > 0))  // Is this not an integral time
+                    stopTime=(int)(runTime/prefs.getStopTimeIncrement())*prefs.getStopTimeIncrement() +
+                            prefs.getStopTimeIncrement()-runTime;
                 else 
-                    stopTime=MvplanInstance.getMvplan().getPrefs().getStopTimeIncrement();
+                    stopTime=prefs.getStopTimeIncrement();
                 
                 // Sanity check the rounding
-                if(stopTime==0) stopTime=MvplanInstance.getMvplan().getPrefs().getStopTimeIncrement();
+                if(stopTime==0) stopTime=prefs.getStopTimeIncrement();
                 
-                if (MvplanInstance.getMvplan().getDebug() > 1) System.out.println(" ... decompressing at depth: "+
+                if (debug > 1) System.out.println(" ... decompressing at depth: "+
                         currentDepth+" for next depth :"+nextStopDepth+" Stop: "+stopTime+" ppO2: "+ppO2);   
                 // Execute stop
                 try {
                     model.constDepth(currentDepth,stopTime,currentGas.getFHe(),currentGas.getFN2(),ppO2);
                 } catch (ModelStateException e) { return PROCESSING_ERROR; }
                 decoStopTime+=stopTime;                
-                if (MvplanInstance.getMvplan().getDebug() > 1) System.out.println(" ... ceiling is now:"+model.ceiling());
+                if (debug > 1) System.out.println(" ... ceiling is now:"+model.ceiling());
                 // Sanity check decoStopTime for infinite loop
                 if(decoStopTime > 5000) {
-                    if (MvplanInstance.getMvplan().getDebug() > 0) System.err.println("Infinite loop on deco stop at "+currentDepth);
+                    if (debug > 0) System.err.println("Infinite loop on deco stop at "+currentDepth);
                     return INFINITE_DECO;
                 }
             } 
@@ -397,7 +399,7 @@ public class Profile
             if(inDecoCycle) {
                 // Finalise last deco cycle ...
                 runTime+=decoStopTime;                
-                if(MvplanInstance.getMvplan().getPrefs().getForceAllStops())     // Reset for next depth
+                if(prefs.getForceAllStops())     // Reset for next depth
                     forceDecoStop=true;                 // ALWAYS TRUE AT THIS POINT
                     
                 // write deco segment
@@ -406,21 +408,21 @@ public class Profile
                 decoSegment.setGfUsed(model.getGradient().getGf());                
                 decoSegment.setControlCompartment(control);
                 outputSegments.add(decoSegment);
-                if (MvplanInstance.getMvplan().getDebug() > 1) System.out.println(decoSegment);
+                if (debug > 1) System.out.println(decoSegment);
                 inDecoCycle=false;    
                 decoStopTime=0;            
             } else if (inAscentCycle) {  
                 // Did not decompress, just ascend
                 // TODO - if we enable this code always (remove else if) then model will ascend between deco stops, but ... this causes collateral damage to runtim calculations
                 try {
-                    model.ascDec(currentDepth,(double)nextStopDepth,MvplanInstance.getMvplan().getPrefs().getAscentRate(),currentGas.getFHe(),currentGas.getFN2(),ppO2);
+                    model.ascDec(currentDepth,(double)nextStopDepth,prefs.getAscentRate(),currentGas.getFHe(),currentGas.getFN2(),ppO2);
                 } catch (ModelStateException e) { return PROCESSING_ERROR; }
-                runTime+=(currentDepth-nextStopDepth)/(-1.0*MvplanInstance.getMvplan().getPrefs().getAscentRate());
+                runTime+=(currentDepth-nextStopDepth)/(-1.0*prefs.getAscentRate());
                 // TODO - Issue here is that this ascent time is not accounted for in any segments unless it was in an ascent cycle            
             } 
             
             // Moved up to next depth ...
-            if (MvplanInstance.getMvplan().getDebug() > 1) System.out.println("Now at next stop depth: "+nextStopDepth+" runtime: "+runTime);     
+            if (debug > 1) System.out.println("Now at next stop depth: "+nextStopDepth+" runtime: "+runTime);     
 
             currentDepth=nextStopDepth;
             maxMV=model.mValue(currentDepth);
@@ -430,34 +432,34 @@ public class Profile
             tempGas=currentGas;                     // Remember this in case we switch
             if (setDecoGas(currentDepth) == true) { // If true we have changed gases
                 if (inAscentCycle) {                // To switch gases during ascent need to force a waypoint
-                    if(MvplanInstance.getMvplan().getDebug() > 1) ;
-                    if (MvplanInstance.getMvplan().getDebug() > 1) System.out.println(" ... forcing waypoint for gas switch");
-                    outputSegments.add(new SegmentAscDec(startDepth,currentDepth,MvplanInstance.getMvplan().getPrefs().getAscentRate(),tempGas,ppO2));  
+                    if(debug > 1) ;
+                    if (debug > 1) System.out.println(" ... forcing waypoint for gas switch");
+                    outputSegments.add(new SegmentAscDec(startDepth,currentDepth,prefs.getAscentRate(),tempGas,ppO2));  
                     startDepth=currentDepth;
                 }
             }
             
             // Set next rounded stop depth
-            nextStopDepth = (int)currentDepth - (int)MvplanInstance.getMvplan().getPrefs().getStopDepthIncrement(); 
+            nextStopDepth = (int)currentDepth - (int)prefs.getStopDepthIncrement(); 
             
             // Check in case we are overshooting or hit last stop
-            if((nextStopDepth < target) || (currentDepth < MvplanInstance.getMvplan().getPrefs().getLastStopDepth()))
+            if((nextStopDepth < target) || (currentDepth < prefs.getLastStopDepth()))
                 nextStopDepth=target;
-            else if(currentDepth==MvplanInstance.getMvplan().getPrefs().getLastStopDepth()) 
+            else if(currentDepth==prefs.getLastStopDepth()) 
                 nextStopDepth=target;
-            else if(nextStopDepth < MvplanInstance.getMvplan().getPrefs().getLastStopDepth())
-                nextStopDepth=MvplanInstance.getMvplan().getPrefs().getLastStopDepth();
+            else if(nextStopDepth < prefs.getLastStopDepth())
+                nextStopDepth=prefs.getLastStopDepth();
             
             if(model.getGradient().isGfSet()) {   // Update GF for next stop                         
                 model.getGradient().setGfAtDepth(nextStopDepth);
-                if (MvplanInstance.getMvplan().getDebug() > 1) System.out.println(" ... set m-value gradient for: "+nextStopDepth+" to:"+model.getGradient().getGf());                 
+                if (debug > 1) System.out.println(" ... set m-value gradient for: "+nextStopDepth+" to:"+model.getGradient().getGf());                 
             }  
         }  
         // Are we still in an ascent segment ?
         if (inAscentCycle) {
-            outputSegments.add(new SegmentAscDec(startDepth,currentDepth,MvplanInstance.getMvplan().getPrefs().getAscentRate(),currentGas,ppO2));                  
+            outputSegments.add(new SegmentAscDec(startDepth,currentDepth,prefs.getAscentRate(),currentGas,ppO2));                  
         }
-        if(MvplanInstance.getMvplan().getDebug() > 1) model.printModel();        
+        if(debug > 1) model.printModel();        
         return SUCCESS;        
     } // ascend
 
@@ -470,7 +472,7 @@ public class Profile
         while(it.hasNext()) {
             s=(SegmentAbstract)it.next();
             s.getGas().setVolume( s.getGas().getVolume()+s.gasUsed());
-            if(MvplanInstance.getMvplan().getDebug() > 1) System.out.println(" ... gas used: "+s.getGas()+" - "+(int)s.gasUsed()+" ("+(int)s.getGas().getVolume()+")");
+            if(debug > 1) System.out.println(" ... gas used: "+s.getGas()+" - "+(int)s.gasUsed()+" ("+(int)s.getGas().getVolume()+")");
         }     
     }
     
@@ -484,10 +486,10 @@ public class Profile
         boolean finished=false;
         boolean gasSwitch=false;
 
-        if(MvplanInstance.getMvplan().getDebug() > 1) System.out.println("Evaluating deco gas at "+depth); 
+        if(debug > 1) System.out.println("Evaluating deco gas at "+depth); 
         // Check to see if we should be changing gases at all ... if so just return doing nothing
         if(!inFinalAscent)               return false;   // Not ascending yet so no gas switching
-        if (!MvplanInstance.getMvplan().getPrefs().getOcDeco())   return false;   // No OC deco so no bailout
+        if (!prefs.getOcDeco())   return false;   // No OC deco so no bailout
         if(gases.size() ==0 )            return false ;  // No gases to change to
         
         // If this is the first time that this method is called we need to change to Open Circuit bailout
@@ -505,7 +507,7 @@ public class Profile
                 currentGasIndex+=1;                 // Yes !
                 currentGas=g;  
                 gasSwitch=true;
-                if(MvplanInstance.getMvplan().getDebug() > 1) System.out.println(" ... changing gas to "+currentGas);                    
+                if(debug > 1) System.out.println(" ... changing gas to "+currentGas);                    
             } else
                 finished=true;     // Look no more
         }                    

@@ -126,7 +126,7 @@ public class TablePreviewDialog  extends JDialog implements  ActionListener {
         colourButton.setSize( new Dimension(15,15));
         colourButton.setPreferredSize( new Dimension(15,15));
         // This does not work on Mac OSX. Could create an imageIcon I guess ?
-        colourButton.setBackground(Mvplan.prefs.getBackgroundColour());
+        colourButton.setBackground(new Color(Mvplan.prefs.getBackgroundColour()));
         colourButton.setActionCommand("colour");
         colourButton.addActionListener(this);                
         colourOptionsPanel.setLayout(new GridBagLayout());       
@@ -288,9 +288,9 @@ public class TablePreviewDialog  extends JDialog implements  ActionListener {
             displayComponent.repaint();  
         } else if(e.getActionCommand().equals("colour")) {
             Color ch = JColorChooser.showDialog(this,MvplanInstance.getMvplan().getResource("mvplan.gui.TablePreviewDialog.colourChooser.title"), 
-                        Mvplan.prefs.getBackgroundColour());
+                        new Color(Mvplan.prefs.getBackgroundColour()));
             if (ch != null) {
-                Mvplan.prefs.setBackgroundColour(ch);
+                Mvplan.prefs.setBackgroundColour(ch.getRGB());
                 colourButton.setBackground(ch);
                 displayComponent.repaint();                 
             }
