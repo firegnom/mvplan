@@ -7,3 +7,5 @@ mvplan/mvplan.xml
 mvplan_core/build/*
 mvplan_core/dist/*
 mvplan_core/nbproject/private*
+mvplan_core/target/*
+mvplan/target/*
