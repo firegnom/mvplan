@@ -83,8 +83,8 @@ public class Prefs implements Serializable
     private int frameSizeY;
     private int frameSplit;
     private boolean gfMultilevelMode;    // On multilevel mode the gf does not get set until final ascent.
-    private ArrayList prefGases;         // Stores known gas list
-    private ArrayList prefSegments;      // Stores dive segments
+    private ArrayList <Gas> prefGases;         // Stores known gas list
+    private ArrayList <SegmentAbstract> prefSegments;      // Stores dive segments
     private String lastModelFile;          // Stores last model filename used    
     private boolean agreedToTerms;    
     public static final int BRIEF=0;
@@ -374,8 +374,8 @@ public class Prefs implements Serializable
     public int getFrameSizeY()              { return frameSizeY; }
     public int getFrameSplit()              { return frameSplit; }
     public boolean getGfMultilevelMode()    { return gfMultilevelMode; }
-    public ArrayList getPrefGases()         { return prefGases; }
-    public ArrayList getPrefSegments()      { return prefSegments; }
+    public ArrayList <Gas> getPrefGases()         { return prefGases; }
+    public ArrayList <SegmentAbstract>getPrefSegments()      { return prefSegments; }
     public String getLastModelFile()          { return lastModelFile; }
     public double getPAmb()                 { return pAmb; }
     public double getPConversion()          { return pConversion; }

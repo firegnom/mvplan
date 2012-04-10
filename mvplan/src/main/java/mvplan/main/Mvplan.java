@@ -37,32 +37,25 @@ import javax.swing.UIManager;
 
 public class Mvplan implements IMvplan
 {
-    public static final String NAME = "MV-Plan";    // Application name
-    public static final int MAJOR_VERSION = 1;      // Application version codes
-    public static final int MINOR_VERSION = 6;
-    public static final int PATCH_VERSION = 0;
-    public static final String VERSION_STATUS = "RELEASED";      // Application status
-    public static final String BUILD_DATE = "25-Dec-2010";     // Application release date
     private static final float MIN_JVM = 1.5f;               // Minimum Java JVM requirement. Checked on startup.
     static final String PREF_FILE = "mvplan.xml";            // Preferences file name
     public static String prefFile;
     public static final int DEBUG = 2;      // 0 == no debug, 1 == basic or current debug, 2 == full trace
     public static Prefs prefs;              // Preferences object. Pseudo Singleton.
     private static ResourceBundle stringResource;   // String resources for the application
-    public static Locale preferredLocale=new Locale("pl");     // For language preference
+    public static Locale preferredLocale=new Locale("en");     // For language preference
     public static String appName;
-    public static Version mvplanVersion;    // App version. See Version Class    
 
     private JFrame frame;
     
     
     public void init(){
      float vmVersion=0.0f;   // For Virtual Machine version
-        ArrayList<Locale> availableLocales = new ArrayList();     // Stores available locales                               
+        ArrayList<Locale> availableLocales = new ArrayList<Locale>();     // Stores available locales                               
         
         // Construct app name and version
-        mvplanVersion=new Version(MAJOR_VERSION,MINOR_VERSION,PATCH_VERSION,VERSION_STATUS,BUILD_DATE);
-        appName=NAME+" "+mvplanVersion.toString();
+       
+        appName=MvplanInstance.NAME+" "+MvplanInstance.getVersion().toString();
         
         // Set patform specifics
         if (Mvplan.DEBUG > 0 ) System.out.println("Platform:"+PlatformDetector.detect());
@@ -146,7 +139,6 @@ public class Mvplan implements IMvplan
      * Provide safe access to resources. 
      * Does not throw exception if a resoure is not found, but displays it's key so it can be debugged.
      */
-    @Override
     public String getResource (String key) {
         try {
            return stringResource.getString(key);        
@@ -156,12 +148,10 @@ public class Mvplan implements IMvplan
             return "<"+key+">";
         }
     }
-
+    
     public String getAppName() {
         return appName;
     }
-    
-    
     
     public static void main(String[] args)
     {
@@ -172,18 +162,12 @@ public class Mvplan implements IMvplan
         });        
     }
 
-    @Override
     public Prefs getPrefs() {
         return Mvplan.prefs;
     }
 
-    @Override
     public int getDebug() {
         return Mvplan.DEBUG;
     }
 
-    @Override
-    public Version getVersion() {
-        return Mvplan.mvplanVersion;
-    }
 }

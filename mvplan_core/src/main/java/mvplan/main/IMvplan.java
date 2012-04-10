@@ -17,6 +17,5 @@ public interface  IMvplan {
     public String getAppName();
     public Prefs getPrefs();
     public int getDebug();
-    public Version getVersion();
     public void init();
 }

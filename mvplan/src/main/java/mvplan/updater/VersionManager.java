@@ -80,8 +80,8 @@ public class VersionManager {
         
        // If we get here we were successful. Update last check time
        MvplanInstance.getMvplan().getPrefs().setLastUpdateCheck(Calendar.getInstance().getTime());   
-       if(MvplanInstance.getMvplan().getDebug()>0) System.out.println("Current version is "+MvplanInstance.getMvplan().getVersion().toString()+". Latest version is "+latestVersion.toString());       
-       if(MvplanInstance.getMvplan().getVersion().compareTo(latestVersion)>0 ) {
+       if(MvplanInstance.getMvplan().getDebug()>0) System.out.println("Current version is "+MvplanInstance.getVersion().toString()+". Latest version is "+latestVersion.toString());       
+       if(MvplanInstance.getVersion().compareTo(latestVersion)>0 ) {
            if(MvplanInstance.getMvplan().getDebug()>0) System.out.println("Version Manager has determined that a newer version is available.");     
            resultCode=UPDATE;
            return;

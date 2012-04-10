@@ -681,7 +681,7 @@ public class MainFrame extends JFrame
         printButton.setText(MvplanInstance.getMvplan().getResource("mvplan.gui.MainFrame.printButton.text"));
         printButton.setToolTipText(MvplanInstance.getMvplan().getResource("mvplan.gui.MainFrame.printButton.tip"));
         aboutButton.setText(MvplanInstance.getMvplan().getResource("mvplan.gui.MainFrame.aboutButton.text"));
-        aboutButton.setToolTipText(MvplanInstance.getMvplan().getResource("mvplan.gui.MainFrame.aboutButton.tip")+Mvplan.NAME);            
+        aboutButton.setToolTipText(MvplanInstance.getMvplan().getResource("mvplan.gui.MainFrame.aboutButton.tip")+MvplanInstance.NAME);            
         progress.setToolTipText(MvplanInstance.getMvplan().getResource("mvplan.gui.MainFrame.progress.check.tip"));
         progress.setFocusable(false);
         
@@ -996,7 +996,7 @@ public class MainFrame extends JFrame
        // "MV-Plan GF:20/90 ZHL16B" or dislay altitude instead of model
        h=(int)Math.round(Mvplan.prefs.getGfHigh()*100);
        l=(int)Math.round(Mvplan.prefs.getGfLow()*100);
-       String heading=String.format("%1$s  GF:%2$02d/%3$02d",Mvplan.NAME,l,h);
+       String heading=String.format("%1$s  GF:%2$02d/%3$02d",MvplanInstance.NAME,l,h);
        // Display single dive table, or ...
        if(currentModel!=null) {
             if(Mvplan.prefs.getAltitude()>0.0)
@@ -1269,7 +1269,7 @@ public class MainFrame extends JFrame
     private void doAbout() {
        // Use HTML message for better font control and word wrapping
         String s,s2;
-        s="<html><p>"+Mvplan.appName+"  ("+Mvplan.BUILD_DATE+")</p>";
+        s="<html><p>"+Mvplan.appName+"  ("+MvplanInstance.BUILD_DATE+")</p>";
         s=s+"<p>\u00A9 2005-2010 Guy Wittig&nbsp</p>";
         // Add localisation credit string
         try{

@@ -49,6 +49,14 @@ public class TextProfilePrinter extends ProfilePrinter <StringBuffer>{
         this.knownGases = knownGases;
         disclaimer = mvplan.getResource("mvplan.disclaimer.text");            
     }
+    /** Creates a new instance of ProfilePrinter */
+    public TextProfilePrinter(Profile p, StringBuffer text) {
+        super(p, text, p.getGases());
+        this.profile=p;
+        this.textArea=text;
+        this.knownGases = p.getGases();
+        disclaimer = mvplan.getResource("mvplan.disclaimer.text");            
+    }
     /* 
      * Prints the dive table
      */
