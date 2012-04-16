@@ -38,7 +38,7 @@ import mvplan.dive.*;
 import mvplan.gas.Gas;
 import mvplan.model.AbstractModel;
 import mvplan.model.ModelDAO;
-import mvplan.prefs.PrefsDAO;
+import mvplan.prefs.PrefsXMLDAO;
 import mvplan.segments.SegmentDive;
 import mvplan.segments.SegmentAbstract;
 import mvplan.updater.*;
@@ -1043,10 +1043,10 @@ public class MainFrame extends JFrame
         if(lastModelFile!=null)
             Mvplan.prefs.setLastModelFile(lastModelFile.toString());
         
-        PrefsDAO dao=new PrefsDAO();
+        PrefsXMLDAO dao=new PrefsXMLDAO(Mvplan.prefFile);
         try {
             if(Mvplan.DEBUG>0) System.out.println("Writing prefs to: "+Mvplan.prefFile);
-            dao.setPrefs(Mvplan.prefs,Mvplan.prefFile);
+            dao.setPrefs(Mvplan.prefs);
         } catch (Exception ex) {
             // TODO no try block here.
             JOptionPane.showMessageDialog((this),

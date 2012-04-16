@@ -31,7 +31,8 @@ import java.util.ResourceBundle;
 import javax.swing.JFrame;
 import mvplan.gui.MainFrame;
 import mvplan.prefs.Prefs;
-import mvplan.prefs.PrefsDAO;
+import mvplan.prefs.PrefsException;
+import mvplan.prefs.PrefsXMLDAO;
 import mvplan.util.*;
 import javax.swing.UIManager;
 
@@ -118,9 +119,14 @@ public class Mvplan implements IMvplan
             // Restore last state from preferences   
             prefFile = System.getProperty("user.dir")+System.getProperty("file.separator")+PREF_FILE;       
             // Use Data Access Object for reading preferences from XML encoded file
-            PrefsDAO dao=new PrefsDAO();    
+            PrefsXMLDAO dao=new PrefsXMLDAO(prefFile);    
             if (Mvplan.DEBUG >0 ) System.out.println("Restoring preferences from "+prefFile);
-            prefs = dao.getPrefs(prefFile);        
+            try {
+				prefs = dao.getPrefs();
+			} catch (PrefsException e) {
+				System.err.println("Mvplan: error, could not load preferences file :"+e.getLocalizedMessage());
+				e.printStackTrace();
+			}        
             // Create new preferences if no file found
             if (prefs == null) {
                 prefs = new Prefs();
