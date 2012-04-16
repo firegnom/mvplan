@@ -1,14 +1,4 @@
-/**
- * ModelStateException.java 
- *
- * Indicates that the model is in an un-stable state.
- *
- *   @author Guy Wittig
- *   @version 18-Jun-2006
- *
- *   This program is part of MV-Plan
- *   Copywrite 2006 Guy Wittig
- *
+/*
  *   This program is free software; you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
  *   the Free Software Foundation; either version 2 of the License, or
@@ -22,24 +12,24 @@
  *   The GNU General Public License can be read at http://www.gnu.org/licenses/licenses.html
  */
 
-package mvplan.model;
+package mvplan.prefs;
 
-import mvplan.MVPlanException;
 
-public class ModelStateException extends MVPlanException {
+/**This is interface for saving Mv-plan preferences
+ *
+ * @author Maciej Kaniewski
+ */
+public interface PrefsDAO {
+    
+   
     /**
-     * Empty Constructor.
+     * Persists Prefs object 
      */
-    public ModelStateException() {
-        super();
-    }
+    public void setPrefs(Prefs p) throws PrefsException;
+    
     /**
-     * Constructor wih String message
-     * @param desc Message
+     * Read Prefs object 
      */
-    public ModelStateException(String desc) {
-        super(desc);
-    }
+    public Prefs getPrefs() throws PrefsException;
     
 }
-
