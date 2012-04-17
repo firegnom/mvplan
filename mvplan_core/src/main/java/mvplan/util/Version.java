@@ -33,7 +33,17 @@ public class Version implements Comparable<Version> {
     private int patchVersion;
     private String statusString;
     private String dateString;
-    private  HashMap lookupTable;
+    private final static HashMap<String,Integer> lookupTable;
+    // Create lookuptable hashmap
+    static {
+    	 lookupTable = new HashMap<String, Integer>();
+         lookupTable.put("UNDEFINED",new Integer(0));
+         lookupTable.put("TEST",new Integer(1));
+         lookupTable.put("ALPHA",new Integer(2));
+         lookupTable.put("BETA",new Integer(3));
+         lookupTable.put("RELEASED",new Integer(4));
+    }
+    
     
     public static final int UNDEFINED=0;
     public static final int TEST=10;
@@ -48,13 +58,6 @@ public class Version implements Comparable<Version> {
     }
     
     public Version(int major, int minor, int patch, String status, String date){
-        // Create hashmap
-        lookupTable = new HashMap();
-        lookupTable.put("UNDEFINED",new Integer(0));
-        lookupTable.put("TEST",new Integer(1));
-        lookupTable.put("ALPHA",new Integer(2));
-        lookupTable.put("BETA",new Integer(3));
-        lookupTable.put("RELEASED",new Integer(4));
         // Initialise fields
         majorVersion=major;
         minorVersion=minor;

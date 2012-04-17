@@ -30,13 +30,32 @@ import java.text.MessageFormat;
 import mvplan.main.MvplanInstance;
 import mvplan.prefs.Prefs;
 
-
-public class Gas implements Comparable, Serializable, Cloneable
+/**
+ * 
+ * */
+public class Gas implements Comparable<Gas>, Serializable, Cloneable
 {
-    private double fHe,fO2; // Gas fractions
-    private double mod;     // Maximum operating depth 
-    private double volume;  // Accumulate gas volume
-    private boolean enable; // Gas is enabled for use
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	/**
+	 * Gas fractions
+	 * */
+	private double fHe,fO2;
+	/**
+	 * Maximum operating depth
+	 * */
+    private double mod;     
+    /**
+	 * Accumulate gas volume
+	 * */
+    private double volume;  
+    /**
+	 * Gas is enabled for use
+	 * */
+    private boolean enable; 
     
     /** Constructor for Gas objects. Fractions must add to <= 1.0. Remainder assumed Nitrogen.
      *  If constructed with erroneous data is set up as air.
@@ -48,14 +67,14 @@ public class Gas implements Comparable, Serializable, Cloneable
     public Gas(double fHe, double fO2, double mod)
     {   
         setGas(fHe,fO2,mod);
-        enable=true; //Boolean.TRUE;
+        enable=true; 
         this.volume=0.0;
     }
     /** Empty constructor for bean interface */
     public Gas() {            
     }
     
-    /* 
+    /** 
      * Method to validate a field for limits only 
      */
     public static boolean validate(String field, double value) {
@@ -67,7 +86,7 @@ public class Gas implements Comparable, Serializable, Cloneable
         return false;        
     }
     
-    /* 
+    /** 
      * Method to validate all inputs (fO2, fHe and MOD)
      */
     public static boolean validate(double fHe, double fO2, double mod) {
@@ -92,21 +111,21 @@ public class Gas implements Comparable, Serializable, Cloneable
             
         return passed;        
     }        
-    /* 
+    /** 
      * Method to get a maximum MOD based on O2 fraction
      */
     public static double getMaxMod(double o) {
     	Prefs prefs = MvplanInstance.getPrefs();
         return (prefs.getMaxMOD()/o * prefs.getPConversion())-prefs.getPConversion();
     }
-    /* 
+    /** 
      * Method to get a MOD based on O2 fraction and maximum ppO2
      */
     public static double getMod(double fO2, double ppO2) {
     	Prefs prefs = MvplanInstance.getPrefs();
         return (ppO2/fO2 * prefs.getPConversion())-prefs.getPConversion();
     }
-    /* 
+    /** 
      * Method to get a ppO2 based on O2 fraction and MOD
      */
     public static double getppO2(double f, double m) {
@@ -132,11 +151,9 @@ public class Gas implements Comparable, Serializable, Cloneable
      *  @param  Object (Gas) to compare to
      *  @return Integer, Mod of compared Gas - Mod of this gas
       */
-    public int compareTo(Object o)
+    public int compareTo(Gas g)
     {
         double m;
-        Gas g;
-        g = (Gas)o;
         m=g.getMod();
         return (int)(m-mod);
     }
@@ -162,7 +179,7 @@ public class Gas implements Comparable, Serializable, Cloneable
     public void setEnable(boolean state) { enable = state;}
     public void setVolume(double vol) { volume=vol;}
 
-    /* setGas() - sets gas fractions
+    /** setGas() - sets gas fractions
      * or creates Air by default
      */
     public void setGas(double fHe,double fO2, double mod)
@@ -201,7 +218,7 @@ public class Gas implements Comparable, Serializable, Cloneable
         return(name);       
     }
     
-    /*
+    /**
      * Make short name for tables
      */
     public String getShortName()

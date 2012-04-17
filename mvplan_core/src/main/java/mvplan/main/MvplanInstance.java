@@ -17,8 +17,8 @@ public class MvplanInstance {
 	public static final int MAJOR_VERSION = 1; // Application version codes
 	public static final int MINOR_VERSION = 6;
 	public static final int PATCH_VERSION = 0;
-	public static final String VERSION_STATUS = "BETA"; // Application status
-	public static final String BUILD_DATE = "10-04-2012"; // Application
+	public static final String VERSION_STATUS = "TEST"; // Application status
+	public static final String BUILD_DATE = "17-04-2012"; // Application
 															// release date
 	public static Version mvplanVersion;    // App version. See Version Class    
 	private static IMvplan mvplan;

@@ -32,6 +32,9 @@ import java.io.*;
 import java.net.*;
 import java.beans.XMLDecoder;
 
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.io.xml.DomDriver;
+
 public class VersionManager {
    public final static int UNDEFINED=0;
     public final static int CURRENT=1;
@@ -65,13 +68,16 @@ public class VersionManager {
         Version latestVersion;
         String url;
 
-        // Build url of the form: "http://192.168.1.100:8080/mvplan/version.jsp?command=current&id=1234-1234-1234-1234-1234-1234-1234-1234-1234"
-        url = MvplanInstance.getMvplan().getPrefs().getUpdateVersionURL()+"?command=current&id=1234-1234-1234-1234-1234-1234-1234-1234-1234";
+        url = MvplanInstance.getMvplan().getPrefs().getUpdateVersionURL();
 
         try {
             latestVersion = readURL(url);
         }   catch (Exception e) {
-            if(MvplanInstance.getMvplan().getDebug()>0) System.err.println("Failed to read from network.\n");
+            if(MvplanInstance.getMvplan().getDebug()>0) {
+            	System.err.println("Failed to read from network.\n");
+            	System.err.println("Url:"+url);
+            	e.printStackTrace();
+            }
             resultCode=ERROR;
             return;
         }
@@ -96,13 +102,11 @@ public class VersionManager {
         URL target = new URL(url);
 
         URLConnection targetConnection = target.openConnection();
-            // Java 1.5 only 
             targetConnection.setConnectTimeout(15000);        
-            XMLDecoder decoder = new XMLDecoder(
+            XStream x = new XStream(new DomDriver());
+    		Version v = (Version) x.fromXML(
                 new BufferedInputStream(
                 targetConnection.getInputStream()));
-            Version v = (Version)decoder.readObject();
-            decoder.close();  
             return v;
 
      }

@@ -174,9 +174,9 @@ public class Prefs implements Serializable
         updateCheckDisable=false;
         updateCheckFrequency=7;
         if(debug>0)
-            updateVersionURL="http://server.local/mvplan/Version";
+            updateVersionURL="http://mvplan.googlecode.com/hg/ver/DEV/version.xml";
         else
-            updateVersionURL="http://services.wittig.net.au/mvplan/Version";
+            updateVersionURL="http://mvplan.googlecode.com/hg/ver/REL/version.xml";
         homeURL="http://wittig.net.au/diving/mvplan.html";        
         modifiers = new int[] {0,2,4,6,8};    // Default modifiers for multi-dive plans        
         // Default units strings are managed here as we know the units
@@ -277,9 +277,9 @@ public class Prefs implements Serializable
         if (lastUpdateCheck==null) lastUpdateCheck=Calendar.getInstance().getTime();
         if (updateCheckFrequency<0 || updateCheckFrequency>365) updateCheckFrequency=7;
         if(debug>0)
-            updateVersionURL="http://server.local/mvplan/Version";
+            updateVersionURL="http://mvplan.googlecode.com/hg/ver/DEV/version.xml";
         else
-            updateVersionURL="http://services.wittig.net.au/mvplan/Version";
+            updateVersionURL="http://mvplan.googlecode.com/hg/ver/REL/version.xml";
         homeURL="http://wittig.net.au/diving/mvplan.html";
         if (modifiers == null) modifiers = new int [] {0,2,4,6,8};
         if (!showStopTime && !showRunTime) showRunTime=true;   
