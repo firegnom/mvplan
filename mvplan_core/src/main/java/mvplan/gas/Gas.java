@@ -33,7 +33,6 @@ import mvplan.prefs.Prefs;
 
 public class Gas implements Comparable, Serializable, Cloneable
 {
-    private static Prefs prefs = MvplanInstance.getPrefs();
     private double fHe,fO2; // Gas fractions
     private double mod;     // Maximum operating depth 
     private double volume;  // Accumulate gas volume
@@ -73,6 +72,7 @@ public class Gas implements Comparable, Serializable, Cloneable
      */
     public static boolean validate(double fHe, double fO2, double mod) {
         boolean passed=true;
+        Prefs prefs = MvplanInstance.getPrefs();
         // Check individual fields for bounds   
         passed = (passed && validate("fHe",fHe));
         passed = (passed && validate("fO2",fO2));
@@ -96,18 +96,21 @@ public class Gas implements Comparable, Serializable, Cloneable
      * Method to get a maximum MOD based on O2 fraction
      */
     public static double getMaxMod(double o) {
+    	Prefs prefs = MvplanInstance.getPrefs();
         return (prefs.getMaxMOD()/o * prefs.getPConversion())-prefs.getPConversion();
     }
     /* 
      * Method to get a MOD based on O2 fraction and maximum ppO2
      */
     public static double getMod(double fO2, double ppO2) {
+    	Prefs prefs = MvplanInstance.getPrefs();
         return (ppO2/fO2 * prefs.getPConversion())-prefs.getPConversion();
     }
     /* 
      * Method to get a ppO2 based on O2 fraction and MOD
      */
     public static double getppO2(double f, double m) {
+    	Prefs prefs = MvplanInstance.getPrefs();
         return ( (m+prefs.getPConversion())*f/prefs.getPConversion());
     }
     

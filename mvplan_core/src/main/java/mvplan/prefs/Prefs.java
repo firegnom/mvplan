@@ -41,7 +41,6 @@ import mvplan.util.PressureConverter;
 
 public class Prefs implements Serializable
 {
-    private static Prefs thisPrefs;
 
     public final static int METRIC=0;
     public final static int IMPERIAL=1;
@@ -115,14 +114,7 @@ public class Prefs implements Serializable
     private String modelClass;          // Deco model class name
 
 
-    public Prefs() {
-        thisPrefs=this;      
-    }
 
-    // Singleton pattern
-    public static Prefs getPrefs() {
-        return thisPrefs;
-    }
 
     public void setDefaultPrefs()
     {

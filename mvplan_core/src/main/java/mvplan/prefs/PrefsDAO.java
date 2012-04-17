@@ -25,11 +25,11 @@ public interface PrefsDAO {
     /**
      * Persists Prefs object 
      */
-    public void setPrefs(Prefs p) throws PrefsException;
+    public void savePrefs(Prefs p) throws PrefsException;
     
     /**
      * Read Prefs object 
      */
-    public Prefs getPrefs() throws PrefsException;
+    public Prefs loadPrefs() throws PrefsException;
     
 }

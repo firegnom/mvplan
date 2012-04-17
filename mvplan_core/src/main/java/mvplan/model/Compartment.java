@@ -44,8 +44,8 @@ public class Compartment implements Serializable
         // Initialise compartment pressures to zero
         ppHe=0.0d;
         ppN2=0.0d;
-        factorComp=Prefs.getPrefs().getFactorComp();
-        factorDecomp=Prefs.getPrefs().getFactorDecomp();
+        factorComp=MvplanInstance.getPrefs().getFactorComp();
+        factorDecomp=MvplanInstance.getPrefs().getFactorDecomp();
     }
         
     /**

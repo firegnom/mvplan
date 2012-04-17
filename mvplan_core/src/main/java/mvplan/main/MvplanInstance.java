@@ -33,6 +33,11 @@ public class MvplanInstance {
 		}
 		return null;
 	}
+	public static void setPrefs(Prefs p) {
+		if (mvplan != null) {
+			mvplan.setPrefs(p);
+		}
+	}
 
 	public static IMvplan getMvplan() {
 		return mvplan;

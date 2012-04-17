@@ -86,7 +86,7 @@ public class TextProfilePrinter extends ProfilePrinter <StringBuffer>{
         // Print settings heading
         textArea.append(mvplan.getResource("mvplan.gui.text.ProfilePrinter.settings.text")+"="+
                         (int)Math.round(MvplanInstance.getPrefs().getGfLow()*100.)+"-"+(int)Math.round(MvplanInstance.getPrefs().getGfHigh()*100.));
-        textArea.append(" "+ mvplan.getResource("mvplan.gui.text.ProfilePrinter.factors.text") + MvplanInstance.getPrefs().getPrefs().getFactorComp() + "/"+ MvplanInstance.getPrefs().getPrefs().getFactorDecomp());
+        textArea.append(" "+ mvplan.getResource("mvplan.gui.text.ProfilePrinter.factors.text") + MvplanInstance.getPrefs().getFactorComp() + "/"+ MvplanInstance.getPrefs().getFactorDecomp());
         if (MvplanInstance.getPrefs().getGfMultilevelMode())
             textArea.append(" "+mvplan.getResource("mvplan.gui.text.ProfilePrinter.multilevel.text"));
         textArea.append(" "+mvplan.getResource("mvplan.gui.text.ProfilePrinter.pph2o.text")+"="+
@@ -155,8 +155,8 @@ public class TextProfilePrinter extends ProfilePrinter <StringBuffer>{
         // Print settings heading
         textArea.append(mvplan.getResource("mvplan.gui.text.ProfilePrinter.settings.text")+"="+
                         (int)Math.round(MvplanInstance.getPrefs().getGfLow()*100.)+"-"+(int)Math.round(MvplanInstance.getPrefs().getGfHigh()*100.));
-        if( MvplanInstance.getPrefs().getPrefs().isUsingFactors())
-            textArea.append(" "+ mvplan.getResource("mvplan.gui.text.ProfilePrinter.factors.text") + MvplanInstance.getPrefs().getPrefs().getFactorComp() + "/"+ MvplanInstance.getPrefs().getPrefs().getFactorDecomp());
+        if( MvplanInstance.getPrefs().isUsingFactors())
+            textArea.append(" "+ mvplan.getResource("mvplan.gui.text.ProfilePrinter.factors.text") + MvplanInstance.getPrefs().getFactorComp() + "/"+ MvplanInstance.getPrefs().getFactorDecomp());
         if (MvplanInstance.getPrefs().getGfMultilevelMode())
             textArea.append(" "+mvplan.getResource("mvplan.gui.text.ProfilePrinter.multilevel.text"));
         textArea.append(" "+profile.getModel().getModelName());

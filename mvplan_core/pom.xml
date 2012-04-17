@@ -5,13 +5,20 @@
 
 	<artifactId>mvplan_core</artifactId>
 	<packaging>jar</packaging>
-    <name>MV-Plan Lib</name>
+	<name>MV-Plan Lib</name>
 	<parent>
-	<groupId>mvplan</groupId>
-    <artifactId>mvplan-parent</artifactId>
-	<version>1.6-SNAPSHOT</version>
-	<relativePath>../pom.xml</relativePath>
+		<groupId>mvplan</groupId>
+		<artifactId>mvplan-parent</artifactId>
+		<version>1.6-SNAPSHOT</version>
+		<relativePath>../pom.xml</relativePath>
 	</parent>
-  
+	<dependencies>
+		<dependency>
+			<groupId>com.thoughtworks.xstream</groupId>
+			<artifactId>xstream</artifactId>
+			<version>1.4.2</version>
+		</dependency>
+	</dependencies>
+
 
 </project>
