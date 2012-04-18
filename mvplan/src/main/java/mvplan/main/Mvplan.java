@@ -50,9 +50,24 @@ public class Mvplan implements IMvplan
 
     private JFrame frame;
     
+    private void initProxy(Prefs p){
+    	if (p.getProxyHost() != null && !p.getProxyHost().trim().isEmpty()){
+    		System.getProperties().put("http.proxyHost", p.getProxyHost());
+    	}
+    
+    	if (p.getProxyPort() != null && !p.getProxyPort().trim().isEmpty()){
+    		System.getProperties().put("http.proxyPort", p.getProxyPort());
+    	}
+       if (p.getProxyUser() != null && !p.getProxyUser().trim().isEmpty()){
+		   System.getProperties().put("http.proxyUser", p.getProxyUser());
+	   }
+    	if (p.getProxyPassword() != null && !p.getProxyPassword().trim().isEmpty()){
+    		System.getProperties().put("http.proxyPassword", p.getProxyPassword());
+    	}
+    }
     
     public void init(){
-     float vmVersion=0.0f;   // For Virtual Machine version
+    	float vmVersion=0.0f;   // For Virtual Machine version
         ArrayList<Locale> availableLocales = new ArrayList<Locale>();     // Stores available locales                               
         
         // Construct app name and version
@@ -133,8 +148,8 @@ public class Mvplan implements IMvplan
                 prefs = new Prefs();
                 prefs.setDefaultPrefs();
             }
-            
             MvplanInstance.setPrefs(prefs);
+            initProxy(prefs);
             
             // Open main screen             
             frame = new MainFrame();

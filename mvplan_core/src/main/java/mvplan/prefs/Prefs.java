@@ -42,7 +42,12 @@ import mvplan.util.PressureConverter;
 public class Prefs implements Serializable
 {
 
-    public final static int METRIC=0;
+    /**
+	 *  serialVersionUID
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	public final static int METRIC=0;
     public final static int IMPERIAL=1;
     public final static double ALTITUDE_MAX = 3000;
     public final static double METERS_TO_FEET = 3.3;
@@ -112,12 +117,32 @@ public class Prefs implements Serializable
     private double factorComp;          // COnservatism factor
     private double factorDecomp;        // ""
     private String modelClass;          // Deco model class name
+    /*
+     * Enable proxy connections
+     * */
+    /**
+     * Proxy Host 
+     * */
+    private String proxyHost;
+    /**
+     * Proxy port 
+     * */
+    private String proxyPort;
+    /**
+     * Proxy user 
+     * */
+    private String proxyUser;
+    /**
+     * Proxy Host 
+     * */
+    private String proxyPassword;
 
-
+    
 
 
     public void setDefaultPrefs()
     {
+    	
         // Set defaults
         units = METRIC;
         disableModUpdate=false;
@@ -397,6 +422,12 @@ public class Prefs implements Serializable
         int i = modelClass.lastIndexOf(".");
         return modelClass.substring(i+1);
     }
+    //proxy configuration
+    public String getProxyHost(){return proxyHost;}
+    public String getProxyPort(){return proxyPort;}
+    public String getProxyUser(){return proxyUser;}
+    public String getProxyPassword(){return proxyPassword;}
+
     
     // Mutator methods - TODO no bounds checking here
     public void setDisableModUpdate(boolean b)      { disableModUpdate = b;}
@@ -437,6 +468,10 @@ public class Prefs implements Serializable
     public void setFactorDecomp(double d)           { factorDecomp=d; }
     public void setModelClass(String s)             { modelClass=s; }
     public void setModelClassName(String s)         { modelClass="mvplan.model."+s;}
+    public void setProxyHost( String host)			{proxyHost = host;}
+    public void setProxyPort(String port)			{proxyPort = port;}
+    public void setProxyUser(String user)			{proxyUser = user;}
+    public void setProxyPassword(String pass)		{proxyPassword = pass;}
     
     /** Flags are used to alter program operation level
      * Currently:
