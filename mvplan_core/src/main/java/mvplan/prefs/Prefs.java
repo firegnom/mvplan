@@ -35,7 +35,6 @@ import mvplan.segments.SegmentAbstract;
 import mvplan.segments.SegmentDive;
 import java.util.Date;
 import java.util.Calendar;
-import java.awt.Color;
 import mvplan.main.MvplanInstance;
 import mvplan.util.PressureConverter;
 
@@ -182,8 +181,8 @@ public class Prefs implements Serializable
         frameSizeY=600;
         frameSplit=320;
         gfMultilevelMode=false;        
-        prefGases = new ArrayList();
-        prefSegments = new ArrayList();
+        prefGases = new ArrayList<Gas>();
+        prefSegments = new ArrayList<SegmentAbstract>();
         prefGases.add(new Gas (0.0,0.21,66.0));
         prefSegments.add(new SegmentDive(30.0,20.0,(Gas)prefGases.get(0),1.3));        
         maxDepth=100.0;         // Default maximums
@@ -311,12 +310,12 @@ public class Prefs implements Serializable
         if (backgroundColour == 0) backgroundColour = 0xE4ffff;
                   
         // Check ArrayLists for consistency
-        Iterator it = prefSegments.iterator();
+        Iterator<SegmentAbstract> it = prefSegments.iterator();
         SegmentAbstract seg;
         while(it.hasNext()) {
-            seg = (SegmentAbstract)it.next();
+            seg = it.next();
             if( seg.getGas() == null ) {
-                seg.setGas( (Gas)prefGases.get(0));  
+                seg.setGas( prefGases.get(0));  
                 if(debug >0) System.out.println("Prefs: fixed missing gas.");
             }
         }        
@@ -450,8 +449,8 @@ public class Prefs implements Serializable
     public void setFrameSizeY(int i)                { frameSizeY=i; }
     public void setFrameSplit(int i)                { frameSplit=i; }
     public void setGfMultilevelMode(boolean b)      { gfMultilevelMode=b; }
-    public void setPrefGases(ArrayList a)           { prefGases=a; }
-    public void setPrefSegments(ArrayList a)        { prefSegments=a; }
+    public void setPrefGases(ArrayList<Gas> a)      { prefGases=a; }
+    public void setPrefSegments(ArrayList<SegmentAbstract> a){ prefSegments=a; }
     public void setLastModelFile(String f)          { lastModelFile=f; }
     public void setPAmb(double d)                   { pAmb=d; }
     public void setPH2O(double d)                   { pH2O=d; }
