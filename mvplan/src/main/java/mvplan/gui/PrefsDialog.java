@@ -53,6 +53,9 @@ public class PrefsDialog extends JDialog implements ActionListener, FocusListene
     JButton okButton = new JButton();
     JButton cancelButton = new JButton();
     JPanel mainPanel = new JPanel();
+    JPanel networkPanel = new JPanel();
+    JPanel advancedPanel = new JPanel();
+    JTabbedPane tabs = new JTabbedPane();
     JPanel gfPanel = new JPanel();
     JPanel stopPanel = new JPanel();   
     JPanel divePanel = new JPanel();
@@ -76,7 +79,7 @@ public class PrefsDialog extends JDialog implements ActionListener, FocusListene
     JCheckBox extendedOutputCB = new JCheckBox();
     JCheckBox mvMultilevelModeCB = new JCheckBox();
     JRadioButton metricButton, imperialButton;
-    // TODO use reflection ?
+    // TODO use reflection ? i think it would be better to do it using annotations like @SelectableModel or just @Model
     JComboBox cmbModel = new JComboBox(new String[] {"ZHL16B","ZHL16C"});
 
     int outputStyle;    // For prefs checkbox
@@ -108,7 +111,11 @@ public class PrefsDialog extends JDialog implements ActionListener, FocusListene
         descentRateMax = Mvplan.prefs.getDescentRateMax();
         descentRateMin = Mvplan.prefs.getDescentRateMin();  
         
-        cont.add(mainPanel);
+        cont.add(tabs);
+        tabs.add("Main",mainPanel);
+        tabs.add("Network",networkPanel);
+        tabs.add("Advanced",advancedPanel);
+        
         
         // GF Panel
         Border gfBorder = BorderFactory.createEtchedBorder();
