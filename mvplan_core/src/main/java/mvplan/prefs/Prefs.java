@@ -116,6 +116,10 @@ public class Prefs implements Serializable
     private double factorComp;          // COnservatism factor
     private double factorDecomp;        // ""
     private String modelClass;          // Deco model class name
+    private double heliumNarcoticLevel; // is helium a narcotic gas in END calculations level of helium narcosis
+    private double oxygenNarcoticLevel; // is oxygen a narcotic gas in END calculations level of oxygen narcosis
+    
+    
     /*
      * Enable proxy connections
      * */
@@ -209,6 +213,8 @@ public class Prefs implements Serializable
         factorComp=1.0;
         factorDecomp=1.0;
         modelClass="mvplan.model.ZHL16B";
+        heliumNarcoticLevel = 0.23;
+        oxygenNarcoticLevel = 1;
     }
     
     private void setLimits(boolean limits){
@@ -265,19 +271,19 @@ public class Prefs implements Serializable
             // IMPERIAL UNITS
             if ( !(lastStopDepth>3.0 && lastStopDepth<=30.0) ) lastStopDepth=10.0;
             if ( !(stopDepthIncrement>3.0 && stopDepthIncrement<=30.0) ) stopDepthIncrement=10.0;        
-            if ( !(ascentRate>= -33.0 && ascentRate <= -3.0)) ascentRate=-33.0;
+            if ( !(ascentRate>= -32.808399 && ascentRate <= -3.0)) ascentRate=-32.808399;
             if ( !(descentRate>=15.0 && descentRate<= 150.0)) descentRate=60.0;
-            if (!(pAmb>15.0 && pAmb<36.0)) pAmb=33.0;
+            if (!(pAmb>15.0 && pAmb<36.0)) pAmb=32.808399;
             if (altitude < 0.0 || altitude > 16500.0) {
                 altitude = 0.0;
-                pAmb=33.0;
+                pAmb=32.808399;
             }
-            pConversion=33.0;
+            pConversion=32.808399;
             if (!(pH2O>=0.0 && pH2O <2.5)) pH2O=2.041;             
             stopDepthMax=40.0;  
             descentRateMax=150;
             descentRateMin=15.0;
-            ascentRateMax=-33.0;
+            ascentRateMax=-32.808399;
             ascentRateMin=-3.0;
             depthShortString = MvplanInstance.getMvplan().getResource("mvplan.feet.shortText");  
             volumeShortString = MvplanInstance.getMvplan().getResource("mvplan.cuft.shortText");
@@ -318,7 +324,10 @@ public class Prefs implements Serializable
                 seg.setGas( prefGases.get(0));  
                 if(debug >0) System.out.println("Prefs: fixed missing gas.");
             }
-        }        
+        }
+        
+        if (heliumNarcoticLevel > 1|| heliumNarcoticLevel < 0 ) heliumNarcoticLevel = 0.23;
+        if (oxygenNarcoticLevel > 1|| oxygenNarcoticLevel < 0 ) oxygenNarcoticLevel = 1;
     }
      /**
      * Used to change the units. Needs to make some changes to some parameters
@@ -333,9 +342,9 @@ public class Prefs implements Serializable
             pConversion = 10.0;
             pH2O=0.627;                  
         } else {
-            //ascentRate=-33.0;
-            pAmb=33.0;
-            pConversion = 33.0;
+            //ascentRate=-32.808399;
+            pAmb=32.808399;
+            pConversion = 32.808399;
             pH2O=2.041;             
         }
         validatePrefs();    // Just check that everything is still ok.
@@ -377,15 +386,15 @@ public class Prefs implements Serializable
     public double getGfHigh()               { return  gfHigh; }   
     public double getGfLow()                { return gfLow; }
     public double getGfMax()                { return gfMax; }
-    public double getGfMin()                {return gfMin; }
+    public double getGfMin()                { return gfMin; }
     public double getDecoRMV()              { return decoRMV; }
     public double getDiveRMV()              { return diveRMV; }
     public boolean getOcDeco()              { return ocDeco; }   
     public boolean getForceAllStops()       { return forceAllStops; }
     public boolean getRuntimeFlag()         { return runtimeFlag; }
     public int getOutputStyle()             { return outputStyle; }
-    public boolean isPrintColour()         { return printColour; }
-    public boolean isShowSeconds()         { return showSeconds;}
+    public boolean isPrintColour()          { return printColour; }
+    public boolean isShowSeconds()          { return showSeconds;}
     public int getFrameSizeX()              { return frameSizeX; }
     public int getFrameSizeY()              { return frameSizeY; }
     public int getFrameSplit()              { return frameSplit; }
@@ -426,8 +435,7 @@ public class Prefs implements Serializable
     public String getProxyPort(){return proxyPort;}
     public String getProxyUser(){return proxyUser;}
     public String getProxyPassword(){return proxyPassword;}
-
-    
+        
     // Mutator methods - TODO no bounds checking here
     public void setDisableModUpdate(boolean b)      { disableModUpdate = b;}
     public void setLastStopDepth(double d)          { lastStopDepth=d; }
@@ -484,7 +492,7 @@ public class Prefs implements Serializable
     }
     
     
-    // These are accessors created by Netbeans ...
+    // These are accessors created by Netbeans ... 
     
     public boolean isShowStopTime() {
         return showStopTime;
@@ -532,6 +540,48 @@ public class Prefs implements Serializable
     public void setHomeURL(String homeURL) {
         this.homeURL = homeURL;
     }
+
+	/**
+	 * @return the heliumNarcoticLevel
+	 */
+	public double getHeliumNarcoticLevel() {
+		return heliumNarcoticLevel;
+	}
+
+	/**
+	 * @param heliumNarcoticLevel the heliumNarcoticLevel to set
+	 */
+	public void setHeliumNarcoticLevel(double heliumNarcoticLevel) {
+		this.heliumNarcoticLevel = heliumNarcoticLevel;
+	}
+
+	/**
+	 * @return the oxygenNarcoticLevel
+	 */
+	public double getOxygenNarcoticLevel() {
+		return oxygenNarcoticLevel;
+	}
+
+	/**
+	 * @param oxygenNarcoticLevel the oxygenNarcoticLevel to set
+	 */
+	public void setOxygenNarcoticLevel(double oxygenNarcoticLevel) {
+		this.oxygenNarcoticLevel = oxygenNarcoticLevel;
+	}
+
+	/**
+	 * @return the preferredLocale
+	 */
+	public Locale getPreferredLocale() {
+		return preferredLocale;
+	}
+
+	/**
+	 * @param preferredLocale the preferredLocale to set
+	 */
+	public void setPreferredLocale(Locale preferredLocale) {
+		this.preferredLocale = preferredLocale;
+	}
 
 }
 

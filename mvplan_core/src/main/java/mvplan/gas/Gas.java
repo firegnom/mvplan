@@ -29,6 +29,7 @@ import java.io.*;
 import java.text.MessageFormat;
 import mvplan.main.MvplanInstance;
 import mvplan.prefs.Prefs;
+import mvplan.util.GasUtils;
 
 /**
  * 
@@ -74,64 +75,7 @@ public class Gas implements Comparable<Gas>, Serializable, Cloneable
     public Gas() {            
     }
     
-    /** 
-     * Method to validate a field for limits only 
-     */
-    public static boolean validate(String field, double value) {
-        if(field.equals("fHe") || field.equals("fO2"))
-            return ( value >= 0.0 && value <=1.0);
-        if(field.equals("mod"))
-            // Need to hard code nominal max value due to potential of prefs not being fully set up when this is called
-            return (value >=0.0 && value <= 900.0);
-        return false;        
-    }
     
-    /** 
-     * Method to validate all inputs (fO2, fHe and MOD)
-     */
-    public static boolean validate(double fHe, double fO2, double mod) {
-        boolean passed=true;
-        Prefs prefs = MvplanInstance.getPrefs();
-        // Check individual fields for bounds   
-        passed = (passed && validate("fHe",fHe));
-        passed = (passed && validate("fO2",fO2));
-        passed = (passed && validate("mod",mod));
-        if(!passed) return false;
-        // Check combined fractions
-        passed = (passed && (fHe+fO2)<=1.0);
-        if(!passed) return false;
-        
-        // Check MOD for sensible value   
-        if(fO2 == 0.0 && mod == 0.0)    // Leave empty gases alone to allow construction
-            return passed;
-        if(MvplanInstance.getMvplan() != null && prefs != null) {   // Need to check that prefs exists. We can get to this point during the initilisation of the prefs object
-            double d = ((mod+prefs.getPConversion())/prefs.getPConversion()*fO2);
-            passed = (d <= prefs.getMaxMOD()+0.05);  // Tolerance of 0.05 to prevent unneccessary failure due to rounding
-        }
-            
-        return passed;        
-    }        
-    /** 
-     * Method to get a maximum MOD based on O2 fraction
-     */
-    public static double getMaxMod(double o) {
-    	Prefs prefs = MvplanInstance.getPrefs();
-        return (prefs.getMaxMOD()/o * prefs.getPConversion())-prefs.getPConversion();
-    }
-    /** 
-     * Method to get a MOD based on O2 fraction and maximum ppO2
-     */
-    public static double getMod(double fO2, double ppO2) {
-    	Prefs prefs = MvplanInstance.getPrefs();
-        return (ppO2/fO2 * prefs.getPConversion())-prefs.getPConversion();
-    }
-    /** 
-     * Method to get a ppO2 based on O2 fraction and MOD
-     */
-    public static double getppO2(double f, double m) {
-    	Prefs prefs = MvplanInstance.getPrefs();
-        return ( (m+prefs.getPConversion())*f/prefs.getPConversion());
-    }
     
     /**
      * Override the clone method to make it public
@@ -184,7 +128,7 @@ public class Gas implements Comparable<Gas>, Serializable, Cloneable
      */
     public void setGas(double fHe,double fO2, double mod)
     {
-       if( validate(fHe, fO2, mod)) {
+       if( GasUtils.validate(fHe, fO2, mod)) {
             this.fHe=fHe;
             this.fO2=fO2;
             this.mod=mod;

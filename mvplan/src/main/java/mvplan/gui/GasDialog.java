@@ -35,6 +35,7 @@ import javax.swing.event.ChangeListener;
 import java.lang.Math.*;
 import mvplan.gas.Gas;
 import mvplan.main.*;
+import mvplan.util.GasUtils;
 
 public class GasDialog extends JDialog
                         implements ActionListener, FocusListener, ChangeListener
@@ -71,7 +72,7 @@ public class GasDialog extends JDialog
         maxMOD = Mvplan.prefs.getMaxMOD();      // Get max pO2 
         
         if(gas.getMod()>0.0) 
-            sliderMOD=Gas.getppO2(gas.getFO2(),gas.getMod());
+            sliderMOD=GasUtils.getppO2(gas.getFO2(),gas.getMod());
         else
             sliderMOD=maxMOD;
         
@@ -195,7 +196,7 @@ public class GasDialog extends JDialog
         //System.out.println(e.getActionCommand());
         if ("ok".equals(e.getActionCommand())) {
             try {                
-                canClose = Gas.validate( 
+                canClose = GasUtils.validate( 
                                 h = Double.parseDouble(inputHe.getText())/100.0,
                                 o = Double.parseDouble(inputO2.getText())/100.0,
                                 m=  Double.parseDouble(inputMod.getText()));                                     
@@ -222,7 +223,7 @@ public class GasDialog extends JDialog
                 o = Double.parseDouble(inputO2.getText())/100.0;
             } catch (NumberFormatException ex) { }
             if (o>0.0) {                
-                inputMod.setText(String.valueOf( (int)Math.round(Gas.getMod(o,sliderMOD))));                
+                inputMod.setText(String.valueOf( (int)Math.round(GasUtils.getMod(o,sliderMOD))));                
             }
             validateForm();
         }
@@ -238,7 +239,7 @@ public class GasDialog extends JDialog
                 mod = Double.parseDouble(inputMod.getText());
             } catch (NumberFormatException ex) { }
             if (fO2>0.0) {
-                sliderMOD=Gas.getppO2(fO2,mod);
+                sliderMOD=GasUtils.getppO2(fO2,mod);
                 //System.out.println("focusLost(): set sliderMOD="+sliderMOD);
                 ppO2Slider.setValue((int)Math.round(sliderMOD*100));
             }
@@ -257,7 +258,7 @@ public class GasDialog extends JDialog
             okButton.setEnabled(false); 
             return false;
         }        
-        check = Gas.validate(h,o,m);
+        check = GasUtils.validate(h,o,m);
         okButton.setEnabled(check);
         return check;
     }
@@ -276,11 +277,11 @@ public class GasDialog extends JDialog
                 // Parse as integer because we want integer numbers input
                 int n=Integer.parseInt(field.getText());
                 if (field==(inputMod))
-                    fieldPassed = Gas.validate("mod",(double)n);
+                    fieldPassed = GasUtils.validate("mod",(double)n);
                 else if (field == inputHe)
-                    fieldPassed = Gas.validate("fHe",((double)n)/100);
+                    fieldPassed = GasUtils.validate("fHe",((double)n)/100);
                 else if (field == inputO2)
-                    fieldPassed = Gas.validate("fO2",((double)n)/100);                                                
+                    fieldPassed = GasUtils.validate("fO2",((double)n)/100);                                                
             } catch (NumberFormatException e) {
                 fieldPassed=false;
             }
@@ -309,7 +310,7 @@ public class GasDialog extends JDialog
             o = 0.0;
         }
         if (o>0.0) {
-            inputMod.setText(String.valueOf( (int)Math.round(Gas.getMod(o,sliderMOD))));
+            inputMod.setText(String.valueOf( (int)Math.round(GasUtils.getMod(o,sliderMOD))));
             //System.out.println("stateChanged(): sliderMOD="+sliderMOD+" inputMod:"+inputMod.getText());
             validateForm();
         }
