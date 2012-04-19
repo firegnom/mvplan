@@ -58,25 +58,25 @@ public class TableGeneratorModel {
      * @param g ArrayList of known gases
      * @param modifiers int[] of profile time modifiers
      */
-    public TableGeneratorModel(ArrayList s, ArrayList g, int[] modifiers) {
+    public TableGeneratorModel(ArrayList<SegmentAbstract> s, ArrayList<Gas> g, int[] modifiers) {
         // Create new clean ArrayLists
-        knownSegments = new ArrayList();
-        knownGases = new ArrayList();
+        knownSegments = new ArrayList<SegmentAbstract>();
+        knownGases = new ArrayList<Gas>();
         int i;      
         
         // Initialise modifiers - gets REFERENCE to array
         this.modifiers= modifiers;
         
         // Copy and clean known segments and gases
-        Iterator is=s.iterator();
+        Iterator<SegmentAbstract> is=s.iterator();
         while(is.hasNext()){
-            SegmentAbstract segment = (SegmentAbstract)is.next();
+            SegmentAbstract segment = is.next();
             if(segment.getEnable().booleanValue()==true)                // Only copy enabled segments
                 knownSegments.add((SegmentAbstract)segment.clone());    // Clone them to avoid conflicts
         }
-        Iterator ig=g.iterator();
+        Iterator<Gas> ig=g.iterator();
         while(ig.hasNext()){
-            Gas gas = (Gas)ig.next();
+            Gas gas = ig.next();
             if(gas.getEnable() == true)             // Only copy enabled gases
                 knownGases.add((Gas)gas.clone());   // Clone them to avoid conflicts
         }   
@@ -86,7 +86,7 @@ public class TableGeneratorModel {
         if (knownSegments.size()>0) {
               // Iterate BACK through dive segments and return last one that is NOT a waypoint
             for (i=knownSegments.size()-1; i>=0; i--){
-                if(((SegmentAbstract)knownSegments.get(i)).getTime() > 0.0f ) {
+                if((knownSegments.get(i)).getTime() > 0.0f ) {
                     controlSegmentIndex = i;
                     break;
                 }
@@ -196,7 +196,7 @@ public class TableGeneratorModel {
      * @return returnCodes as defined in Profile()
      */
     public int doMultiDive() {
-        ArrayList a;        // Working arraylist
+        ArrayList<SegmentAbstract> a;        // Working arraylist
         SegmentAbstract s;  // Working segment
 
         int i,j;            // Counters
@@ -227,14 +227,14 @@ public class TableGeneratorModel {
         // Process the  profiles 
         for(i=0;i<=numProfiles-1;i++) {     // For each profile ...
             // Clone from knownSegments into a new ArrayList
-            a=new ArrayList();            
-            Iterator is=knownSegments.iterator();
+            a=new ArrayList<SegmentAbstract>();            
+            Iterator<SegmentAbstract> is=knownSegments.iterator();
             while(is.hasNext()) {
-                s=(SegmentAbstract)is.next();
-                a.add(s.clone());   // Need to clone s !
+                s=is.next();
+                a.add((SegmentAbstract) s.clone());   // Need to clone s !
             }
             // Adjust LAST segment for modified time
-            s = (SegmentAbstract)a.get(controlSegmentIndex);
+            s = a.get(controlSegmentIndex);
             double time = s.getTime();
             time = time+modifiers[i];
             s.setTime(time);
@@ -282,7 +282,7 @@ public class TableGeneratorModel {
         ascentRow=knownSegments.size()+1;        
         // Sequence through longest profile and look for first deco segment        
         for (i=0; i<multiProfile[longestProfile].getProfile().size()-1; i++){
-            if( ((SegmentAbstract)multiProfile[longestProfile].getProfile().get(i)).getType()== SegmentAbstract.DECO ) {
+            if( (multiProfile[longestProfile].getProfile().get(i)).getType()== SegmentAbstract.DECO ) {
                 ascentRow=i;
                 break;
             }                        
@@ -304,7 +304,7 @@ public class TableGeneratorModel {
         segmentArray = new SegmentAbstract [numProfiles][rows];        
         for(i=0; i<=numProfiles-1;i++){ // For each profile
             for(j=0;j<=rows-1;j++) {     // For each segment (row)
-                s=(SegmentAbstract)multiProfile[i].getProfile().get(j);
+                s=multiProfile[i].getProfile().get(j);
                 segmentArray [i][j] = s;
             }
         }
@@ -332,7 +332,7 @@ public class TableGeneratorModel {
      * getKnownSegments - gets the KnownSegments ArrayList
      * @return (SegmentAbstract)ArrayList KnownSegments
      */
-    public ArrayList getKnownSegments() {
+    public ArrayList<SegmentAbstract> getKnownSegments() {
         return knownSegments;
     }    
 }

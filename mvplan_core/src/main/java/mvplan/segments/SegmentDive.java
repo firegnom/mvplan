@@ -43,7 +43,7 @@ public class SegmentDive extends SegmentAbstract
         super.depth=depth;
         super.gas=gas;
         super.setpoint=setpoint;
-        super.type=super.CONST;
+        super.type=CONST;
         super.time=time;
     }
 

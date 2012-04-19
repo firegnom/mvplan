@@ -1,5 +1,8 @@
 package mvplan;
 
+/**This is a toplevel exception
+ * @author Maciej Kaniewski
+ */
 public class MVPlanException  extends  Exception{
 
 	public MVPlanException(String desc) {
@@ -15,9 +18,6 @@ public class MVPlanException  extends  Exception{
 	}
 
 
-	/**this is a toplevel exception for library
-	 * @author Maciej Kaniewski
-	 */
 	private static final long serialVersionUID = 1L;
 
 }

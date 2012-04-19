@@ -79,17 +79,17 @@ public class Profile
     public static final int INFINITE_DECO=4;
 
     /** Constructor for objects of class Profile */
-    public Profile(ArrayList knownSegments, ArrayList knownGases, AbstractModel m)
+    public Profile(ArrayList <SegmentAbstract> knownSegments, ArrayList <Gas> knownGases, AbstractModel m)
     {
         Gas g;                  // Used for constructing arraylists of gases and segments   
         SegmentAbstract s;      // as above
-        Class modelClass;
+        Class<? extends AbstractModel> modelClass;
 
 
 
-        inputSegments = new ArrayList();
-        outputSegments = new ArrayList();
-        gases = new ArrayList();
+        inputSegments = new ArrayList <SegmentAbstract>();
+        outputSegments = new ArrayList<SegmentAbstract>();
+        gases = new ArrayList<Gas>();
         // Is this a new model or a repetative dive ?
         if (m==null) {  
             // Initialise new model.
@@ -97,8 +97,8 @@ public class Profile
             // TODO Define which concrete model to use
              try {                
                 if (debug>0) System.out.println("Loading model class:"+prefs.getModelClass());
-                modelClass = Class.forName(prefs.getModelClass());
-                model = (AbstractModel)modelClass.newInstance();
+                modelClass = Class.forName(prefs.getModelClass()).asSubclass(AbstractModel.class);
+                model = modelClass.newInstance();
             } catch (Exception ex) {
                 model = new ZHL16B();
                 if (debug>0) System.out.println("Model instantiation exception for: "+ex.getMessage());
@@ -118,17 +118,17 @@ public class Profile
         }
 
         // Construct list of dive segments from known segments
-        Iterator is=knownSegments.iterator();
+        Iterator<SegmentAbstract> is=knownSegments.iterator();
         while(is.hasNext()) {
-            s=(SegmentAbstract)is.next();
+            s=is.next();
             // Add enabled dive segments only to input segments
             if (s.getEnable().booleanValue()==true) 
                 inputSegments.add(s);
         }
         // construct list of dive gases from known gases
-        Iterator ig=knownGases.iterator();
+        Iterator<Gas> ig=knownGases.iterator();
         while(ig.hasNext()) {
-            g=(Gas)ig.next();
+            g=ig.next();
             g.setVolume(0.0);   // Reset the gas volume to zero
             if (g.getEnable()==true) {
                 // Add enabled gases only to gas arraylist
@@ -139,8 +139,8 @@ public class Profile
     }
     
     // Accessor methods for profile 
-    public ArrayList getProfile()   { return outputSegments; }
-    public ArrayList getGases()     { return gases; }
+    public ArrayList<SegmentAbstract> getProfile()   { return outputSegments; }
+    public ArrayList<Gas> getGases()     { return gases; }
     public AbstractModel getModel()         { return model; }
     public boolean getIsRepetitiveDive()    {return isRepetativeDive;}
     public int getSurfaceInterval()         { return surfaceInterval; }
@@ -199,7 +199,7 @@ public class Profile
         inFinalAscent=false;    // Flag used to work out when all segments are complete and are in flnal ascent  
         
         // Process segment list of user defined segments through model
-        Iterator it=inputSegments.iterator();        
+        Iterator<SegmentAbstract> it=inputSegments.iterator();        
         while(it.hasNext()) {
             s=(SegmentAbstract)it.next();   // Get segment
             if (debug >1) System.out.println("Processing: "+s);
@@ -267,7 +267,7 @@ public class Profile
         if(returnCode != SUCCESS)
             return returnCode;
         // Calculate runtimes and update the segments
-        Iterator it2=outputSegments.iterator();
+        Iterator<SegmentAbstract> it2=outputSegments.iterator();
         t=0;
         while(it2.hasNext()) {
             s=(SegmentAbstract)it2.next();      
@@ -280,7 +280,7 @@ public class Profile
     }
 
 
-    /* 
+    /** 
      * Ascend to target depth, decompressing if necessary. 
      * If inFinalAscent then gradient factors start changing, and automatic gas selection is made. 
      */
@@ -297,7 +297,7 @@ public class Profile
         double maxMV=0;                 // Holds maximum mvgradient at each stop
         double nextStopDepth;           // Next proposed stop depth
         int control=0;                  // Stores controlling compartment at new depth
-        double ceiling;                 // Used to store ceiling
+        //double ceiling;                 // Used to store ceiling
         Gas tempGas;        
         SegmentDeco decoSegment;        // Use for adding deco segments
         
@@ -467,7 +467,7 @@ public class Profile
     public void doGasCalcs()
     {
         SegmentAbstract s;
-        Iterator it=outputSegments.iterator();
+        Iterator<SegmentAbstract> it=outputSegments.iterator();
         
         while(it.hasNext()) {
             s=(SegmentAbstract)it.next();

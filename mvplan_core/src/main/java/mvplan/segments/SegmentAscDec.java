@@ -51,9 +51,9 @@ public class SegmentAscDec extends SegmentAbstract
             this.rate=rate;
             super.time = (endDepth-startDepth)/rate;
             if (startDepth < endDepth) 
-                    super.type=super.DESCENT;
+                    super.type=DESCENT;
             else
-                    super.type=super.ASCENT;
+                    super.type=ASCENT;
     }
 
     /** Override gasUsed() to determine the gas used in this segment  
@@ -89,7 +89,7 @@ public class SegmentAscDec extends SegmentAbstract
         timeMins=(int)time;
         timeSeconds = (int)((time - (double)timeMins)*60.0);
         
-        if (super.type == super.ASCENT)  s="ASC "; else s="DESC";
+        if (super.type == ASCENT)  s="ASC "; else s="DESC";
         
         return String.format("%1$4s:%2$3.0f"+MvplanInstance.getMvplan().getPrefs().getDepthShortString()+" for %3$02d:%4$02d [%5$3.0f] on %6$s, SP: %7$3.1f, END:%8$3.0f"+MvplanInstance.getMvplan().getPrefs().getDepthShortString(),
               s, depth, timeMins, timeSeconds ,  runTime,  gas.toString(), setpoint, getEnd());

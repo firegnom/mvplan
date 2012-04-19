@@ -54,7 +54,7 @@ public class SegmentDeco extends SegmentAbstract
         super.depth=depth;
         super.gas=gas;
         super.setpoint=setpoint;
-        super.type=super.DECO;
+        super.type=DECO;
         super.time=time;
         mvMax=0;
         gfUsed=0;
