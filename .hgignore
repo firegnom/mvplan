@@ -9,3 +9,8 @@ mvplan_core/dist/*
 mvplan_core/nbproject/private*
 mvplan_core/target/*
 mvplan/target/*
+syntax: glob
+.settings/*
+mvplan_core/.project
+mvplan_core/.classpath
+.project
