@@ -24,21 +24,27 @@
 
 package mvplan.gui;
 
-import java.awt.*;
-import java.awt.font.*;
-import java.util.ArrayList;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+import java.awt.font.FontRenderContext;
+import java.awt.font.LineMetrics;
+import java.util.List;
+
 import mvplan.main.Mvplan;
 import mvplan.segments.SegmentAbstract;
 
 public class ProfileDisplayComponent extends AbstractDisplayComponent
 {
   
-    private ArrayList segments;
+    private List segments;
 
     /**
      * Constructor for objects of class profileDisplayComponent
      */
-    public ProfileDisplayComponent(ArrayList outputSegments, String heading)
+    public ProfileDisplayComponent(List <SegmentAbstract> outputSegments, String heading)
     {
         this.segments=outputSegments;
         this.heading=heading;

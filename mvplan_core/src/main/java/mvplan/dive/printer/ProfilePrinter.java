@@ -5,7 +5,8 @@
 
 package mvplan.dive.printer;
 
-import java.util.ArrayList;
+import java.util.List;
+
 import mvplan.dive.Profile;
 import mvplan.gas.Gas;
 
@@ -14,7 +15,7 @@ import mvplan.gas.Gas;
  * @author Maciej Kaniewski
  */
 public abstract class ProfilePrinter <T> {
-    public ProfilePrinter(Profile p , T data ,ArrayList<Gas> knownGases){
+    public ProfilePrinter(Profile p , T data ,List<Gas> knownGases){
     }
     public abstract T print();
     

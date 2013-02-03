@@ -22,14 +22,15 @@
 package mvplan.dive.printer;
 
 import java.math.BigDecimal;
-import mvplan.main.IMvplan;
-import mvplan.segments.SegmentAbstract;
-import mvplan.dive.Profile;
-import mvplan.gas.Gas;
-
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
+
+import mvplan.dive.Profile;
+import mvplan.gas.Gas;
+import mvplan.main.IMvplan;
 import mvplan.main.MvplanInstance;
+import mvplan.segments.SegmentAbstract;
 //import java.util.MissingResourceException;
 
 public class TextProfilePrinter extends ProfilePrinter <StringBuffer>{
@@ -39,10 +40,10 @@ public class TextProfilePrinter extends ProfilePrinter <StringBuffer>{
     private Profile profile;
     //private boolean showStopTime = MvplanInstance.getPrefs().isShowStopTime();
     private String disclaimer;
-    private ArrayList knownGases;
+    private List<Gas> knownGases;
     
     /** Creates a new instance of ProfilePrinter */
-    public TextProfilePrinter(Profile p, StringBuffer text, ArrayList knownGases) {
+    public TextProfilePrinter(Profile p, StringBuffer text, List<Gas> knownGases) {
         super(p, text, knownGases);
         this.profile=p;
         this.textArea=text;
@@ -72,8 +73,6 @@ public class TextProfilePrinter extends ProfilePrinter <StringBuffer>{
      * Prints an extended dive table to the textArea 
      */
     private void doPrintExtendedTable() {        
-        ArrayList segments;
-        SegmentAbstract s;
         
         if(profile.getIsRepetitiveDive()) {
             // Print repetitive dive heading
@@ -97,10 +96,7 @@ public class TextProfilePrinter extends ProfilePrinter <StringBuffer>{
         printAltitude();
         
         textArea.append("========================================================="+'\n');
-        segments = profile.getProfile();      
-        Iterator i = segments.iterator();
-        while(i.hasNext()) {
-            s=(SegmentAbstract)i.next();
+        for(SegmentAbstract s : profile.getProfile()) {
             textArea.append(s.toStringLong()+'\n');
         }
         doGasUsage();        
@@ -113,16 +109,14 @@ public class TextProfilePrinter extends ProfilePrinter <StringBuffer>{
         //TODO - use String formatter for these so as to display localisations properly        
         // Display gas usage
         // GW - Modified Mar-2009 to display all knaown gases with volumes > 0 so as to pick up open circuit bottom gas
-        ArrayList gases=knownGases; //profile.getGases();
-        Iterator i2 = gases.iterator();  
+        List<Gas> gases=knownGases; //profile.getGases();
         String volumeUnits = MvplanInstance.getPrefs().getVolumeShortString();
         
         // Gas usage heading
         textArea.append('\n'+mvplan.getResource("mvplan.gui.text.ProfilePrinter.gasEstimate.text")+" ="+
                         MvplanInstance.getPrefs().getDiveRMV()+", "+mvplan.getResource("mvplan.gui.text.ProfilePrinter.decoRmv.text")+
                         " ="+MvplanInstance.getPrefs().getDecoRMV()+volumeUnits+"/"+ mvplan.getResource("mvplan.minutes.shortText") + '\n');
-        while(i2.hasNext()) {
-            Gas g=(Gas)i2.next();
+        for (Gas g : gases){
             if(g.getVolume()> 0.0d)
                 textArea.append(g+" : "+ roundDouble(1, g.getVolume())+volumeUnits+'\n');
         }
@@ -139,8 +133,7 @@ public class TextProfilePrinter extends ProfilePrinter <StringBuffer>{
      * Prints a short text dive table to the textArea 
      */
     private void doPrintShortTable() {              
-        ArrayList segments;
-        SegmentAbstract s;
+        
         
         int segTimeMins,segTimeSeconds;
 
@@ -165,10 +158,8 @@ public class TextProfilePrinter extends ProfilePrinter <StringBuffer>{
         textArea.append("    "+MvplanInstance.getPrefs().getDepthShortString()+"   "+mvplan.getResource("mvplan.gui.text.ProfilePrinter.heading.text")+'\n');
         textArea.append("=============================="+'\n');
         //              "- 120  00:00  000  88/88  1.30  
-        segments = profile.getProfile();      
-        Iterator i = segments.iterator();
-        while(i.hasNext()) {
-            s=(SegmentAbstract)i.next();
+
+        for (SegmentAbstract s: profile.getProfile()){
             segTimeMins=(int)s.getTime();
             segTimeSeconds = (int)((s.getTime() - (double)segTimeMins)*60.0);
 

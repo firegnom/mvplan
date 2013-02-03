@@ -25,19 +25,46 @@
 
 package mvplan.gui;
 
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
-import javax.swing.border.*;
-import java.util.ArrayList;
+import java.awt.Color;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.Frame;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.print.PageFormat;
 import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
-import java.awt.print.PageFormat;
-import java.lang.reflect.*;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
 
-import mvplan.main.Mvplan;
+import javax.swing.AbstractAction;
+import javax.swing.Action;
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JColorChooser;
+import javax.swing.JComboBox;
+import javax.swing.JComponent;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.KeyStroke;
+import javax.swing.border.Border;
+
 import mvplan.dive.TableGeneratorModel;
+import mvplan.main.Mvplan;
 import mvplan.main.MvplanInstance;
+import mvplan.segments.SegmentAbstract;
 
 
 public class TablePreviewDialog  extends JDialog implements  ActionListener {
@@ -62,7 +89,7 @@ public class TablePreviewDialog  extends JDialog implements  ActionListener {
     JComboBox printFontSizeCombo = new JComboBox(new Object [] {new Integer(9),new Integer(10), new Integer(12),new Integer(14)});   
     Insets displayComponentInsets=new Insets(0,0,0,0);      
     TableGeneratorModel model;
-    ArrayList segments;
+    List <SegmentAbstract> segments;
     String heading;
     Frame parent;   
     AbstractDisplayComponent displayComponent;
@@ -87,7 +114,7 @@ public class TablePreviewDialog  extends JDialog implements  ActionListener {
     /**
      * Constructor for simple ArrayLists of Segments == singe dive plans
      */
-    public TablePreviewDialog(Frame frame, ArrayList segments, String heading) {
+    public TablePreviewDialog(Frame frame, List<SegmentAbstract> segments, String heading) {
         super(frame,false);
         this.setTitle(MvplanInstance.getMvplan().getResource("mvplan.gui.TablePreviewDialog.title.text"));
         this.heading=heading;        

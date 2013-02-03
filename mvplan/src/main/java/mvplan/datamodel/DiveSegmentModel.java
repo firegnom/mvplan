@@ -24,19 +24,22 @@
 
 package mvplan.datamodel;
 
-import javax.swing.table.*;
 import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.table.AbstractTableModel;
+
 import mvplan.gas.Gas;
+import mvplan.main.MvplanInstance;
 import mvplan.segments.SegmentAbstract;
-import mvplan.main.*;
 
 public class DiveSegmentModel extends AbstractTableModel
 {
     String [] headings;
-    ArrayList knownSegments;    
+    List <SegmentAbstract> knownSegments;    
     public static int COLUMN_COUNT=5;
 
-    public DiveSegmentModel(ArrayList knownSegments)
+    public DiveSegmentModel(List knownSegments)
     {
         this.knownSegments=knownSegments;
         
@@ -51,7 +54,7 @@ public class DiveSegmentModel extends AbstractTableModel
     }
 
     // Accessors
-    public ArrayList<SegmentAbstract> getKnownSegments()    { return knownSegments;}
+    public List<SegmentAbstract> getKnownSegments()    { return knownSegments;}
     public int getRowCount()                                { return knownSegments.size();}
     public int getColumnCount()                             { return COLUMN_COUNT; }
     public String getColumnName(int col)                    { return headings[col]; }

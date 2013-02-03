@@ -24,40 +24,80 @@
 
 package mvplan.gui;
 
-import mvplan.dive.printer.TextTablePrinter;
-import mvplan.dive.printer.TextProfilePrinter;
-import mvplan.util.MyFileFilter;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
+import java.awt.Image;
+import java.awt.Insets;
+import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.awt.event.InputEvent;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.print.PageFormat;
+import java.io.File;
 import java.math.BigDecimal;
-import java.util.Locale;
-import mvplan.main.Mvplan;
-import mvplan.datamodel.GasModel;
-import mvplan.datamodel.DiveSegmentModel;
-import mvplan.dive.*;
-import mvplan.gas.Gas;
-import mvplan.model.AbstractModel;
-import mvplan.model.ModelDAO;
-import mvplan.prefs.PrefsXMLDAO;
-import mvplan.prefs.PrefsXStreamDAO;
-import mvplan.segments.SegmentDive;
-import mvplan.segments.SegmentAbstract;
-import mvplan.updater.*;
-import mvplan.util.*;
-import mvplan.gui.text.*;
-import mvplan.gui.components.*;
-import java.awt.*;
-import java.io.*;
-import javax.swing.*;
-import java.awt.event.*;
-import java.awt.print.*;
 import java.util.ArrayList;
 import java.util.Iterator;
-import javax.swing.border.*;
-import javax.swing.table.*;
-import javax.swing.event.*;
+import java.util.Locale;
 import java.util.MissingResourceException;
+
+import javax.swing.BorderFactory;
+import javax.swing.DefaultCellEditor;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
+import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
+import javax.swing.JTable;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.JToolBar;
+import javax.swing.ListSelectionModel;
+import javax.swing.border.Border;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.table.TableColumn;
+
+import mvplan.datamodel.DiveSegmentModel;
+import mvplan.datamodel.GasModel;
+import mvplan.dive.Profile;
+import mvplan.dive.TableGeneratorModel;
+import mvplan.gas.Gas;
+import mvplan.gui.components.ModelDisplayComponent;
+import mvplan.gui.components.ProgressIndicator;
+import mvplan.gui.text.JTextAreaProfilePrinter;
+import mvplan.gui.text.JTextAreaTablePrinter;
+import mvplan.main.Mvplan;
 import mvplan.main.MvplanInstance;
+import mvplan.model.AbstractModel;
+import mvplan.model.ModelDAO;
+import mvplan.prefs.PrefsXStreamDAO;
+import mvplan.segments.SegmentAbstract;
+import mvplan.segments.SegmentDive;
+import mvplan.updater.VersionManager;
+import mvplan.util.MyFileFilter;
 
 public class MainFrame extends JFrame
 {       
@@ -70,9 +110,9 @@ public class MainFrame extends JFrame
         Profile currentProfile=null;    // Current Profile (Single Dive) model
         AbstractModel currentModel=null;        // Current tissue model
         TableGeneratorModel currentTable=null;  // Current multi-profile table model.         
-        ArrayList knownGases;           // Maintains known gases
+        java.util.List <Gas> knownGases;           // Maintains known gases
         GasModel knownGasModel;         // For Gas table
-        ArrayList knownSegments;        // Maintains known Dive Segments
+        java.util.List <SegmentAbstract> knownSegments;        // Maintains known Dive Segments
         DiveSegmentModel knownSegmentsModel;    // For Dive Profile Table
 
         // State fields

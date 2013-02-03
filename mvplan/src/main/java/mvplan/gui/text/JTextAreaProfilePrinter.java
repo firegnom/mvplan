@@ -21,13 +21,15 @@
 
 package mvplan.gui.text;
 
-import mvplan.dive.Profile;
-import mvplan.gas.Gas;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JTextArea;
-import java.util.ArrayList;
+
+import mvplan.dive.Profile;
 import mvplan.dive.printer.ProfilePrinter;
 import mvplan.dive.printer.TextProfilePrinter;
+import mvplan.gas.Gas;
 //import java.util.MissingResourceException;
 
 public class JTextAreaProfilePrinter extends ProfilePrinter <JTextArea> {
@@ -35,11 +37,11 @@ public class JTextAreaProfilePrinter extends ProfilePrinter <JTextArea> {
     private JTextArea textArea;
     private Profile profile;
     //private boolean showStopTime = Mvplan.prefs.isShowStopTime();
-    private ArrayList<Gas> knownGases;
+    private List<Gas> knownGases;
     StringBuffer result = new StringBuffer();
     
      /** Creates a new instance of ProfileTextAreaPrinter */
-    public JTextAreaProfilePrinter(Profile p, JTextArea text, ArrayList<Gas> knownGases) {
+    public JTextAreaProfilePrinter(Profile p, JTextArea text, List<Gas> knownGases) {
         super(p, text, knownGases);
         this.profile=p;
         this.textArea=text;

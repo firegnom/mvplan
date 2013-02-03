@@ -37,6 +37,8 @@ package mvplan.dive;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.List;
+
 import mvplan.gas.Gas;
 import mvplan.main.MvplanInstance;
 import mvplan.model.*;
@@ -54,9 +56,9 @@ public class Profile
     private final int debug = MvplanInstance.getMvplan().getDebug();
     private Prefs prefs = MvplanInstance.getMvplan().getPrefs();
     
-    private ArrayList<SegmentAbstract> inputSegments;    // Stores input dive segment objects passed from GUI and enabled
-    private ArrayList<SegmentAbstract> outputSegments;   // Stores output segments produced by theis class
-    private ArrayList<Gas> gases;                        // Stores dive gas objects passed from GUI and enabled
+    private List<SegmentAbstract> inputSegments;    // Stores input dive segment objects passed from GUI and enabled
+    private List<SegmentAbstract> outputSegments;   // Stores output segments produced by theis class
+    private List<Gas> gases;                        // Stores dive gas objects passed from GUI and enabled
     private int currentGasIndex;                         // Points to current gas
     private double currentDepth;    // Currend dive depth (msw/fsw)        
     //private double pAmb;            // Ambient pressure (msw/fsw)
@@ -79,7 +81,7 @@ public class Profile
     public static final int INFINITE_DECO=4;
 
     /** Constructor for objects of class Profile */
-    public Profile(ArrayList <SegmentAbstract> knownSegments, ArrayList <Gas> knownGases, AbstractModel m)
+    public Profile(List<SegmentAbstract> list, List<Gas> list2, AbstractModel m)
     {
         Gas g;                  // Used for constructing arraylists of gases and segments   
         SegmentAbstract s;      // as above
@@ -118,7 +120,7 @@ public class Profile
         }
 
         // Construct list of dive segments from known segments
-        Iterator<SegmentAbstract> is=knownSegments.iterator();
+        Iterator<SegmentAbstract> is=list.iterator();
         while(is.hasNext()) {
             s=is.next();
             // Add enabled dive segments only to input segments
@@ -126,7 +128,7 @@ public class Profile
                 inputSegments.add(s);
         }
         // construct list of dive gases from known gases
-        Iterator<Gas> ig=knownGases.iterator();
+        Iterator<Gas> ig=list2.iterator();
         while(ig.hasNext()) {
             g=ig.next();
             g.setVolume(0.0);   // Reset the gas volume to zero
@@ -139,8 +141,8 @@ public class Profile
     }
     
     // Accessor methods for profile 
-    public ArrayList<SegmentAbstract> getProfile()   { return outputSegments; }
-    public ArrayList<Gas> getGases()     { return gases; }
+    public List<SegmentAbstract> getProfile(){ return outputSegments; }
+    public List<Gas> getGases()             { return gases; }
     public AbstractModel getModel()         { return model; }
     public boolean getIsRepetitiveDive()    {return isRepetativeDive;}
     public int getSurfaceInterval()         { return surfaceInterval; }

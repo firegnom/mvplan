@@ -29,6 +29,7 @@ package mvplan.prefs;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Locale;
 import mvplan.gas.Gas;
 import mvplan.segments.SegmentAbstract;
@@ -86,8 +87,8 @@ public class Prefs implements Serializable
     private int frameSizeY;
     private int frameSplit;
     private boolean gfMultilevelMode;    // On multilevel mode the gf does not get set until final ascent.
-    private ArrayList <Gas> prefGases;         // Stores known gas list
-    private ArrayList <SegmentAbstract> prefSegments;      // Stores dive segments
+    private List <Gas> prefGases;         // Stores known gas list
+    private List <SegmentAbstract> prefSegments;      // Stores dive segments
     private String lastModelFile;          // Stores last model filename used    
     private boolean agreedToTerms;    
     public static final int BRIEF=0;
@@ -399,9 +400,9 @@ public class Prefs implements Serializable
     public int getFrameSizeY()              { return frameSizeY; }
     public int getFrameSplit()              { return frameSplit; }
     public boolean getGfMultilevelMode()    { return gfMultilevelMode; }
-    public ArrayList <Gas> getPrefGases()         { return prefGases; }
-    public ArrayList <SegmentAbstract>getPrefSegments()      { return prefSegments; }
-    public String getLastModelFile()          { return lastModelFile; }
+    public List <Gas> getPrefGases()        { return prefGases; }
+    public List <SegmentAbstract>getPrefSegments()      { return prefSegments; }
+    public String getLastModelFile()        { return lastModelFile; }
     public double getPAmb()                 { return pAmb; }
     public double getPConversion()          { return pConversion; }
     public double getPH2O()                 { return pH2O; }
@@ -457,8 +458,8 @@ public class Prefs implements Serializable
     public void setFrameSizeY(int i)                { frameSizeY=i; }
     public void setFrameSplit(int i)                { frameSplit=i; }
     public void setGfMultilevelMode(boolean b)      { gfMultilevelMode=b; }
-    public void setPrefGases(ArrayList<Gas> a)      { prefGases=a; }
-    public void setPrefSegments(ArrayList<SegmentAbstract> a){ prefSegments=a; }
+    public void setPrefGases(List<Gas> a)      		{ prefGases=a; }
+    public void setPrefSegments(List<SegmentAbstract> a){ prefSegments=a; }
     public void setLastModelFile(String f)          { lastModelFile=f; }
     public void setPAmb(double d)                   { pAmb=d; }
     public void setPH2O(double d)                   { pH2O=d; }

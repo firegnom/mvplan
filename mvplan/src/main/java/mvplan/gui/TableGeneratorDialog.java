@@ -34,6 +34,7 @@ import java.awt.Frame;
 import javax.swing.*;
 import java.awt.event.*;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Iterator;
 
 public class TableGeneratorDialog extends JDialog implements FocusListener {
@@ -68,16 +69,12 @@ public class TableGeneratorDialog extends JDialog implements FocusListener {
     }
     public boolean showDialog() {
         int cs = mp.getControlSegmentIndex();
-        SegmentAbstract s;
         //String str;
-        ArrayList knownSegments, modifiableSegments=new ArrayList();
+        List<SegmentAbstract> knownSegments, modifiableSegments=new ArrayList<SegmentAbstract>();
         
         if (cs>=0) {            
             // New multi segment code
-            knownSegments = mp.getKnownSegments();           
-            Iterator it=knownSegments.iterator();
-            while(it.hasNext()){
-                s = (SegmentAbstract)it.next();
+            for (SegmentAbstract s :mp.getKnownSegments()){
                 if(s.getTime()>0.0)
                     // Add to arraylist, but reverse order so it comes up on in spinner
                     modifiableSegments.add(0,s);                

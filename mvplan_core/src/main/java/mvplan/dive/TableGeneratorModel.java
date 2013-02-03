@@ -28,18 +28,19 @@
 
 package mvplan.dive;
 
-import mvplan.main.*;
-import mvplan.segments.SegmentAbstract;
-import mvplan.gas.Gas;
-
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
+
+import mvplan.gas.Gas;
+import mvplan.main.MvplanInstance;
+import mvplan.segments.SegmentAbstract;
 
 
 public class TableGeneratorModel {
     Profile [] multiProfile;        // Holds collection of dive profiles created
-    private ArrayList<SegmentAbstract> knownSegments;   // Input dive segments and gases
-    private ArrayList<Gas> knownGases;
+    private List<SegmentAbstract> knownSegments;   // Input dive segments and gases
+    private List<Gas> knownGases;
     private int[] modifiers;        // Holds the segment time modifiers. These alter the controlling segment
     private double maxCNS;          // Records maximum oxygen numbers only
     private double maxPO2;
@@ -58,7 +59,7 @@ public class TableGeneratorModel {
      * @param g ArrayList of known gases
      * @param modifiers int[] of profile time modifiers
      */
-    public TableGeneratorModel(ArrayList<SegmentAbstract> s, ArrayList<Gas> g, int[] modifiers) {
+    public TableGeneratorModel(List<SegmentAbstract> s, List<Gas> g, int[] modifiers) {
         // Create new clean ArrayLists
         knownSegments = new ArrayList<SegmentAbstract>();
         knownGases = new ArrayList<Gas>();
@@ -196,7 +197,7 @@ public class TableGeneratorModel {
      * @return returnCodes as defined in Profile()
      */
     public int doMultiDive() {
-        ArrayList<SegmentAbstract> a;        // Working arraylist
+        List<SegmentAbstract> a;        // Working arraylist
         SegmentAbstract s;  // Working segment
 
         int i,j;            // Counters
@@ -332,7 +333,7 @@ public class TableGeneratorModel {
      * getKnownSegments - gets the KnownSegments ArrayList
      * @return (SegmentAbstract)ArrayList KnownSegments
      */
-    public ArrayList<SegmentAbstract> getKnownSegments() {
+    public List<SegmentAbstract> getKnownSegments() {
         return knownSegments;
     }    
 }

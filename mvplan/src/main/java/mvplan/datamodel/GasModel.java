@@ -24,8 +24,10 @@
 
 package mvplan.datamodel;
 
-import javax.swing.table.*;
-import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.table.AbstractTableModel;
+
 import mvplan.gas.Gas;
 import mvplan.main.MvplanInstance;
 
@@ -33,10 +35,10 @@ import mvplan.main.MvplanInstance;
 public class GasModel extends AbstractTableModel 
 {
 	String [] headings;
-	ArrayList<Gas> gasList;	
+	List<Gas> gasList;	
 	public static int COLUMN_COUNT=3;
 
-	public GasModel(ArrayList gasList) {
+	public GasModel(List gasList) {
         this.gasList=gasList;
        // Set up headings          
         headings = new String[] {
@@ -46,7 +48,7 @@ public class GasModel extends AbstractTableModel
 	}
         
         // Accessors
-	public ArrayList<Gas> getGasList()      { return gasList;}
+	public List<Gas> getGasList()      { return gasList;}
 	public int getRowCount()                { return gasList.size();}
 	public int getColumnCount()             { return COLUMN_COUNT; }
 	public String getColumnName(int col)    { return headings[col]; }
