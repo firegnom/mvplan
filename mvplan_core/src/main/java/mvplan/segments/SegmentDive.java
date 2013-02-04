@@ -27,7 +27,7 @@ package mvplan.segments;
 import mvplan.gas.Gas;
 import mvplan.main.MvplanInstance;
 
-public class SegmentDive extends SegmentAbstract
+public class SegmentDive extends SegmentAbstract 
 {
 
     /** Constructor for objects of class SegmentDive
@@ -79,5 +79,7 @@ public class SegmentDive extends SegmentAbstract
                     depth,  timeMins,  timeSeconds,  runTime,  gas.toString(), setpoint, getEnd());
         
     }
+
+	
 }
 

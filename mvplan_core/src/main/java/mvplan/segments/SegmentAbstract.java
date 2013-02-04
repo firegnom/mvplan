@@ -28,7 +28,7 @@ import java.io.*;
 import mvplan.gas.Gas;
 import mvplan.main.MvplanInstance;
 
-public abstract class SegmentAbstract implements Serializable, Cloneable
+public abstract class SegmentAbstract implements Serializable, Cloneable , Comparable<SegmentAbstract>
 {
       double depth=0.0;     // Depth of segment (typically end)
       double setpoint=0.0;  // For CCR (=0 for Open Circuit)
@@ -213,6 +213,26 @@ public abstract class SegmentAbstract implements Serializable, Cloneable
      * @return Volume of gas used
      */
     public abstract double gasUsed();
+    
+    public int compareTo(SegmentAbstract o) {
+		int compare = Double.compare(depth, o.depth);
+		if (compare != 0) return compare;
+		compare = Double.compare(time, o.time);
+		if (compare != 0) return compare;
+		compare = Double.compare(setpoint, o.setpoint);
+		if (compare != 0) return compare;
+		if (gas == null){
+			if (o.gas != null) return 1;
+		}else{
+			compare = gas.compareTo(o.gas);
+			if (compare != 0) return compare;
+		}
+		compare = Boolean.compare(enable, o.enable);
+		if (compare != 0) return compare;
+		compare = Integer.compare(type, o.type);
+		if (compare != 0) return compare;
+		return 0;
+	}
 
 
 }

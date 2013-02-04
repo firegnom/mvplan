@@ -51,7 +51,7 @@ public class Prefs implements Serializable
     public final static int IMPERIAL=1;
     public final static double ALTITUDE_MAX = 3000;
     public final static double METERS_TO_FEET = 3.3;
-    private int debug = MvplanInstance.getMvplan().getDebug();
+    private int debug = 0;
 
     private int units;                  // 0 = metric or 1 = imperial    
     private boolean disableModUpdate;       // Automatically update MODS on units switch
@@ -146,7 +146,7 @@ public class Prefs implements Serializable
 
     public void setDefaultPrefs()
     {
-    	
+    	MvplanInstance.getMvplan().getDebug();
         // Set defaults
         units = METRIC;
         disableModUpdate=false;
