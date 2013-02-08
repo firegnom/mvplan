@@ -52,7 +52,7 @@ public class SegmentDeco extends SegmentAbstract
     {
         super();
         super.depth=depth;
-        super.gas=gas;
+        super.setGas(gas);
         super.setpoint=setpoint;
         super.type=DECO;
         super.time=time;
@@ -83,7 +83,7 @@ public class SegmentDeco extends SegmentAbstract
         timeSeconds = (int)((time - (double)timeMins)*60.0);
         
         return String.format("DECO:%1$3.0f"+MvplanInstance.getMvplan().getPrefs().getDepthShortString()+" for %2$02d:%3$02d [%4$3.0f] on %5$s, SP: %6$3.1f, END:%7$3.0f"+MvplanInstance.getMvplan().getPrefs().getDepthShortString()+" M-Value: %8$02.0f%% [%9$02d], GF: %10$02.0f%%",
-                    depth,  timeMins,  timeSeconds,  runTime,  gas.toString(), setpoint, getEnd(), mvMax*100, controlCompartment, gfUsed*100);
+                    depth,  timeMins,  timeSeconds,  runTime,  getGas(), setpoint, getEnd(), mvMax*100, controlCompartment, gfUsed*100);
         
     }
     

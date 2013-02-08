@@ -27,35 +27,35 @@ package mvplan.gas;
 
 import java.io.*;
 import java.text.MessageFormat;
+import java.util.UUID;
+
 import mvplan.main.MvplanInstance;
 import mvplan.prefs.Prefs;
 import mvplan.util.GasUtils;
 
+// TODO: Auto-generated Javadoc
 /**
- * 
- * */
+ * The Class Gas.
+ */
 public class Gas implements Comparable<Gas>, Serializable, Cloneable
 {
-    /**
-	 * 
-	 */
+    
+    /** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 	
-	/**
-	 * Gas fractions
-	 * */
+	/** The unique id of the gas. */
+	private UUID id;
+	
+	/** Gas fractions. */
 	private double fHe,fO2;
-	/**
-	 * Maximum operating depth
-	 * */
+	
+	/** Maximum operating depth. */
     private double mod;     
-    /**
-	 * Accumulate gas volume
-	 * */
+    
+    /** Accumulate gas volume. */
     private double volume;  
-    /**
-	 * Gas is enabled for use
-	 * */
+    
+    /** Gas is enabled for use. */
     private boolean enable; 
     
     /** Constructor for Gas objects. Fractions must add to <= 1.0. Remainder assumed Nitrogen.
@@ -67,12 +67,10 @@ public class Gas implements Comparable<Gas>, Serializable, Cloneable
      */    
     public Gas(double fHe, double fO2, double mod)
     {   
+    	id = UUID.randomUUID();
         setGas(fHe,fO2,mod);
         enable=true; 
         this.volume=0.0;
-    }
-    /** Empty constructor for bean interface */
-    public Gas() {            
     }
     
     
@@ -87,11 +85,13 @@ public class Gas implements Comparable<Gas>, Serializable, Cloneable
     public Gas(double fHe, double fO2) {
 		this(fHe, fO2, GasUtils.getMaxMod(fO2));
 	}
+	
 	/**
-     * Override the clone method to make it public
-     *  @return Cloned Gas object
-     *  @throws CloneNotSupportedException Never thrown and required for Cloneable interface
-     */
+	 * Override the clone method to make it public.
+	 *
+	 * @return Cloned Gas object
+	 */
+    @Override
     public Object clone () {
         try {
             return super.clone();
@@ -100,21 +100,41 @@ public class Gas implements Comparable<Gas>, Serializable, Cloneable
         }
     }
 
-    /** Used to implement the Comparable interface. To compare gases
-      *  based on their mod (Maximum Operating Depth).
-     *  @param  Object (Gas) to compare to
-     *  @return Integer, Mod of compared Gas - Mod of this gas
-      */
+    /**
+     * Used to implement the Comparable interface. To compare gases
+     * based on their mod (Maximum Operating Depth).
+     *
+     * @param g the g
+     * @return Integer, Mod of compared Gas - Mod of this gas
+     */
     public int compareTo(Gas g)
     {
+    	
         double m;
         m=g.getMod();
         return (int)(m-mod);
     }
 
     // Accessors
+    /**
+     * Gets the f he.
+     *
+     * @return the f he
+     */
     public double getFHe() { return fHe; }
+    
+    /**
+     * Gets the f o2.
+     *
+     * @return the f o2
+     */
     public double getFO2() { return fO2; }
+    
+    /**
+     * Gets the f n2.
+     *
+     * @return the f n2
+     */
     public double getFN2()  { 
         double n=1.0-fHe-fO2;
         if (n<0.0001)
@@ -122,19 +142,71 @@ public class Gas implements Comparable<Gas>, Serializable, Cloneable
         else
             return n;
     }
+    
+    /**
+     * Gets the mod.
+     *
+     * @return the mod
+     */
     public double getMod() { return mod; }
+    
+    /**
+     * Gets the volume.
+     *
+     * @return the volume
+     */
     public double getVolume() {return volume;}        
+    
+    /**
+     * Gets the enable.
+     *
+     * @return the enable
+     */
     public boolean getEnable() { return enable; }
     
     // Mutators - used for Bean serialization ONLY
+    /**
+     * Sets the f he.
+     *
+     * @param f the new f he
+     */
     public void setFHe(double f)    {fHe=f;}
+    
+    /**
+     * Sets the f o2.
+     *
+     * @param f the new f o2
+     */
     public void setFO2(double f)    {fO2=f;}
+    
+    /**
+     * Sets the mod.
+     *
+     * @param m the new mod
+     */
     public void setMod(double m)    {mod=m;}    
+    
+    /**
+     * Sets the enable.
+     *
+     * @param state the new enable
+     */
     public void setEnable(boolean state) { enable = state;}
+    
+    /**
+     * Sets the volume.
+     *
+     * @param vol the new volume
+     */
     public void setVolume(double vol) { volume=vol;}
 
-    /** setGas() - sets gas fractions
-     * or creates Air by default
+    /**
+     * setGas() - sets gas fractions
+     * or creates Air by default.
+     *
+     * @param fHe the f he
+     * @param fO2 the f o2
+     * @param mod the mod
      */
     public void setGas(double fHe,double fO2, double mod)
     {
@@ -148,9 +220,19 @@ public class Gas implements Comparable<Gas>, Serializable, Cloneable
             this.mod=66.;
         }
     }
+    @Override
+    public boolean equals(Object obj) {
+    	if (obj instanceof Gas){
+    		return id.equals(((Gas) obj).id);
+    	}
+    	return false;
+    }
     
     /* 
      * Construct a human readable name for this gas and override Object.toString method
+     */
+    /* (non-Javadoc)
+     * @see java.lang.Object#toString()
      */
     public String toString()
     {  
@@ -173,7 +255,9 @@ public class Gas implements Comparable<Gas>, Serializable, Cloneable
     }
     
     /**
-     * Make short name for tables
+     * Make short name for tables.
+     *
+     * @return the short name
      */
     public String getShortName()
     {
@@ -188,5 +272,23 @@ public class Gas implements Comparable<Gas>, Serializable, Cloneable
             return MessageFormat.format("{0,number,00}/{1,number,00}",obs);
         }
     }
+
+	/**
+	 * Gets the unique id for the gas.
+	 *
+	 * @return the id
+	 */
+	public UUID getId() {
+		return id;
+	}
+
+	/**
+	 * Sets the unique id.
+	 *
+	 * @param id the new id
+	 */
+	public void setId(UUID id) {
+		this.id = id;
+	}
 
 }

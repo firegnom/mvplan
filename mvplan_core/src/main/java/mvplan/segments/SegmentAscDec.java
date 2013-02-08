@@ -45,7 +45,7 @@ public class SegmentAscDec extends SegmentAbstract
             // Init super fields
             super();
             super.depth=endDepth;
-            super.gas=gas;
+            super.setGas(gas);
             super.setpoint=setpoint;
             // Init this class fields
             this.rate=rate;
@@ -92,7 +92,7 @@ public class SegmentAscDec extends SegmentAbstract
         if (super.type == ASCENT)  s="ASC "; else s="DESC";
         
         return String.format("%1$4s:%2$3.0f"+MvplanInstance.getMvplan().getPrefs().getDepthShortString()+" for %3$02d:%4$02d [%5$3.0f] on %6$s, SP: %7$3.1f, END:%8$3.0f"+MvplanInstance.getMvplan().getPrefs().getDepthShortString(),
-              s, depth, timeMins, timeSeconds ,  runTime,  gas.toString(), setpoint, getEnd());
+              s, depth, timeMins, timeSeconds ,  runTime,  getGas(), setpoint, getEnd());
 
     }
 

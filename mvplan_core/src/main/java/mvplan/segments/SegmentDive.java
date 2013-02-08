@@ -41,7 +41,7 @@ public class SegmentDive extends SegmentAbstract
         // Initialise super fields
         super();
         super.depth=depth;
-        super.gas=gas;
+        super.setGas(gas);
         super.setpoint=setpoint;
         super.type=CONST;
         super.time=time;
@@ -51,7 +51,9 @@ public class SegmentDive extends SegmentAbstract
     public SegmentDive() { 
         super();
         // Make sure it has at least air as a gas
-        super.gas=new Gas(0.0,0.21,66.0);
+        // this gas needs to be avilable in preferences 
+        // if it is not there create 
+        super.setGas(new Gas(0.0,0.21,66.0));
     }
 
     /** Override gasUsed() to determine the gas used in this segment 
@@ -76,7 +78,7 @@ public class SegmentDive extends SegmentAbstract
         timeSeconds = (int)((time - (double)timeMins)*60.0);
 
         return String.format("DIVE:%1$3.0f"+MvplanInstance.getMvplan().getPrefs().getDepthShortString()+" for %2$02d:%3$02d [%4$3.0f] on %5$s, SP: %6$3.1f, END:%7$3.0f"+MvplanInstance.getMvplan().getPrefs().getDepthShortString(),
-                    depth,  timeMins,  timeSeconds,  runTime,  gas.toString(), setpoint, getEnd());
+                    depth,  timeMins,  timeSeconds,  runTime,  getGas(), setpoint, getEnd());
         
     }
 

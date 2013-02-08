@@ -32,7 +32,7 @@ public abstract class SegmentAbstract implements Serializable, Cloneable , Compa
 {
       double depth=0.0;     // Depth of segment (typically end)
       double setpoint=0.0;  // For CCR (=0 for Open Circuit)
-      Gas gas;          // Gas used
+      private Gas gas;          // Gas used
       double time=0.0;      // Segment time
       double runTime=0.0;   // Runtime in profile
       Boolean enable=true;   // Is this segment enabled (i.e. used)
