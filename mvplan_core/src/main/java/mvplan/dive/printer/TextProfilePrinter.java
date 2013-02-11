@@ -155,22 +155,58 @@ public class TextProfilePrinter extends ProfilePrinter <StringBuffer>{
         textArea.append(" "+profile.getModel().getModelName());
         textArea.append("\n");        
         printAltitude();        
-        textArea.append("    "+MvplanInstance.getPrefs().getDepthShortString()+"   "+mvplan.getResource("mvplan.gui.text.ProfilePrinter.heading.text")+'\n');
+        boolean ocMode = profile.getPrefs().isOcMode();
+        if (ocMode){
+        	textArea.append("    "+MvplanInstance.getPrefs().getDepthShortString()+"   "+mvplan.getResource("mvplan.gui.text.ProfilePrinter.heading.textNoSP")+'\n');
+        }else{
+        	textArea.append("    "+MvplanInstance.getPrefs().getDepthShortString()+"   "+mvplan.getResource("mvplan.gui.text.ProfilePrinter.heading.text")+'\n');
+        }
+        if (ocMode){
+        textArea.append("========================"+'\n');
+        //              "- 120  00:00  000  88/88
+        }else{
         textArea.append("=============================="+'\n');
-        //              "- 120  00:00  000  88/88  1.30  
+        //              "- 120  00:00  000  88/88  1.30
+        }  
 
         for (SegmentAbstract s: profile.getProfile()){
-            segTimeMins=(int)s.getTime();
-            segTimeSeconds = (int)((s.getTime() - (double)segTimeMins)*60.0);
+			segTimeMins = (int) s.getTime();
+			segTimeSeconds = (int) ((s.getTime() - (double) segTimeMins) * 60.0);
 
-            if ((s.getDepth()-(int)s.getDepth())>0) // Do we have non-integer depth ?
-                
-                textArea.append(String.format("%1$s  %2$03.1f  %3$02d:%4$02d  %5$03.0f  %6$5s  %7$3.1f\n",
-                            s.getTypeString(),s.getDepth(), segTimeMins,segTimeSeconds,s.getRunTime(),s.getGas().getShortName() ,s.getSetpoint() ));              
-            else     
-                textArea.append(String.format("%1$s  %2$03.0f  %3$02d:%4$02d  %5$03.0f  %6$5s  %7$3.1f\n",
-                            s.getTypeString(),s.getDepth(), segTimeMins,segTimeSeconds,s.getRunTime(),s.getGas().getShortName() ,s.getSetpoint() ));
-        }        
+			if ((s.getDepth() - (int) s.getDepth()) > 0) { // Do we have
+															// non-integer depth
+															// ?
+				if (ocMode) {
+					textArea.append(String.format(
+							"%1$s  %2$03.1f  %3$02d:%4$02d  %5$03.0f  %6$5s\n",
+							s.getTypeString(), s.getDepth(), segTimeMins,
+							segTimeSeconds, s.getRunTime(), s.getGas()
+									.getShortName()));
+				} else {
+					textArea.append(String
+							.format("%1$s  %2$03.1f  %3$02d:%4$02d  %5$03.0f  %6$5s  %7$3.1f\n",
+									s.getTypeString(), s.getDepth(),
+									segTimeMins, segTimeSeconds,
+									s.getRunTime(), s.getGas().getShortName(),
+									s.getSetpoint()));
+				}
+			} else {
+				if (ocMode) {
+					textArea.append(String
+							.format("%1$s  %2$03.0f  %3$02d:%4$02d  %5$03.0f  %6$5s\n",
+									s.getTypeString(), s.getDepth(),
+									segTimeMins, segTimeSeconds,
+									s.getRunTime(), s.getGas().getShortName()));
+				} else {
+					textArea.append(String
+							.format("%1$s  %2$03.0f  %3$02d:%4$02d  %5$03.0f  %6$5s  %7$3.1f\n",
+									s.getTypeString(), s.getDepth(),
+									segTimeMins, segTimeSeconds,
+									s.getRunTime(), s.getGas().getShortName(),
+									s.getSetpoint()));
+				}
+			}
+		}
         doGasUsage();      
     }
     

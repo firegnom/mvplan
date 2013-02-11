@@ -192,7 +192,7 @@ public class Profile
         currentGas = s.getGas();
         Collections.sort(gases);    // Sort gases based on MOD, the Gas natural order
         currentDepth=0.0;                               
-        ppO2=s.getSetpoint();       // Set initial ppO2 based on first segment
+        ppO2= prefs.isOcMode()?0.0:s.getSetpoint();       // Set initial ppO2 based on first segment
         //Determine if we are Open or Closed circuit
         if (ppO2==0.0)
             closedCircuit=false;
@@ -225,9 +225,9 @@ public class Profile
                 } 
                                                                 
                 // Now at desired depth so process dive segments.                 
-                currentDepth=sd.getDepth();     // Reset current depth
-                ppO2=sd.getSetpoint();          // Set ppO2
-                currentGas=s.getGas();          // Set gas used
+                currentDepth=sd.getDepth();     			// Reset current depth
+                ppO2=prefs.isOcMode()?0.0:sd.getSetpoint(); // Set ppO2
+                currentGas=s.getGas();          			// Set gas used
                 // Process segment. 
                 if (sd.getTime() > 0) { // Only do this if it is not a waypoint.
                     // Interpret first segment time as runtime or segment time depending on runtimeFlag
@@ -515,6 +515,15 @@ public class Profile
         }                    
         return gasSwitch;
     }
+
+	/**
+	 * Gets the prefs used for this profile calculation.
+	 *
+	 * @return the prefs
+	 */
+	public Prefs getPrefs() {
+		return prefs;
+	}
 }
 
 

@@ -26,6 +26,7 @@ package mvplan.segments;
 
 import mvplan.gas.Gas;
 import mvplan.main.MvplanInstance;
+import mvplan.prefs.Prefs;
 
 public class SegmentAscDec extends SegmentAbstract
 {
@@ -61,7 +62,9 @@ public class SegmentAscDec extends SegmentAbstract
      */
     public double gasUsed()
     {
-        if(setpoint>0.0) return(0.0);
+    	Prefs prefs = MvplanInstance.getPrefs();
+		boolean ocMode = prefs.isOcMode();
+        if(setpoint>0.0 && !ocMode) return(0.0);
         
         double p;   // pressure
         double d;   // depth
@@ -70,8 +73,8 @@ public class SegmentAscDec extends SegmentAbstract
         startDepth=depth - rate*time;
         // Calculate average depth
         d=startDepth+(depth-startDepth)/2.0;
-        p=(d+MvplanInstance.getMvplan().getPrefs().getPAmb())/MvplanInstance.getMvplan().getPrefs().getPConversion();    // Convert to pressure (atm);     
-        return( p * time * MvplanInstance.getMvplan().getPrefs().getDiveRMV());
+        p=(d+prefs.getPAmb())/prefs.getPConversion();    // Convert to pressure (atm);     
+        return( p * time * prefs.getDiveRMV());
     }
 
     /** Gets ascent rate for segment

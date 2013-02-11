@@ -27,6 +27,7 @@ package mvplan.segments;
 import java.io.*;
 import mvplan.gas.Gas;
 import mvplan.main.MvplanInstance;
+import mvplan.prefs.Prefs;
 
 public abstract class SegmentAbstract implements Serializable, Cloneable , Comparable<SegmentAbstract>
 {
@@ -78,16 +79,19 @@ public abstract class SegmentAbstract implements Serializable, Cloneable , Compa
      *  @return Equivalent Narcosis Depth (END) in msw (fsw)
     */
     public double getEnd() {        
-        double pAbsolute = depth + MvplanInstance.getMvplan().getPrefs().getPAmb();  // msw (fsw)
+    	Prefs prefs = MvplanInstance.getMvplan().getPrefs();
+        double pAbsolute = depth + prefs.getPAmb();  // msw (fsw)
+        boolean ocMode = prefs.isOcMode();
+        
         double fN2 = gas.getFN2();
         double fHe = gas.getFHe(); 
         double pInert;
         double ppN2Inspired;
         // Set inspired gas fractions.
-        if(setpoint > 0.0) {                     
+        if(setpoint > 0.0 && !ocMode) {                     
             // Rebreather mode
             // Determine pInert by subtracting absolute oxygen pressure (msw), or force to zero if no inert fraction
-            pInert = ((fHe+fN2)>0.0) ? pAbsolute - setpoint * MvplanInstance.getMvplan().getPrefs().getPConversion() : 0.0;        
+			pInert = ((fHe+fN2)>0.0) ? pAbsolute - setpoint * prefs.getPConversion() : 0.0;        
             ppN2Inspired = pInert>0.0 ? (pInert * fN2)/(fHe+fN2) : 0.0;                                       
         } else 
             // Open circuit mode

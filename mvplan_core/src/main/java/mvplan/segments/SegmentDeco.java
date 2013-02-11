@@ -26,6 +26,7 @@ package mvplan.segments;
 
 import mvplan.gas.Gas;
 import mvplan.main.MvplanInstance;
+import mvplan.prefs.Prefs;
 
 /**
  * Segment - describes a Deco Segment, a specialisation of AbstractSegment
@@ -65,11 +66,13 @@ public class SegmentDeco extends SegmentAbstract
      *  @return Gas Used in litres (cuft)
      */
     public double gasUsed()
-    {
-        if(setpoint>0.0) return(0.0);   // No gas used for closed circuit        
+    {	
+    	Prefs prefs = MvplanInstance.getPrefs();
+		boolean ocMode = prefs.isOcMode();
+        if(setpoint>0.0 && !ocMode) return(0.0);   // No gas used for closed circuit        
         double p;   // pressure
-        p=(depth+MvplanInstance.getMvplan().getPrefs().getPAmb())/MvplanInstance.getMvplan().getPrefs().getPConversion();    // Convert to pressure (atm);
-        return( p * time * MvplanInstance.getMvplan().getPrefs().getDecoRMV());
+        p=(depth+prefs.getPAmb())/prefs.getPConversion();    // Convert to pressure (atm);
+        return( p * time * prefs.getDecoRMV());
     }
 
 

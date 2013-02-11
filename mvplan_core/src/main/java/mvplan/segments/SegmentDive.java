@@ -26,6 +26,7 @@ package mvplan.segments;
 
 import mvplan.gas.Gas;
 import mvplan.main.MvplanInstance;
+import mvplan.prefs.Prefs;
 
 public class SegmentDive extends SegmentAbstract 
 {
@@ -59,10 +60,12 @@ public class SegmentDive extends SegmentAbstract
      */
     public double gasUsed()
     {
-        if(setpoint>0.0) return(0.0);
+    	Prefs prefs = MvplanInstance.getPrefs();
+		boolean ocMode = prefs.isOcMode();
+        if(setpoint>0.0 && !ocMode) return(0.0);
         double p;   // pressure
-        p=(depth+MvplanInstance.getMvplan().getPrefs().getPAmb())/MvplanInstance.getMvplan().getPrefs().getPConversion();    // Convert to pressure (atm);
-        return( p * time * MvplanInstance.getMvplan().getPrefs().getDiveRMV());
+        p=(depth+prefs.getPAmb())/prefs.getPConversion();    // Convert to pressure (atm);
+        return( p * time * prefs.getDiveRMV());
     }
 
 

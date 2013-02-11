@@ -26,17 +26,18 @@
  */
 package mvplan.prefs;
 
-import java.io.*;
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+
 import mvplan.gas.Gas;
+import mvplan.main.MvplanInstance;
 import mvplan.segments.SegmentAbstract;
 import mvplan.segments.SegmentDive;
-import java.util.Date;
-import java.util.Calendar;
-import mvplan.main.MvplanInstance;
 import mvplan.util.PressureConverter;
 
 public class Prefs implements Serializable
@@ -119,6 +120,9 @@ public class Prefs implements Serializable
     private String modelClass;          // Deco model class name
     private double heliumNarcoticLevel; // is helium a narcotic gas in END calculations level of helium narcosis
     private double oxygenNarcoticLevel; // is oxygen a narcotic gas in END calculations level of oxygen narcosis
+    private boolean ocMode;  			// open circuit mode even if segment have setPoint stored it won't be 
+    									// taken in to consideration. Currently used only in aScuba.
+    						
     
     
     /*
@@ -216,6 +220,7 @@ public class Prefs implements Serializable
         modelClass="mvplan.model.ZHL16B";
         heliumNarcoticLevel = 0.23;
         oxygenNarcoticLevel = 1;
+        ocMode = false;
     }
     
     private void setLimits(boolean limits){
@@ -231,9 +236,9 @@ public class Prefs implements Serializable
             gfMax=0.95;                        
         }
          if(units==METRIC) 
-            maxDepth = limits ? 200.0 : 100.0;
+            maxDepth = limits ? 200.0 : 130.0;
          else
-             maxDepth= limits ? 660.0 : 330.0;         
+             maxDepth= limits ? 660.0 : 426.0;         
     }
     
     /**
@@ -582,6 +587,24 @@ public class Prefs implements Serializable
 	 */
 	public void setPreferredLocale(Locale preferredLocale) {
 		this.preferredLocale = preferredLocale;
+	}
+
+	/**
+	 * Open circuit mode even if segment have setPoint stored it won't be taken in to consideration.
+	 *
+	 * @return the ocMode
+	 */
+	public boolean isOcMode() {
+		return ocMode;
+	}
+
+	/**
+	 * Open circuit mode even if segment have setPoint stored it won't be taken in to consideration.
+	 *
+	 * @param ocMode the ocMode to set
+	 */
+	public void setOcMode(boolean ocMode) {
+		this.ocMode = ocMode;
 	}
 
 }
