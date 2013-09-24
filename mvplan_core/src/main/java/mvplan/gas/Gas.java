@@ -25,12 +25,11 @@
 
 package mvplan.gas;
 
-import java.io.*;
+import java.io.Serializable;
 import java.text.MessageFormat;
 import java.util.UUID;
 
 import mvplan.main.MvplanInstance;
-import mvplan.prefs.Prefs;
 import mvplan.util.GasUtils;
 
 /**
@@ -146,11 +145,25 @@ public class Gas implements Comparable<Gas>, Serializable, Cloneable
     public double getFHe() { return fHe; }
     
     /**
+     * Gets the volume of helium in gas.
+     *
+     * @return the f he vol
+     */
+    public double getFHeVol() { return fHe*volume; }
+    
+    /**
      * Gets the f o2.
      *
      * @return the f o2
      */
     public double getFO2() { return fO2; }
+    
+    /**
+     * Gets the volume of oxygen in gas.
+     *
+     * @return the f o2 vol
+     */
+    public double getFO2Vol() { return fO2*volume; }
     
     /**
      * Gets the f n2.

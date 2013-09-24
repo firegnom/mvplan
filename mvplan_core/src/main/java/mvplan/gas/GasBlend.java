@@ -1,7 +1,5 @@
 package mvplan.gas;
 
-import java.util.prefs.PreferenceChangeEvent;
-
 import mvplan.prefs.Prefs;
 import mvplan.util.GasUtils;
 
