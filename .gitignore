@@ -1,0 +1,12 @@
+/mvplan_core/target*
+/mvplan_core/.project
+/mvplan_core/.classpath
+/mvplan_core/.settings*
+/mvplan/target*
+/mvplan/.project
+/mvplan/.classpath
+/mvplan/.settings*
+/target*
+/.project
+/.settings*
+/.classpath
