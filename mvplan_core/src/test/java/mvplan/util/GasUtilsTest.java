@@ -121,6 +121,7 @@ public class GasUtilsTest {
 		double end = GasUtils.calculateEND(g,139);
 		assertEquals(69,(int)Math.rint(end));
 	}
+	
 	@Test
 	public void testCalculateENDImperial4() {
 		when(p.getHeliumNarcoticLevel()).thenReturn(.0);
@@ -180,6 +181,7 @@ public class GasUtilsTest {
 		Gas blend = GasUtils.blend(g1, g2);
 		assertNull(blend);
 	}
+	
 	@Test 
 	public void testBlend0Volume1(){
 		Gas g1 = new Gas (0.20);
@@ -189,6 +191,7 @@ public class GasUtilsTest {
 		assertEquals(1000, blend.getVolume(),0.1);
 		assertEquals(0.2, blend.getFO2(),0.0001);
 	}
+	
 	@Test 
 	public void testBlend0Volume2(){
 		Gas g1 = new Gas (0.20);
@@ -198,5 +201,53 @@ public class GasUtilsTest {
 		assertEquals(1000, blend.getVolume(),0.1);
 		assertEquals(0.8, blend.getFO2(),0.0001);
 	}
+	
+	@Test 
+	public void testgetPressureNoVolume(){
+		Gas g1 = new Gas (0.20);
+		double pressure = GasUtils.getPressure(g1,15);
+		assertEquals(0.0, pressure,0.1);
+	}
+	
+	@Test 
+	public void testgetPressure(){
+		Gas g1 = new Gas (0.20);
+		g1.setVolume(1000);
+		double pressure = GasUtils.getPressure(g1,10);
+		assertEquals(100, pressure,0.1);
+	}
+	
+	@Test 
+	public void testgetPressure1arg(){
+		Gas g1 = new Gas (0.20);
+		g1.setVolume(1000);
+		double pressure = GasUtils.getPressure(g1);
+		assertEquals(100, pressure,0.1);
+	}
+	
+	@Test 
+	public void testgetVolume(){
+		double volume = GasUtils.getVolume(100,15);
+		assertEquals(1500, volume,0.1);
+	}
+	@Test 
+	public void testgetVolume1Arg(){
+		double volume = GasUtils.getVolume(100);
+		assertEquals(1000, volume,0.1);
+	}
+	
+	@Test 
+	public void testgetVolume0pressure(){
+		double volume = GasUtils.getVolume(0,15);
+		assertEquals(0, volume,0.1);
+	}
+	
+	@Test 
+	public void testgetVolume0Volume(){
+		double volume = GasUtils.getVolume(200,0);
+		assertEquals(0, volume,0.1);
+	}
+	
+	
 
 }

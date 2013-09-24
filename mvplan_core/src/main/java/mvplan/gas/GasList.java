@@ -3,6 +3,12 @@ package mvplan.gas;
 import java.util.ArrayList;
 import java.util.UUID;
 
+/**
+ * The Class GasList.
+ * 
+ * 
+ * @author Maciej Kaniewski
+ */
 public class GasList extends ArrayList<Gas>{
 	/**
 	 * 

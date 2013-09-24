@@ -1,5 +1,8 @@
 package mvplan.gas;
 
+import java.util.prefs.PreferenceChangeEvent;
+
+import mvplan.prefs.Prefs;
 import mvplan.util.GasUtils;
 
 /**
@@ -29,6 +32,18 @@ public class GasBlend {
 		this.volume = volume;
 		this.maxPressure = maxPressure;
 	}
+	
+	/**
+	 * Instantiates a new gas blend.
+	 * volume is set to {@link Prefs.DEFAULT_VOLUME}
+	 *
+	 * @param maxPressure the max pressure
+	 */
+	public GasBlend(double maxPressure) {
+		gases = new GasList();
+		this.volume = Prefs.DEFAULT_VOLUME;
+		this.maxPressure = maxPressure;
+	}
 
 	/**
 	 * Gets the volume.
@@ -49,9 +64,13 @@ public class GasBlend {
 	 * @return true, if successful
 	 */
 	public boolean setVolume(double volume) {
-		// TODO add logic checking if it
-		this.volume = volume;
-		return true;
+		double cvol = getCurrentVolume();
+		double nvol = volume*maxPressure;
+		if (nvol >= cvol){
+			this.volume = volume;
+			return true;
+		}
+		return false;
 	}
 
 	/**
@@ -71,8 +90,12 @@ public class GasBlend {
 	 * @return true, if successful
 	 */
 	public boolean setMaxPressure(double maxPressure) {
-		this.maxPressure = maxPressure;
-		return true;
+		double cpr = getCurrentPressure();
+		if (maxPressure >= cpr){
+			this.maxPressure = maxPressure;
+			return true;
+		}
+		return false;
 	}
 
 	/**
@@ -116,6 +139,7 @@ public class GasBlend {
 	 * @param gas
 	 *            to be added
 	 * @return true, if successful
+	 * @author Maciej Kaniewski
 	 */
 	public boolean add(Gas gas) {
 		if (gas.getVolume() > getMaxVolume()) return false;
@@ -125,13 +149,18 @@ public class GasBlend {
 	
 	
 	
+	/**
+	 *  Blend all gases and provide new gas  as a combination of all others.
+	 *
+	 * @return the calculated gas
+	 */
 	public Gas blend(){
 		Gas ret = new Gas();
 		for (Gas g : gases) {
 			ret = GasUtils.blend(ret, g);
 		}
 		return ret;
-		
-		
 	}
+	
+	
 }

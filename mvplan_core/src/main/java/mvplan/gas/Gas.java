@@ -33,7 +33,6 @@ import mvplan.main.MvplanInstance;
 import mvplan.prefs.Prefs;
 import mvplan.util.GasUtils;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class Gas.
  */

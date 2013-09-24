@@ -180,5 +180,23 @@ public class GasUtils {
 		Prefs prefs = MvplanInstance.getPrefs();
 		return ((m + prefs.getPConversion()) * f / prefs.getPConversion());
 	}
+	
+	public static double getPressure(Gas gas,double volume){
+		if (volume == 0) throw new IllegalArgumentException("Volume can not be 0 for pressure calculations");
+		return gas.getVolume()/volume;
+	}
+	
+	public static double getPressure(Gas gas){
+		return getPressure(gas,Prefs.DEFAULT_VOLUME);
+	}
+	
+	public static double getVolume(double pressure,double volume){
+		return pressure * volume ;
+	}
+	
+	public static double getVolume(double pressure){
+		return getVolume(pressure,Prefs.DEFAULT_VOLUME);
+	}
+	
 
 }
