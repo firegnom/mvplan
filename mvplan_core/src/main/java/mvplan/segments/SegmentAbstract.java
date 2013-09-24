@@ -227,9 +227,10 @@ public abstract class SegmentAbstract implements Serializable, Cloneable , Compa
 			compare = gas.compareTo(o.gas);
 			if (compare != 0) return compare;
 		}
-		compare = Boolean.compare(enable, o.enable);
+		compare = enable.compareTo(o.enable);
 		if (compare != 0) return compare;
-		compare = Integer.compare(type, o.type);
+		// there might be an overflow here but it means that there is a bug somewhere else
+		compare = type - o.type;
 		if (compare != 0) return compare;
 		return 0;
 	}

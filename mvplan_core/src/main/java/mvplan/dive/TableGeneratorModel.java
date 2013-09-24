@@ -33,6 +33,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import mvplan.gas.Gas;
+import mvplan.gas.GasList;
 import mvplan.main.MvplanInstance;
 import mvplan.segments.SegmentAbstract;
 
@@ -40,7 +41,7 @@ import mvplan.segments.SegmentAbstract;
 public class TableGeneratorModel {
     Profile [] multiProfile;        // Holds collection of dive profiles created
     private List<SegmentAbstract> knownSegments;   // Input dive segments and gases
-    private List<Gas> knownGases;
+    private GasList knownGases;
     private int[] modifiers;        // Holds the segment time modifiers. These alter the controlling segment
     private double maxCNS;          // Records maximum oxygen numbers only
     private double maxPO2;
@@ -59,10 +60,10 @@ public class TableGeneratorModel {
      * @param g ArrayList of known gases
      * @param modifiers int[] of profile time modifiers
      */
-    public TableGeneratorModel(List<SegmentAbstract> s, List<Gas> g, int[] modifiers) {
+    public TableGeneratorModel(List<SegmentAbstract> s, GasList g, int[] modifiers) {
         // Create new clean ArrayLists
         knownSegments = new ArrayList<SegmentAbstract>();
-        knownGases = new ArrayList<Gas>();
+        knownGases = new GasList();
         int i;      
         
         // Initialise modifiers - gets REFERENCE to array

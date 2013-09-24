@@ -43,7 +43,40 @@ public class GasUtils {
 
 		return ppF;
 	}
-
+	
+	public static Gas blend(Gas g1,Gas g2){
+		if(g1== null) return null;
+		if (g2 == null) return null;
+		if (g2.getVolume() <0.000001 && g1.getVolume() <0.000001) return null;
+		
+		
+		//o2
+			double 	o2	= 	g1.getFO2()*g1.getVolume();
+					o2 += 	g2.getFO2()*g2.getVolume();		
+		//he
+			double 	he 	= 	g1.getFHe()*g1.getVolume();
+					he 	+= 	g2.getFHe()*g2.getVolume();
+		//N
+			double 	n2 	= 	g1.getFN2()*g1.getVolume();
+					n2 	+= 	g2.getFN2()*g2.getVolume();
+		
+	    double vol = o2+he+n2;
+	    
+	    //TODO vol == 0
+	    
+	    double fhe = he/vol;
+	    double fo2 = o2/vol;
+	    
+	    Gas ret = new Gas(fhe,fo2);
+	    ret.setVolume(vol);
+	    return ret;
+	    
+	    
+	    
+	    
+		
+	}
+	
 	/**
 	 * Calculate equivalent narcosis depth (END) of gas on MOD specifies gas<br/>
 	 * <br/>
@@ -59,6 +92,10 @@ public class GasUtils {
 	public static double calculateEND(Gas g) {
 		return calculateEND(g, g.getMod());
 	}
+	
+	
+	
+	
 
 	/**
 	 * Method to validate a field for limits only

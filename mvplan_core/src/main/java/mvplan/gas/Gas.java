@@ -97,7 +97,23 @@ public class Gas implements Comparable<Gas>, Serializable, Cloneable
     public Gas(double fHe, double fO2) {
 		this(fHe, fO2, GasUtils.getMaxMod(fO2));
 	}
+    
+    
+    /**
+     * Constructor for Gas objects. Fractions must add to <= 1.0. Remainder assumed Nitrogen.
+     *  If constructed with erroneous data is set up as air.
+     *  <br><br>
+     *  Mod is set to be maximum mod for specified fO2 
+     * @param fO2 the f o2
+     */
+    public Gas(double fO2) {
+		this(0.0, fO2, GasUtils.getMaxMod(fO2));
+	}
 	
+	public Gas() {
+		id = UUID.randomUUID();
+	}
+
 	/**
 	 * Override the clone method to make it public.
 	 *

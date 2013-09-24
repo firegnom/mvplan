@@ -133,5 +133,70 @@ public class GasUtilsTest {
 		double end = GasUtils.calculateEND(g,139);
 		assertEquals(67,(int)Math.rint(end));
 	}
+	
+	
+	@Test 
+	public void testBlend(){
+		Gas g1 = new Gas (0.20);
+		g1.setVolume(1000);
+		Gas g2 = new Gas (0.80);
+		g2.setVolume(1000);
+		Gas blend = GasUtils.blend(g1, g2);
+		assertEquals(2000, blend.getVolume(),0.1);
+		assertEquals(0.5, blend.getFO2(),0.00001);
+		
+	}
+	
+	
+	@Test 
+	public void testBlendHe(){
+		Gas g1 = new Gas (0.20);
+		g1.setVolume(1000);
+		Gas g2 = new Gas (0.50,0.18);
+		g2.setVolume(1000);
+		Gas blend = GasUtils.blend(g1, g2);
+		assertEquals(2000, blend.getVolume(),0.1);
+		assertEquals(0.19, blend.getFO2(),0.00001);
+		assertEquals(0.25, blend.getFHe(),0.00001);
+		
+	}
+	
+	@Test 
+	public void testBlendempty(){
+		Gas g1 = new Gas ();
+		Gas g2 = new Gas (0.50,0.18);
+		g2.setVolume(1000);
+		Gas blend = GasUtils.blend(g1, g2);
+		assertEquals(1000, blend.getVolume(),0.1);
+		assertEquals(0.18, blend.getFO2(),0.00001);
+		assertEquals(0.5, blend.getFHe(),0.00001);
+		
+	}
+	
+	@Test 
+	public void testBlend0Volume(){
+		Gas g1 = new Gas (0.20);
+		Gas g2 = new Gas (0.80);
+		Gas blend = GasUtils.blend(g1, g2);
+		assertNull(blend);
+	}
+	@Test 
+	public void testBlend0Volume1(){
+		Gas g1 = new Gas (0.20);
+		g1.setVolume(1000);
+		Gas g2 = new Gas (0.80);
+		Gas blend = GasUtils.blend(g1, g2);
+		assertEquals(1000, blend.getVolume(),0.1);
+		assertEquals(0.2, blend.getFO2(),0.0001);
+	}
+	@Test 
+	public void testBlend0Volume2(){
+		Gas g1 = new Gas (0.20);
+		Gas g2 = new Gas (0.80);
+		g2.setVolume(1000);
+		Gas blend = GasUtils.blend(g1, g2);
+		assertEquals(1000, blend.getVolume(),0.1);
+		assertEquals(0.8, blend.getFO2(),0.0001);
+	}
 
 }

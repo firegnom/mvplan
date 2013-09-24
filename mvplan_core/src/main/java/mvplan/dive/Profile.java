@@ -40,6 +40,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import mvplan.gas.Gas;
+import mvplan.gas.GasList;
 import mvplan.main.MvplanInstance;
 import mvplan.model.*;
 import mvplan.prefs.Prefs;
@@ -58,7 +59,7 @@ public class Profile
     
     private List<SegmentAbstract> inputSegments;    // Stores input dive segment objects passed from GUI and enabled
     private List<SegmentAbstract> outputSegments;   // Stores output segments produced by theis class
-    private List<Gas> gases;                        // Stores dive gas objects passed from GUI and enabled
+    private GasList gases;                        // Stores dive gas objects passed from GUI and enabled
     private int currentGasIndex;                         // Points to current gas
     private double currentDepth;    // Currend dive depth (msw/fsw)        
     //private double pAmb;            // Ambient pressure (msw/fsw)
@@ -81,7 +82,7 @@ public class Profile
     public static final int INFINITE_DECO=4;
 
     /** Constructor for objects of class Profile */
-    public Profile(List<SegmentAbstract> list, List<Gas> list2, AbstractModel m)
+    public Profile(List<SegmentAbstract> list, GasList list2, AbstractModel m)
     {
         Gas g;                  // Used for constructing arraylists of gases and segments   
         SegmentAbstract s;      // as above
@@ -91,7 +92,7 @@ public class Profile
 
         inputSegments = new ArrayList <SegmentAbstract>();
         outputSegments = new ArrayList<SegmentAbstract>();
-        gases = new ArrayList<Gas>();
+        gases = new GasList();
         // Is this a new model or a repetative dive ?
         if (m==null) {  
             // Initialise new model.
