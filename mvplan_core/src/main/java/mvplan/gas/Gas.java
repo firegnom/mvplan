@@ -73,6 +73,18 @@ public class Gas implements Comparable<Gas>, Serializable, Cloneable
         this.volume=0.0;
     }
     
+    public Gas(Gas in)
+    {   
+    	id = in.getId();
+        fHe = in.fHe;
+        fO2 =  in.fO2;
+        mod = in.mod;
+        enable=in.enable; 
+        this.volume=in.volume;
+        
+    }
+    
+    
     
     /** Constructor for Gas objects. Fractions must add to <= 1.0. Remainder assumed Nitrogen.
      *  If constructed with erroneous data is set up as air.
@@ -93,11 +105,7 @@ public class Gas implements Comparable<Gas>, Serializable, Cloneable
 	 */
     @Override
     public Object clone () {
-        try {
-            return super.clone();
-        } catch (CloneNotSupportedException e) {
-            throw new Error("Never happens");
-        }
+    	return  new Gas(this);
     }
 
     /**
@@ -109,12 +117,11 @@ public class Gas implements Comparable<Gas>, Serializable, Cloneable
      */
     public int compareTo(Gas g)
     {
-    	
         double m;
         m=g.getMod();
         return (int)(m-mod);
     }
-
+    
     // Accessors
     /**
      * Gets the f he.
